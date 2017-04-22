@@ -2,8 +2,6 @@ package utilities;
 
 import java.awt.event.KeyEvent;
 
-import utilities.Direction;
-
 public class Keyboard {
 	private int counter= 0;
 	private boolean up = false;

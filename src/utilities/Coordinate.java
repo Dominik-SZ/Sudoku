@@ -17,14 +17,9 @@ public class Coordinate {
 	public int getICoord() {
 		return iCoord;
 	}
-	public void setICoord(int iCoord) {
-		this.iCoord = iCoord;
-	}
+
 	public int getJCoord() {
 		return jCoord;
-	}
-	public void setJCoord(int jCoord) {
-		this.jCoord = jCoord;
 	}
 	
 	

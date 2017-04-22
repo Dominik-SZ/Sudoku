@@ -78,7 +78,7 @@ public class PromptDialog extends JDialog {
 
 		// generate the noteRows
 		JLabel noteRow1 = new JLabel(
-				"Bitte geben Sie eine Quadratzahl als L‰nge ein, welche nicht grˆﬂer " + "als 16 ist");
+				"Bitte geben Sie eine Quadratzahl als L√§nge ein, welche nicht gr√∂√üer " + "als 16 ist");
 		JLabel noteRow2 = new JLabel("und einen Schwierigkeitsgrad von 1 bis 10.");
 		JLabel noteRow3 = new JLabel(" "); // third row to have a separating
 											// empty line
@@ -90,7 +90,7 @@ public class PromptDialog extends JDialog {
 		JPanel lengthRow = new JPanel();
 		mainPanel.add(lengthRow);
 
-		JLabel lengthLabel = new JLabel("L‰nge: ");
+		JLabel lengthLabel = new JLabel("L√§nge: ");
 		lengthRow.add(lengthLabel);
 		lengthLabel.setSize(10, lengthLabel.getHeight());
 
@@ -122,19 +122,19 @@ public class PromptDialog extends JDialog {
 		startButton = new JButton("Start");
 		confirmRow.add(startButton);
 		startButton.setToolTipText(
-				"Startet ein neues Sudoku Spiel mit den " + "momentan eingegebenen Parametern L‰nge und Schwierigkeit");
+				"Startet ein neues Sudoku Spiel mit den " + "momentan eingegebenen Parametern L√§nge und Schwierigkeit");
 		startButton.addActionListener(startListener);
 
 		// load button
 		loadButton = new JButton("Lade");
 		confirmRow.add(loadButton);
-		loadButton.setToolTipText("L‰dt einen vorher gespeicherten Sudoku Spielstand");
+		loadButton.setToolTipText("L√§dt einen vorher gespeicherten Sudoku Spielstand");
 		loadButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int loadFeedback = chooser.showDialog(mainPanel, "W‰hle Speicherdatei");
+				int loadFeedback = chooser.showDialog(mainPanel, "W√§hle Speicherdatei");
 
 				String path;
 				if (loadFeedback == JFileChooser.APPROVE_OPTION) {
@@ -190,20 +190,20 @@ public class PromptDialog extends JDialog {
 				number = Integer.parseInt(suggestLength);
 
 				if (Math.sqrt(number) % 1 != 0 || number > 16) {
-					JOptionPane.showMessageDialog(null, "Unerlaubte L‰nge eingegeben. Sie ist keine "
-							+ "Quadratzahl und/oder zu groﬂ:   " + number);
+					JOptionPane.showMessageDialog(null, "Unerlaubte L√§nge eingegeben. Sie ist keine "
+							+ "Quadratzahl und/oder zu gro√ü:   " + number);
 					returnString = null; // input illicit: no square number or
 											// too big
 				}
 
 				if (number == 1) {
-					JOptionPane.showMessageDialog(null, "Bitte keine 1 als L‰nge eingeben.");
+					JOptionPane.showMessageDialog(null, "Bitte keine 1 als L√§nge eingeben.");
 					returnString = null; // input illicit: 1
 				}
 			} catch (NumberFormatException ex) {
 				// input illicit: no number
 				JOptionPane.showMessageDialog(null,
-						"Unerlaubte L‰nge eingegeben. L‰nge ist keine Zahl:   " + suggestLength);
+						"Unerlaubte L√§nge eingegeben. L√§nge ist keine Zahl:   " + suggestLength);
 				returnString = null;
 			}
 		}

@@ -40,8 +40,8 @@ public class SudokuField extends JTextField {
 	private boolean darkened;
 	private int iCoord;
 	private int jCoord;
-	SudokuGUI parent;
-	Sudoku sudoku;
+	private SudokuGUI parent;
+	private Sudoku sudoku;
 
 	/**
 	 * Creates a new SudokuField object with all functionality.
@@ -55,7 +55,7 @@ public class SudokuField extends JTextField {
 	 * @param parent
 	 *            The parent GUI to which this field belongs
 	 */
-	public SudokuField(int iCoord, int jCoord, SudokuGUI parent) {
+	SudokuField(int iCoord, int jCoord, SudokuGUI parent) {
 		super();
 		this.iCoord = iCoord;
 		this.jCoord = jCoord;
@@ -217,8 +217,6 @@ public class SudokuField extends JTextField {
 					} catch (NumberFormatException ex) {
 					}
 					int correctNumber = sudoku.getBoardSolved(getICoord(), getJCoord());
-
-					SudokuField.performInput(fieldNumber, jCoord, jCoord);
 					
 					// update the current state in the sudoku
 					// this must occur in the keyReleased method because the
@@ -292,7 +290,7 @@ public class SudokuField extends JTextField {
 	/**
 	 * Creates a new SudokuField without any additional functionality.
 	 */
-	public SudokuField(int i, int j) {
+	SudokuField(int i, int j) {
 		this.iCoord = i;
 		this.jCoord = j;
 	}
@@ -300,9 +298,6 @@ public class SudokuField extends JTextField {
 	/**
 	 * Toggles the note mode of the inserted field. This means changing its
 	 * font.
-	 * 
-	 * @param field
-	 *            The field which is changed
 	 */
 	private void toggleNoteMode() {
 		if (getFont().equals(parent.getStandardFont())) {
@@ -317,7 +312,7 @@ public class SudokuField extends JTextField {
 	 * 
 	 * @return If this method did something
 	 */
-	public boolean darken() {
+	boolean darken() {
 		if (darkened) {
 			return false;
 		} else {
@@ -330,10 +325,8 @@ public class SudokuField extends JTextField {
 
 	/**
 	 * If the field is darkened, this is undone.
-	 * 
-	 * @return If this method did something
 	 */
-	public boolean removeDarkening() {
+	void removeDarkening() {
 		if (darkened) {
 			Color oldColor = getBackground();
 			setBackground(oldColor.brighter());
@@ -342,30 +335,16 @@ public class SudokuField extends JTextField {
 				setBackground(Color.WHITE);
 			}
 			darkened = false;
-			return true;
-		} else {
-			return false;
 		}
 	}
-	
-	private static void performInput(int value, int iCoord, int jCoord){
-		
-	}
 
-	public int getICoord() {
+
+	private int getICoord() {
 		return iCoord;
 	}
 
-	public int getJCoord() {
+	private int getJCoord() {
 		return jCoord;
-	}
-
-	public void setICoord(int iCoord) {
-		this.iCoord = iCoord;
-	}
-
-	public void setJCoord(int jCoord) {
-		this.jCoord = jCoord;
 	}
 
 	@Override
@@ -373,11 +352,11 @@ public class SudokuField extends JTextField {
 		return new OnlyNumbersDocument();
 	}
 
-	public boolean isDarkened() {
+	boolean isDarkened() {
 		return darkened;
 	}
 
-	public void setDarkened(boolean darkened) {
+	private void setDarkened(boolean darkened) {
 		this.darkened = darkened;
 	}
 

@@ -3,7 +3,7 @@ package logic;
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class BackupPoint {
+class BackupPoint {
 	/**
 	 * The changed coordinate of this backup. The i and j coordinate can be
 	 * gained by i = changedCoord / length and j = changedCoord % length .
@@ -31,28 +31,16 @@ public class BackupPoint {
 		this.tSFills = new Stack<Integer>();
 	}
 
-	public int getChangedCoord() {
+	int getChangedCoord() {
 		return changedCoord;
 	}
 
-	public LinkedList<Integer> getPossibilities() {
+	LinkedList<Integer> getPossibilities() {
 		return possibilities;
 	}
 
-	public Stack<Integer> getTSFills() {
+	Stack<Integer> getTSFills() {
 		return tSFills;
-	}
-
-	public void setChangedCoord(int changedCoord) {
-		this.changedCoord = changedCoord;
-	}
-
-	public void setPossibilities(LinkedList<Integer> possibilities) {
-		this.possibilities = possibilities;
-	}
-
-	public void setTSFills(Stack<Integer> tSFills) {
-		this.tSFills = tSFills;
 	}
 
 	// additional useful "getter and setter methods"
@@ -62,7 +50,7 @@ public class BackupPoint {
 	 * @param coord
 	 *            the one dimensional coordinate, which is supposed to be saved
 	 */
-	public void pushTSFills(int coord) {
+	void pushTSFills(int coord) {
 		this.tSFills.push(coord);
 	}
 
@@ -70,7 +58,7 @@ public class BackupPoint {
 	 * Returns a random entry of the possibility list and removes it from the
 	 * list
 	 */
-	public int popRandomPossibility() {
+	int popRandomPossibility() {
 		return possibilities.get((int) (Math.random() * possibilities.size()));
 	}
 }

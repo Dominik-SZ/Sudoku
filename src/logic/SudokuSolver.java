@@ -504,7 +504,7 @@ public class SudokuSolver {
 				if (possibilities[i][j].size() == 1) {
 					int onlyPossibility = (int) possibilities[i][j].toArray()[0];
 					insertNumber(onlyPossibility, i, j);
-					System.out.println("nur eine Möglichkeit verbleibt: " + onlyPossibility);
+					System.out.println("nur eine MÃ¶glichkeit verbleibt: " + onlyPossibility);
 					answer = true;
 				}
 			}

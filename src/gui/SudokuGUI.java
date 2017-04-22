@@ -32,7 +32,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 
-import gui.SudokuGUI;
 import logic.Sudoku;
 import logic.SudokuMain;
 import logic.SudokuSolver;
@@ -199,17 +198,6 @@ public class SudokuGUI extends JFrame {
 				mainFrame.getMaximumSize().getHeight());
 		mainFrame.setSize(new Dimension(startWidth, startHeight));
 
-		// Debug outputs
-		// System.out.println("min: " + mainFrame.getMinimumSize().getWidth() +
-		// " " + mainFrame.getMinimumSize().getHeight());
-		// System.out.println("max: " + mainFrame.getMaximumSize().getWidth() +
-		// " " + mainFrame.getMaximumSize().getHeight());
-		// System.out.println("preferred: " +
-		// mainFrame.getPreferredSize().getWidth() + " " +
-		// mainFrame.getPreferredSize().getHeight());
-		// System.out.println("actual: " + mainFrame.getWidth() + " " +
-		// mainFrame.getHeight());
-
 		// build all the secondary panels
 		buildTopPanel();
 		buildCenterPanel();
@@ -258,9 +246,9 @@ public class SudokuGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int answer = JOptionPane.showConfirmDialog(null,
-						"Bist du sicher, dass du mit einem neuen Sudoku starten möchtest? "
+						"Bist du sicher, dass du mit einem neuen Sudoku starten mÃ¶chtest? "
 								+ "Das momentane Sudoku wird nicht gespeichert.",
-						"Neues Sudoku bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+						"Neues Sudoku bestÃ¤tigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (answer == JOptionPane.OK_OPTION) {
 					mainFrame.dispose();
 					String oldLength = length + "";
@@ -367,7 +355,7 @@ public class SudokuGUI extends JFrame {
 
 		restPanel.add(Box.createHorizontalGlue()); // a spacer
 
-		JLabel lengthLabel = new JLabel("Länge: " + length);
+		JLabel lengthLabel = new JLabel("LÃ¤nge: " + length);
 		// lengthLabel.setPreferredSize(new Dimension(0, topHeight));
 		lengthLabel.setFont(labelFont);
 		paintable.add(lengthLabel);
@@ -376,7 +364,7 @@ public class SudokuGUI extends JFrame {
 		restPanel.add(Box.createHorizontalGlue()); // a spacer
 
 		JLabel fillInfoLabel = new JLabel(
-				sudoku.count() + " von " + length * length + " Feldern sind zu Beginn befüllt.");
+				sudoku.count() + " von " + length * length + " Feldern sind zu Beginn befÃ¼llt.");
 		// fillInfoLabel.setPreferredSize(new Dimension(0, topHeight));
 		fillInfoLabel.setFont(labelFont);
 		paintable.add(fillInfoLabel);
@@ -496,14 +484,14 @@ public class SudokuGUI extends JFrame {
 		}
 
 		// the count downwards radio button
-		countDownwardsButton = new JRadioButton("Runterzählen");
+		countDownwardsButton = new JRadioButton("RunterzÃ¤hlen");
 		rightPanel.add(countDownwardsButton);
 		countDownwardsButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		countDownwardsButton.setBorder(new EmptyBorder(0, 15, 0, 10));
 		countDownwardsButton.setFont(labelFont);
 		countDownwardsButton.setToolTipText(
-				"Entscheidet, ob die rechte Anzeige" + "die Anzahl der eingefügten Zahlen hochzählt oder ob die"
-						+ "noch fehlenden Zahlen angezeigt werden, also runtergezählt wird.");
+				"Entscheidet, ob die rechte Anzeige" + "die Anzahl der eingefÃ¼gten Zahlen hochzÃ¤hlt oder ob die"
+						+ "noch fehlenden Zahlen angezeigt werden, also runtergezÃ¤hlt wird.");
 		countDownwardsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		countDownwardsButton.addActionListener(new ActionListener() {
 
@@ -522,8 +510,8 @@ public class SudokuGUI extends JFrame {
 
 		// check for mistakes button
 		JButton checkForMistakesButton = new JButton("Fehlersuche");
-		checkForMistakesButton.setToolTipText("Sucht nach falsch befüllten "
-				+ "Feldern und hinterlegt diese rot. Doppelklick macht dies " + "rückgängig.");
+		checkForMistakesButton.setToolTipText("Sucht nach falsch befÃ¼llten "
+				+ "Feldern und hinterlegt diese rot. Doppelklick macht dies " + "rÃ¼ckgÃ¤ngig.");
 		checkForMistakesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		checkForMistakesButton.addMouseListener(new MouseAdapter() {
 
@@ -549,9 +537,9 @@ public class SudokuGUI extends JFrame {
 		bottomPanel.add(checkForMistakesButton);
 
 		// show possibilities button
-		showPossibilitiesButton = new JRadioButton("Möglichkeiten anzeigen");
+		showPossibilitiesButton = new JRadioButton("MÃ¶glichkeiten anzeigen");
 		showPossibilitiesButton.setToolTipText("Zeigt in allen leeren Feldern und Notizfeldern die dortigen "
-				+ "Möglichkeiten an, wenn ausgewählt und aktualisiert diese bei neuen Einträgen.");
+				+ "MÃ¶glichkeiten an, wenn ausgewÃ¤hlt und aktualisiert diese bei neuen EintrÃ¤gen.");
 		showPossibilitiesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		showPossibilitiesButton.addMouseListener(new MouseAdapter() {
 
@@ -569,10 +557,10 @@ public class SudokuGUI extends JFrame {
 		bottomPanel.add(showPossibilitiesButton);
 
 		// highlight possibility pairs button
-		JButton highlightPossibilityPairsButton = new JButton("Möglichkeitspaare");
+		JButton highlightPossibilityPairsButton = new JButton("MÃ¶glichkeitspaare");
 		highlightPossibilityPairsButton
-				.setToolTipText("Hebt eingetragene " + "Möglichkeitspaare, die mindestens 2 mal vorkommen, farblich "
-						+ "hervor. Doppelklick macht dies rückgängig.");
+				.setToolTipText("Hebt eingetragene " + "MÃ¶glichkeitspaare, die mindestens 2 mal vorkommen, farblich "
+						+ "hervor. Doppelklick macht dies rÃ¼ckgÃ¤ngig.");
 		highlightPossibilityPairsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		highlightPossibilityPairsButton.addMouseListener(new MouseAdapter() {
 
@@ -589,8 +577,8 @@ public class SudokuGUI extends JFrame {
 		bottomPanel.add(highlightPossibilityPairsButton);
 
 		// solution button
-		JButton solutionButton = new JButton("Lösung");
-		solutionButton.setToolTipText("Öffnet ein kleines zusätzliches Fenster, in dem die Lösung des Sudokus "
+		JButton solutionButton = new JButton("LÃ¶sung");
+		solutionButton.setToolTipText("Ã¶ffnet ein kleines zusÃ¤tzliches Fenster, in dem die LÃ¶sung des Sudokus "
 				+ "nachgeschlagen werden kann.");
 		solutionButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		solutionButton.addActionListener(new ActionListener() {
@@ -606,16 +594,16 @@ public class SudokuGUI extends JFrame {
 
 		// reset button
 		JButton resetButton = new JButton("Reset");
-		resetButton.setToolTipText("Setzt das Sudoku auf den Ausgangszustand zurück.");
+		resetButton.setToolTipText("Setzt das Sudoku auf den Ausgangszustand zurÃ¼ck.");
 		resetButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		resetButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int answer = JOptionPane.showConfirmDialog(null,
-						"Bist du sicher, dass du das Sudoku resetten möchtest? Alle deine Einträge "
-								+ "und Einfärbungen werden entfernt.",
-						"Reset bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+						"Bist du sicher, dass du das Sudoku resetten mÃ¶chtest? Alle deine EintrÃ¤ge "
+								+ "und EinfÃ¤rbungen werden entfernt.",
+						"Reset bestÃ¤tigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (answer == JOptionPane.OK_OPTION) {
 					for (int i = 0; i < length; i++) {
 						for (int j = 0; j < length; j++) {
@@ -649,8 +637,8 @@ public class SudokuGUI extends JFrame {
 		mainFrame.add(BorderLayout.WEST, leftPanel);
 		paintable.add(leftPanel);
 
-		String[] colorStrings = { "schwarz", "dunkelgrau", "grau", "weiß", "pink", "rot", "orange", "gelb", "grün",
-				"dunkelgrün", "blau", "mehr Farben" };
+		String[] colorStrings = { "schwarz", "dunkelgrau", "grau", "weiï¿½", "pink", "rot", "orange", "gelb", "grï¿½n",
+				"dunkelgrï¿½n", "blau", "mehr Farben" };
 
 		ActionListener boxListener = new ActionListener() {
 			@Override
@@ -677,7 +665,7 @@ public class SudokuGUI extends JFrame {
 
 				Color selectedColor;
 				if (selectedIndex == 11) { // "mehr Farben"
-					selectedColor = JColorChooser.showDialog(mainFrame, "Wähle deine gewünschte Farbe", previousColor);
+					selectedColor = JColorChooser.showDialog(mainFrame, "Wï¿½hle deine gewï¿½nschte Farbe", previousColor);
 					if (selectedColor == null) { // abbrechen button pressed
 						selectedColor = previousColor;
 					}
@@ -737,12 +725,12 @@ public class SudokuGUI extends JFrame {
 		darkenLabel.setFont(labelFont);
 		paintable.add(darkenLabel);
 
-		String[] darkenOptions = { "gar nicht", "teilweise", "vollständig" };
+		String[] darkenOptions = { "gar nicht", "teilweise", "vollstï¿½ndig" };
 		darkenBox = new JComboBox<String>(darkenOptions);
 
 		darkenBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 		darkenBox.setToolTipText("Entscheidet inwieweit das herausstellen von"
-				+ " Zahlen durch die rechten Knöpfe die dadurch blockierten Felder verdunkelt.");
+				+ " Zahlen durch die rechten Knï¿½pfe die dadurch blockierten Felder verdunkelt.");
 		darkenBox.setSelectedIndex(1); // standard choice (partly)
 		darkenBox.setEditable(true);
 		darkenBox.addActionListener(new ActionListener() {
@@ -915,8 +903,7 @@ public class SudokuGUI extends JFrame {
 						if (Integer.parseInt(text) == number && boardGraphic[i][j].getFont().equals(standardFont)) {
 							amount++;
 						}
-					} catch (NumberFormatException e) {
-					} catch (NullPointerException f) {
+					} catch (NumberFormatException | NullPointerException ex) {
 					}
 				}
 			}
@@ -1194,7 +1181,7 @@ public class SudokuGUI extends JFrame {
 	 */
 	void showStatus(GameStatus status) {
 		if (status == GameStatus.INCOMPLETE) {
-			JOptionPane.showMessageDialog(null, "Das Sudoku ist noch nicht vollständig befüllt.", "Da fehlt noch was!",
+			JOptionPane.showMessageDialog(null, "Das Sudoku ist noch nicht vollstï¿½ndig befï¿½llt.", "Da fehlt noch was!",
 					JOptionPane.INFORMATION_MESSAGE);
 
 		} else if (status == GameStatus.CORRECT) {
@@ -1213,10 +1200,10 @@ public class SudokuGUI extends JFrame {
 
 			// show the success pop up window
 			String time = timerLabel.getText().substring(15, timerLabel.getText().length());
-			JOptionPane.showMessageDialog(null, "Alles richtig! Glückwunsch!!\r\nBenötigte Zeit:" + time, "Gewonnen!",
+			JOptionPane.showMessageDialog(null, "Alles richtig! Glï¿½ckwunsch!!\r\nBenï¿½tigte Zeit:" + time, "Gewonnen!",
 					JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(null, "Sudoku ist noch nicht korrekt befüllt.", "Stimmt so nicht ganz",
+			JOptionPane.showMessageDialog(null, "Sudoku ist noch nicht korrekt befï¿½llt.", "Stimmt so nicht ganz",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 
@@ -1262,7 +1249,7 @@ public class SudokuGUI extends JFrame {
 
 		};
 
-		JDialog ccDialog = JColorChooser.createDialog(field, "Wähle deine gewünschte Farbe für dieses Feld", true, cc,
+		JDialog ccDialog = JColorChooser.createDialog(field, "WÃ¤hle deine gewÃ¼nschte Farbe fÃ¼r dieses Feld", true, cc,
 				okListener, cancelListener);
 
 		// set the dialog to the right position
@@ -1438,7 +1425,6 @@ public class SudokuGUI extends JFrame {
 		int pairNumber = 0;
 		for (LinkedList<Coordinate> coordinates : map.values()) {
 			// only consider possibility pairs who occur at least two times
-			// if (coordinates.size() >= 2) {
 			Color color = nextColor(pairNumber);
 
 			// iterate all coordinates of this possibility pair and color them
@@ -1451,7 +1437,6 @@ public class SudokuGUI extends JFrame {
 				possibilityPairsCoordinates.add(coord);
 			}
 			pairNumber++;
-			// }
 		}
 
 	}
@@ -1545,28 +1530,28 @@ public class SudokuGUI extends JFrame {
 	 * Returns the SudokuField at the specified coordinates of the board graphic
 	 * of this window.
 	 */
-	public SudokuField getBoardGraphic(int iCoord, int jCoord) {
+	SudokuField getBoardGraphic(int iCoord, int jCoord) {
 		return boardGraphic[iCoord][jCoord];
 	}
 
 	/** Returns the boardGraphic of this window. */
-	public SudokuField[][] getBoardGraphic() {
+	SudokuField[][] getBoardGraphic() {
 		return this.boardGraphic;
 	}
 
-	public Color getFieldStandardColor() {
+	Color getFieldStandardColor() {
 		return this.fieldStandardColor;
 	}
 
-	public Color getFieldNoteColor() {
+	Color getFieldNoteColor() {
 		return this.fieldNoteColor;
 	}
 
-	public int getCurrentOutline() {
+	int getCurrentOutline() {
 		return this.currentOutline;
 	}
 
-	public Keyboard getKeyboard() {
+	Keyboard getKeyboard() {
 		return this.keyboard;
 	}
 
@@ -1574,51 +1559,51 @@ public class SudokuGUI extends JFrame {
 		return this.sudoku;
 	}
 
-	public Font getStandardFont() {
+	Font getStandardFont() {
 		return this.standardFont;
 	}
 
-	public Font getNoteFont() {
+	Font getNoteFont() {
 		return this.noteFont;
 	}
 
-	public Border getOutlineBorder() {
+	Border getOutlineBorder() {
 		return this.outlineBorder;
 	}
 
-	public String getEgg() {
+	String getEgg() {
 		return this.egg;
 	}
 
-	public int getForegroundIndex() {
+	int getForegroundIndex() {
 		return this.foregroundBox.getSelectedIndex();
 	}
 
-	public int getBackgroundIndex() {
+	int getBackgroundIndex() {
 		return this.backgroundBox.getSelectedIndex();
 	}
 
-	public int getFieldStandardColorIndex() {
+	int getFieldStandardColorIndex() {
 		return this.fieldStandardColorBox.getSelectedIndex();
 	}
 
-	public int getFieldNoteColorIndex() {
+	int getFieldNoteColorIndex() {
 		return this.fieldNoteColorBox.getSelectedIndex();
 	}
 
-	public boolean getCountDownwards() {
+	boolean getCountDownwards() {
 		return this.countDownwardsButton.isSelected();
 	}
 
-	public int getDarkenIndex() {
+	int getDarkenIndex() {
 		return this.darkenBox.getSelectedIndex();
 	}
 
-	public long getStartTime() {
+	long getStartTime() {
 		return this.startTime;
 	}
 	
-	public boolean getPossibilityMode(){
+	boolean getPossibilityMode(){
 		return showPossibilitiesButton.isSelected();
 	}
 

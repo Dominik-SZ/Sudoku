@@ -23,7 +23,7 @@ public class SolutionWindow {
 		int gap = 5;
 		this.boardSolved = boardSolved;
 		int blockLength = (int) Math.sqrt(boardSolved.length);
-		mainFrame = new JFrame("Lösung");
+		mainFrame = new JFrame("LÃ¶sung");
 		
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		// only close the solution frame
 		mainFrame.setSize(new Dimension(45*boardSolved.length, 45*boardSolved.length+80));

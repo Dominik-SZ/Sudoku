@@ -49,7 +49,7 @@ public class ColorChooserPanel extends  AbstractColorChooserPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Color color = JColorChooser.showDialog(
 	                     parentField,
-	                     "Wähle deine gewünschte Farbe für dieses Feld",
+	                     "WÃ¤hle deine gewÃ¼nschte Farbe fÃ¼r dieses Feld",
 	                     selectedColor);
 				if(color != null){
 					for(JToggleButton currentButton: buttons){

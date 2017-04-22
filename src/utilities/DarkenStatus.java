@@ -1,5 +1,5 @@
 package utilities;
 
 public enum DarkenStatus {
-	NONE, PARTLY, COMPLETE;
+	NONE, PARTLY, COMPLETE
 }
