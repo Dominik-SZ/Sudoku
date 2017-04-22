@@ -547,7 +547,7 @@ public class SudokuSolver {
 				if (allowedFieldsForThisNumber.size() == 1) {
 					// set the found value
 					Coordinate coord = allowedFieldsForThisNumber.getFirst();
-					insertNumber(k, coord.getICoord(), coord.getJCoord());
+					insertNumber(k, coord.i, coord.j);
 					answer =  true;
 				}
 			}
@@ -589,7 +589,7 @@ public class SudokuSolver {
 				if (allowedFieldsForThisNumber.size() == 1) {
 					// set the found value
 					Coordinate coord = allowedFieldsForThisNumber.getFirst();
-					insertNumber(k, coord.getICoord(), coord.getJCoord());
+					insertNumber(k, coord.i, coord.j);
 					answer = true;
 				}
 			}
@@ -640,7 +640,7 @@ public class SudokuSolver {
 					}
 					if (allowedFieldsForThisNumber.size() == 1) {
 						Coordinate coord = allowedFieldsForThisNumber.getFirst();
-						insertNumber(k, coord.getICoord(), coord.getJCoord());
+						insertNumber(k, coord.i, coord.j);
 						answer = true;
 					}
 				}

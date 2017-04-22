@@ -988,7 +988,7 @@ public class SudokuGUI extends JFrame {
 				blocked.addAll(sudoku.getFilled());
 			}
 
-			blocked.forEach(coord -> boardGraphic[coord.getICoord()][coord.getJCoord()].darken());
+			blocked.forEach(coord -> boardGraphic[coord.i][coord.j].darken());
 		}
 	}
 
@@ -1283,7 +1283,7 @@ public class SudokuGUI extends JFrame {
 		Collection<Coordinate> mistakes = sudoku.getMistakes();
 
 		mistakes.forEach(coord -> {
-			SudokuField currentField = boardGraphic[coord.getICoord()][coord.getJCoord()];
+			SudokuField currentField = boardGraphic[coord.i][coord.j];
 			if (currentField.isDarkened()) {
 				currentField.setBackground(Color.RED.darker());
 			} else {
@@ -1430,8 +1430,8 @@ public class SudokuGUI extends JFrame {
 			// iterate all coordinates of this possibility pair and color them
 			while (!coordinates.isEmpty()) {
 				Coordinate coord = coordinates.removeFirst();
-				int i = coord.getICoord();
-				int j = coord.getJCoord();
+				int i = coord.i;
+				int j = coord.j;
 				boardGraphic[i][j].setBackground(color);
 
 				possibilityPairsCoordinates.add(coord);
@@ -1504,8 +1504,8 @@ public class SudokuGUI extends JFrame {
 
 	private void clearPossibilityPairHighlighting() {
 		for (Coordinate coord : possibilityPairsCoordinates) {
-			int i = coord.getICoord();
-			int j = coord.getJCoord();
+			int i = coord.i;
+			int j = coord.j;
 			SudokuField currentField = boardGraphic[i][j];
 			if (currentField.isDarkened()) {
 				currentField.setBackground(Color.WHITE.darker());

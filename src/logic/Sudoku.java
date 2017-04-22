@@ -221,15 +221,15 @@ public class Sudoku {
 
 		// iterate the column
 		for (int i = 0; i < length; i++) {
-			blocked.add(new Coordinate(i, initial.getJCoord()));
+			blocked.add(new Coordinate(i, initial.j));
 		}
 		// iterate the row
 		for (int j = 0; j < length; j++) {
-			blocked.add(new Coordinate(initial.getICoord(), j));
+			blocked.add(new Coordinate(initial.i, j));
 		}
 		// iterate the block
-		int iStartValue = blockLength * (initial.getICoord() / blockLength);
-		int jStartValue = blockLength * (initial.getJCoord() / blockLength);
+		int iStartValue = blockLength * (initial.i / blockLength);
+		int jStartValue = blockLength * (initial.j / blockLength);
 		for (int i = iStartValue; i < iStartValue + blockLength; i++) {
 			for (int j = jStartValue; j < jStartValue + blockLength; j++) {
 				blocked.add(new Coordinate(i, j));

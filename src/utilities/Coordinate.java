@@ -6,23 +6,14 @@ import java.util.Objects;
  * These Objects contain only two Integer values
  */
 public class Coordinate {
-	private int iCoord;
-	private int jCoord;
+	public int i;
+	public int j;
 	
-	public Coordinate(int iCoord, int jCoord){
-		this.iCoord = iCoord;
-		this.jCoord = jCoord;
-	}
-	
-	public int getICoord() {
-		return iCoord;
+	public Coordinate(int i, int j){
+		this.i = i;
+		this.j = j;
 	}
 
-	public int getJCoord() {
-		return jCoord;
-	}
-	
-	
 	@Override
 	public boolean equals(Object o) {
 		
@@ -31,12 +22,12 @@ public class Coordinate {
 		}
 		
 		Coordinate other = (Coordinate) o;
-		return this.iCoord == other.iCoord && this.jCoord == other.jCoord;
+		return this.i == other.i && this.j == other.j;
 	}
 	
 	@Override
 	public int hashCode() {
 		
-		return Objects.hash(iCoord, jCoord);
+		return Objects.hash(i, j);
 	}
 }
