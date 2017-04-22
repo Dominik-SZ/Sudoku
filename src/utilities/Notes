@@ -1,0 +1,57 @@
+//stepWidth Test Code (In Main)
+		int difficulty= 10;
+		int length= 16;		// gern ändern
+		int fills= 0;
+		int maxFills= 256;	// gern ändern
+		int coord= 0;
+		int i;
+		int j;
+		int stepWidth= 9;	// beste Lösung hier gesucht
+		Sudoku test= new Sudoku(length, difficulty);
+		while(fills < maxFills){
+			i= coord/length;
+			j= coord%length;
+			if(test.getValue(i, j) == 8){
+				System.err.println("double assignment");
+			}
+			test.setValue(coord, 8);
+			fills++;
+			if(coord+stepWidth < length*length){
+				coord= coord+stepWidth;
+			}
+			else{
+				coord= coord+stepWidth-length*length;
+			}
+		}
+		System.out.println(test.toString());
+		
+		
+// Testcode to solve a given Sudoku (Main)
+		int[][] values= {	{0,1,6,  0,0,0,  5,0,0},
+							{8,0,7,  0,0,5,  0,6,0},
+							{5,0,0,  2,0,3,  7,0,0},
+
+							{0,0,0,  0,0,9,  6,0,8},
+							{6,4,0,  0,0,0,  0,0,0},
+							{9,0,0,  0,2,4,  1,3,0},
+
+							{1,0,5,  0,4,8,  0,0,3},
+							{0,0,0,  0,0,0,  0,0,0},
+							{0,0,0,  0,5,0,  0,0,7}	};
+		Sudoku toSolve= new Sudoku(values);
+		toSolve.solve();
+		System.out.println(toSolve.toString());
+		
+		Margin einbauen:
+			Border border = comp.getBorder();
+			Border margin = new EmptyBorder(10,10,10,10);
+			comp.setBorder(new CompoundBorder(border, margin));
+		
+		
+//Pfadnamen:
+D:/dev/Generated Sudokus/			Ordner Generated Sudokus vorher erstellen
+./Sudokus/			<- im Projektordner
+
+TODO
+Linken Bereich verkleinern
+								
