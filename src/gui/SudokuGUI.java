@@ -48,7 +48,7 @@ import utilities.GameStatus;
  *
  * @author Dominik
  */
-public class SudokuGUI extends JFrame {
+public class SudokuGUI {
     /**
      * only inserted to prevent warnings
      */

@@ -185,7 +185,7 @@ public class Sudoku {
 	 * @param solutionFileName
 	 *            The name of the solution file
 	 */
-	public void printToTextFile(String path, String fileName, String solutionFileName) {
+	private void printToTextFile(String path, String fileName, String solutionFileName) {
 		PrintWriter out = null;
 		path = path.replace('\\', '/');
 		try {
@@ -253,7 +253,7 @@ public class Sudoku {
 	}
 
 	public Collection<Coordinate> getMistakes() {
-		LinkedList<Coordinate> mistakes = new LinkedList<Coordinate>();
+		LinkedList<Coordinate> mistakes = new LinkedList<>();
 
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
@@ -324,6 +324,16 @@ public class Sudoku {
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
 				currentState[i][j] = startBoard[i][j];
+			}
+		}
+	}
+
+	public Collection<Integer> getPossibilities(int iCoord, int jCoord) {
+		LinkedList<Integer> possibilities = new LinkedList<>();
+		// build a new board of SolverFields
+		for (int i = 0; i < length; i++) {
+			for (int j = 0; j < length; j++) {
+				// TODO
 			}
 		}
 	}
