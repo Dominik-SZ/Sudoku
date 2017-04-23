@@ -216,7 +216,7 @@ public class SudokuField extends JTextField {
 						fieldNumber = Integer.parseInt(fieldContent);
 					} catch (NumberFormatException ex) {
 					}
-					int correctNumber = sudoku.getBoardSolved(getICoord(), getJCoord());
+					int correctNumber = sudoku.getSolvedBoard(getICoord(), getJCoord());
 					
 					// update the current state in the sudoku
 					// this must occur in the keyReleased method because the

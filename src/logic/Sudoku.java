@@ -367,15 +367,15 @@ public class Sudoku {
 		return startBoard;
 	}
 
-	public int[][] getBoardSolved() {
+	public int[][] getSolvedBoard() {
 		return solvedBoard;
 	}
 
-	public int getBoardSolved(int coord) {
+	public int getSolvedBoard(int coord) {
 		return solvedBoard[coord / length][coord % length];
 	}
 
-	public int getBoardSolved(int iCoord, int jCoord) {
+	public int getSolvedBoard(int iCoord, int jCoord) {
 		return solvedBoard[iCoord][jCoord];
 	}
 

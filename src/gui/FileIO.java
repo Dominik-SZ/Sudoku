@@ -61,7 +61,7 @@ public class FileIO {
 			// (line 3) save the boardSolved of the sudoku
 			writer.print("\r\nSolution;");
 			for (int k = 0; k < fieldAmount; k++) {
-				writer.print(sudoku.getBoardSolved(k) + ";");
+				writer.print(sudoku.getSolvedBoard(k) + ";");
 			}
 
 			// (line 4) save the colors of the gui overlay list

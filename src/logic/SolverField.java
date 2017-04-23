@@ -2,18 +2,27 @@ package logic;
 
 import java.util.HashSet;
 
-/**
- * Created by Dominik on 23.04.2017.
- */
 class SolverField {
-    private HashSet<Integer> possibilities;
-    private int value;
-    private int i;
-    private int j;
+    private int length;
+    HashSet<Integer> possibilities;
+    int value;
 
-    SolverField (int value, int i, int j){
+    /**
+     * Creates a new SolverField with the inserted value and a new HashSet containing all possibilities from 1 to length.
+     *
+     * @param value The value to be placed on this field
+     * @param length    The length of the wrapping array
+     */
+    SolverField(int value, int length) {
+        this.length = length;
         this.value = value;
-        this.i = i;
-        this.j = j;
+        this.possibilities = new HashSet<>();
+        resetPossibilities();
+    }
+
+    void resetPossibilities() {
+        for (int k = 1; k <= length; k++) {
+            possibilities.add(k);
+        }
     }
 }
