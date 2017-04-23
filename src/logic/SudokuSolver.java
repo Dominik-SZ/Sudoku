@@ -114,7 +114,6 @@ public class SudokuSolver {
 						board[i][j].resetPossibilities();
 					}
 				}
-				// firstTry.clear();
 				return false;
 			}
 
@@ -474,7 +473,7 @@ public class SudokuSolver {
 	}
 
 	// -------------------------------------------------------------------------
-	// solving strategy stuff (methods used by fillTrial())
+	// solving strategy stuff (methods used by trySolving())
 
 	/**
 	 * Iterates the whole possibility array and searches for fields with only
@@ -491,7 +490,7 @@ public class SudokuSolver {
 					// TODO: check this
 					int onlyPossibility = (int) board[i][j].possibilities.toArray()[0];
 					insertNumber(onlyPossibility, i, j);
-					System.out.println("nur eine Möglichkeit verbleibt: " + onlyPossibility);
+					System.out.println("nur eine Möglichkeit verbleibt: " + i + "  " + j + "  " + onlyPossibility);
 					answer = true;
 				}
 			}
