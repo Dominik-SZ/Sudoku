@@ -1330,10 +1330,7 @@ public class SudokuGUI {
     }
 
     /**
-     * Iterates through the Sudoku and searches for incorrectly filled fields.
-     * If it finds one, the background color is changed to RED. If the fields
-     * are filled correctly even though their background color is red, their
-     * background color is changed to white
+     * Updates the background color of all wrongly filled fields to {@code Color.RED}
      */
     private void updateMistakeBackgrounds() {
         Collection<Coordinate> mistakes = sudoku.getMistakes();
