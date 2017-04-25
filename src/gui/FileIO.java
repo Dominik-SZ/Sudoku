@@ -61,7 +61,7 @@ public class FileIO {
 			// (line 3) save the boardSolved of the sudoku
 			writer.print("\r\nSolution;");
 			for (int k = 0; k < fieldAmount; k++) {
-				writer.print(sudoku.getSolvedBoard(k) + ";");
+				writer.print(sudoku.getSolutionValue(k) + ";");
 			}
 
 			// (line 4) save the colors of the gui overlay list
@@ -156,13 +156,13 @@ public class FileIO {
 			thisLineArray = reader.readLine().split(";");
 			for (int k = 1; k < thisLineArray.length; k++) {
 				if (!thisLineArray[k].equals("")) {
-					sudoku.setBoard(Integer.parseInt(thisLineArray[k]), k - 1);
+					sudoku.setStartValue(Integer.parseInt(thisLineArray[k]), k - 1);
 				}
 			}
 			// (line 3) read the boardSolved of the Sudoku
 			thisLineArray = reader.readLine().split(";");
 			for (int k = 1; k < thisLineArray.length; k++) {
-				sudoku.setBoardSolved(Integer.parseInt(thisLineArray[k]), k - 1);
+				sudoku.setSolutionValue(Integer.parseInt(thisLineArray[k]), k - 1);
 			}
 
 			// build the new window with the new Sudoku
@@ -208,7 +208,7 @@ public class FileIO {
 							currentValue = Integer.parseInt(window.getBoardGraphic(i, j).getText());
 						} catch (NumberFormatException ex) {
 						}
-						sudoku.setCurrentState(currentValue, i, j);
+						sudoku.setCurrentValue(currentValue, i, j);
 					}
 				}
 			}

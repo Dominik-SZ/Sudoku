@@ -1,5 +1,7 @@
 package gui;
 
+import logic.SudokuField;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,13 +15,13 @@ import javax.swing.border.EtchedBorder;
 
 public class SolutionWindow {
 	
-	Font fieldFont= new Font("SansSerif", Font.BOLD, 30);
-	JFrame mainFrame;
-	JPanel centerPanel;
-	int[][] boardSolved;
+	private Font fieldFont= new Font("SansSerif", Font.BOLD, 30);
+	private JFrame mainFrame;
+	private JPanel centerPanel;
+	private int[][] boardSolved;
 	
 	// Constructor
-	SolutionWindow(int[][] boardSolved, int[][] board, Color fieldStandardColor){
+	SolutionWindow(SudokuField[][] board, Color fieldStandardColor){
 		int gap = 5;
 		this.boardSolved = boardSolved;
 		int blockLength = (int) Math.sqrt(boardSolved.length);
@@ -40,7 +42,7 @@ public class SolutionWindow {
 			int jStartValue = blockLength * (blockNumber % blockLength);
 			for(int i = iStartValue; i < iStartValue + blockLength; i++){
 				for(int j = jStartValue; j < jStartValue + blockLength; j++){
-					SudokuField field= new SudokuField(i, j);		// giving each block its fields
+					GraphicalSudokuField field= new GraphicalSudokuField(i, j);		// giving each block its fields
 					field.setText(boardSolved[i][j]+"");
 					field.setHorizontalAlignment(JTextField.CENTER);
 					field.setFont(fieldFont);
@@ -48,7 +50,7 @@ public class SolutionWindow {
 					field.setBorder(new EtchedBorder(10));
 					field.setBackground(Color.WHITE);
 					block.add(field);
-					if(board[i][j] == 0)	field.setForeground(fieldStandardColor);
+					if(board[i][j].getCurrentValue() == 0)	field.setForeground(fieldStandardColor);
 					else					field.setForeground(Color.BLACK);
 				}
 			}
@@ -58,7 +60,7 @@ public class SolutionWindow {
 	    mainFrame.setLocationRelativeTo(null);				// center the frame
 	}
 	
-	public void setVisible(boolean arg){
+	void setVisible(boolean arg){
 		mainFrame.setVisible(arg);
 	}
 }

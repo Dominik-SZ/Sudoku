@@ -34,7 +34,6 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import logic.Sudoku;
 import logic.SudokuMain;
-import logic.SudokuSolver;
 import utilities.Direction;
 import utilities.Keyboard;
 import utilities.ComponentPrinter;
@@ -104,7 +103,7 @@ public class SudokuGUI {
     /**
      * the graphic board the player uses
      */
-    private SudokuField[][] boardGraphic;
+    private GraphicalSudokuField[][] boardGraphic;
     /**
      * all paintable components
      */
@@ -219,7 +218,7 @@ public class SudokuGUI {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         standardBorder = new EtchedBorder(10);
         outlineBorder = new CompoundBorder(new LineBorder(Color.BLACK, 4), standardBorder);
-        boardGraphic = new SudokuField[length][length];
+        boardGraphic = new GraphicalSudokuField[length][length];
         darkenMode = DarkenStatus.PARTLY;
         currentOutline = -1;
         possibilityPairsCoordinates = new LinkedList<>();
@@ -590,7 +589,7 @@ public class SudokuGUI {
                     // clear all red painted fields
                     for (int i = 0; i < length; i++) {
                         for (int j = 0; j < length; j++) {
-                            SudokuField currentField = boardGraphic[i][j];
+                            GraphicalSudokuField currentField = boardGraphic[i][j];
                             if (currentField.getBackground().equals(Color.RED)) {
                                 currentField.setBackground(Color.WHITE);
                             } else if (currentField.getBackground().equals(Color.RED.darker())) {
@@ -599,7 +598,7 @@ public class SudokuGUI {
                         }
                     }
                 } else {
-                    checkForMistakes();
+                    updateMistakeBackgrounds();
                 }
             }
         });
@@ -654,8 +653,7 @@ public class SudokuGUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                SolutionWindow solutionWindow = new SolutionWindow(sudoku.getSolvedBoard(), sudoku.getBoard(),
-                        fieldStandardColor);
+                SolutionWindow solutionWindow = new SolutionWindow(sudoku.getBoard(), fieldStandardColor);
                 solutionWindow.setVisible(true);
             }
         });
@@ -708,8 +706,8 @@ public class SudokuGUI {
         mainFrame.add(BorderLayout.WEST, leftPanel);
         paintable.add(leftPanel);
 
-        String[] colorStrings = {"schwarz", "dunkelgrau", "grau", "wei�", "pink", "rot", "orange", "gelb", "gr�n",
-                "dunkelgr�n", "blau", "mehr Farben"};
+        String[] colorStrings = {"schwarz", "dunkelgrau", "grau", "weiß", "pink", "rot", "orange", "gelb", "grün",
+                "dunkelgrün", "blau", "mehr Farben"};
 
         ActionListener boxListener = new ActionListener() {
             @Override
@@ -736,7 +734,7 @@ public class SudokuGUI {
 
                 Color selectedColor;
                 if (selectedIndex == 11) { // "mehr Farben"
-                    selectedColor = JColorChooser.showDialog(mainFrame, "W�hle deine gew�nschte Farbe", previousColor);
+                    selectedColor = JColorChooser.showDialog(mainFrame, "Wähle deine gewünschte Farbe", previousColor);
                     if (selectedColor == null) { // abbrechen button pressed
                         selectedColor = previousColor;
                     }
@@ -929,7 +927,7 @@ public class SudokuGUI {
             for (int i = iStartValue; i < iStartValue + sudoku.getBlockLength(); i++) {
                 for (int j = jStartValue; j < jStartValue + sudoku.getBlockLength(); j++) {
                     // giving each block its fields
-                    SudokuField field = new SudokuField(i, j, this);
+                    GraphicalSudokuField field = new GraphicalSudokuField(i, j, this);
                     field.setBorder(standardBorder);
 
                     boardGraphic[i][j] = field;
@@ -1012,7 +1010,7 @@ public class SudokuGUI {
         // handle the borders and new darkening
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                SudokuField currentField = boardGraphic[i][j];
+                GraphicalSudokuField currentField = boardGraphic[i][j];
                 String text = currentField.getText().trim();
 
                 try {
@@ -1087,7 +1085,7 @@ public class SudokuGUI {
     private void updateFieldStandard() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                SudokuField currentField = boardGraphic[i][j];
+                GraphicalSudokuField currentField = boardGraphic[i][j];
                 if (currentField.isEditable() && currentField.getFont().equals(standardFont)) {
                     currentField.setForeground(fieldStandardColor);
                 }
@@ -1103,7 +1101,7 @@ public class SudokuGUI {
     private void updateFieldNote() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                SudokuField currentField = boardGraphic[i][j];
+                GraphicalSudokuField currentField = boardGraphic[i][j];
                 if (currentField.getFont().equals(noteFont)) {
                     currentField.setForeground(fieldNoteColor);
                 }
@@ -1275,7 +1273,7 @@ public class SudokuGUI {
      * @param field The chosen field where the window is opened and which is
      *              affected
      */
-    void showColorChooser(SudokuField field) {
+    void showColorChooser(GraphicalSudokuField field) {
         Border oldBorder = field.getBorder(); // save the original border
         Border selectedBorder = new CompoundBorder(new LineBorder(Color.ORANGE, 2), standardBorder);
         field.setBorder(selectedBorder); // highlight the selected field
@@ -1337,11 +1335,11 @@ public class SudokuGUI {
      * are filled correctly even though their background color is red, their
      * background color is changed to white
      */
-    private void checkForMistakes() {
+    private void updateMistakeBackgrounds() {
         Collection<Coordinate> mistakes = sudoku.getMistakes();
 
         mistakes.forEach(coord -> {
-            SudokuField currentField = boardGraphic[coord.i][coord.j];
+            GraphicalSudokuField currentField = boardGraphic[coord.i][coord.j];
             if (currentField.isDarkened()) {
                 currentField.setBackground(Color.RED.darker());
             } else {
@@ -1379,21 +1377,14 @@ public class SudokuGUI {
         // iterate all fields
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                SudokuField currentField = boardGraphic[i][j];
+                GraphicalSudokuField currentField = boardGraphic[i][j];
+                Collection<Integer> currentPossibilities = sudoku.getPossibilities(i, j);
+                String currentText = currentField.getText();
 
-                if (currentField.getText().equals("") || currentField.getFont().equals(noteFont)) {
-                    currentField.setFont(noteFont);
-                    currentField.setForeground(fieldNoteColor);
-                    currentField.setText("");
-                    // check all possible insertions
-                    for (int k = 1; k <= length; k++) {
-                        if (SudokuSolver.isAllowed(sudoku.getCurrentState(), k, i, j)) {
-                            currentField.setText(currentField.getText() + k + " ");
-                        }
-                    }
-                    boardGraphic[i][j].setText(boardGraphic[i][j].getText().trim());
+                for(int pos: currentPossibilities){
+                    currentText = currentText.concat(pos + " ");
                 }
-
+                currentField.setText(currentText.trim());
             }
         }
     }
@@ -1407,7 +1398,7 @@ public class SudokuGUI {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
 
-                SudokuField currentField = boardGraphic[i][j];
+                GraphicalSudokuField currentField = boardGraphic[i][j];
                 Color cB = currentField.getBackground();
                 Font currentFont = currentField.getFont();
                 boolean deletableColor = cB.equals(Color.WHITE) || cB.equals(Color.WHITE.darker());
@@ -1436,7 +1427,7 @@ public class SudokuGUI {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
 
-                SudokuField currentField = boardGraphic[i][j];
+                GraphicalSudokuField currentField = boardGraphic[i][j];
                 if (currentField.getFont().equals(noteFont)) {
                     // cut off any unnecessary whitespaces
                     String currentFieldContent = currentField.getText().trim().replaceAll("\\s+", " ");
@@ -1560,7 +1551,7 @@ public class SudokuGUI {
         for (Coordinate coord : possibilityPairsCoordinates) {
             int i = coord.i;
             int j = coord.j;
-            SudokuField currentField = boardGraphic[i][j];
+            GraphicalSudokuField currentField = boardGraphic[i][j];
             if (currentField.isDarkened()) {
                 currentField.setBackground(Color.WHITE.darker());
             } else {
@@ -1581,17 +1572,17 @@ public class SudokuGUI {
     // Getter Methods:
 
     /**
-     * Returns the SudokuField at the specified coordinates of the board graphic
+     * Returns the GraphicalSudokuField at the specified coordinates of the board graphic
      * of this window.
      */
-    SudokuField getBoardGraphic(int iCoord, int jCoord) {
+    GraphicalSudokuField getBoardGraphic(int iCoord, int jCoord) {
         return boardGraphic[iCoord][jCoord];
     }
 
     /**
      * Returns the boardGraphic of this window.
      */
-    SudokuField[][] getBoardGraphic() {
+    GraphicalSudokuField[][] getBoardGraphic() {
         return this.boardGraphic;
     }
 

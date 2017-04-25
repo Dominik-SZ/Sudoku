@@ -16,8 +16,8 @@ public class SudokuSolver {
 	/** the block length additionally saved to save access */
 	private int blockLength;
 
-	/** the board on which to the solution is generated */
-	private SolverField[][] board;
+	/** the solverBoard on which to the solution is generated */
+	private SolverField[][] solverBoard;
 	/** the backups to stepBack() to, if an assumption proofs to be wrong */
 	private Stack<BackupPoint> backups = new Stack<>();
 	/** the distance in fields between two assumptions */
@@ -35,11 +35,11 @@ public class SudokuSolver {
 		while (MathUtilities.greatestCommonDivisor(stepWidth, length) != 1) {
 			stepWidth++;
 		}
-		// initialize the board
-		board = new SolverField[length][length];
+		// initialize the solverBoard
+		solverBoard = new SolverField[length][length];
 		for(int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
-				board[i][j] = new SolverField(0, length);
+				solverBoard[i][j] = new SolverField(0, length);
 			}
 		}
 
@@ -64,7 +64,7 @@ public class SudokuSolver {
 		// saving the Solution array before erasing
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
-				sudoku.getSolvedBoard()[i][j] = board[i][j].value;
+				sudoku.setSolutionValue(solverBoard[i][j].getCurrentValue(), i, j);
 			}
 		}
 		System.out.println("Solution: ");
@@ -72,6 +72,13 @@ public class SudokuSolver {
 
 		// erase the permitted fields considering the difficulty
 		erase();
+
+		// saving the newly generated state as startBoard in the Sudoku
+		for(int i = 0; i < length; i++) {
+			for(int j = 0; j < length; j++) {
+				sudoku.setStartValue(solverBoard[i][j].getCurrentValue(), i, j);
+			}
+		}
 
 		if (fillTrials == 1) {
 			System.out.println("needed " + fillTrials + " fill trial to succeed");
@@ -111,14 +118,18 @@ public class SudokuSolver {
 				backups.push(new BackupPoint(-1, new LinkedList<>()));
 				for (int i = 0; i < length; i++) {
 					for (int j = 0; j < length; j++) {
-						board[i][j].resetPossibilities();
+						solverBoard[i][j].resetPossibilities();
 					}
 				}
 				return false;
 			}
 
 			// make an assumption
-			assume(backups.peek().getChangedCoord());
+			try {
+				assume(backups.peek().getChangedCoord());
+			} catch () {
+				return false;
+			}
 
 			// if (isLocked()) {
 			// System.out.println("DEBUG: is locked!");
@@ -137,7 +148,7 @@ public class SudokuSolver {
 	}
 
 	/**
-	 * Inserts "amount" values randomly on fields of the board filled with 0
+	 * Inserts "amount" values randomly on fields of the solverBoard filled with 0
 	 * considering the gamerules (making sure that every number appears at most
 	 * once in every row, column and block).
 	 */
@@ -147,7 +158,7 @@ public class SudokuSolver {
 			int jCoord = MathUtilities.randomNumber(length) - 1;
 			int value = MathUtilities.randomNumber(length);
 
-			if (board[iCoord][jCoord].value == 0 && isAllowed(board, value, iCoord, jCoord)) {
+			if (solverBoard[iCoord][jCoord].getCurrentValue() == 0 && isAllowed(solverBoard, value, iCoord, jCoord)) {
 				insertNumber(value, iCoord, jCoord);
 			} else {
 				k--;
@@ -190,19 +201,19 @@ public class SudokuSolver {
 	private void assume(int coord) {
 		coord = coord + stepWidth; // iterate to the next field
 		for (int k = 0; k < length * length; coord = coord + stepWidth, k++) {
-			// when overflowing return to the beginning of the board
+			// when overflowing return to the beginning of the solverBoard
 			coord = coord % (length * length);
 			int i = coord / length;
 			int j = coord % length;
 
 			// testing if the field is not filled yet
-			if (board[i][j].value == 0) {
+			if (solverBoard[i][j].getCurrentValue() == 0) {
 
 				LinkedList<Integer> possibilities = new LinkedList<>();
 
 				// testing every possible number
 				for (int l = 1; l <= length; l++) {
-					if (isAllowed(board, l, i, j)) {
+					if (isAllowed(solverBoard, l, i, j)) {
 						// saving the allowed ones in a stack
 						possibilities.add(l);
 					}
@@ -214,7 +225,7 @@ public class SudokuSolver {
 				} else {
 					// choose a random possible assumption on this field
 					int index = (int) (Math.random() * possibilities.size());
-					board[i][j].value = possibilities.get(index);
+					solverBoard[i][j].setCurrentValue(possibilities.get(index));
 					possibilities.remove(index);
 					// System.out.println(" DEBUG: new assumption at:
 					// i-Coord: "+i +
@@ -232,7 +243,8 @@ public class SudokuSolver {
 	 * there are none, the assume method is called at this point.
 	 */
 	private void stepBack() {
-		if (backups.isEmpty()) {
+		if (backups.size() == 1) {
+			// TODO: abort
 			throw new EmptyStackException();
 		}
 		BackupPoint latestBackup = backups.pop(); // undo the latest backup
@@ -241,7 +253,7 @@ public class SudokuSolver {
 		// Remove all values which have been made based on the assumption
 		while (!tSFills.isEmpty()) {
 			int coord = tSFills.pop();
-			board[coord / length][coord % length].value = 0;
+			solverBoard[coord / length][coord % length].setCurrentValue(0);
 		}
 
 		int coord = latestBackup.getChangedCoord();
@@ -249,23 +261,23 @@ public class SudokuSolver {
 		int j = coord % length;
 		// no possible assumptions for this field remaining => change field
 		if (latestBackup.getPossibilities().isEmpty()) {
-			// System.out.println("DEBUG: stepBack(): change field");
-			board[i][j].value = 0;
+			System.out.println("DEBUG: stepBack(): change field from i = " + i + " j = " + j);
+			solverBoard[i][j].setCurrentValue(0);
 			assume(coord);
 		}
 
 		// test another possible assumption on this field
 		else {
-			board[i][j].value = latestBackup.popRandomPossibility();
+			solverBoard[i][j].setCurrentValue(latestBackup.popRandomPossibility());
 			// System.out.println("DEBUG: stepBack(): keep node Coord:
 			// "+latestBackup.getChangedCoord() + " now with value:
-			// "+getValue(latestBackup.getChangedCoord()));
+			// "+getCurrentValue(latestBackup.getChangedCoord()));
 			backups.push(latestBackup);
 		}
 	}
 
 	/**
-	 * Erases the permitted fields of the Sudoku board, which are those filled
+	 * Erases the permitted fields of the Sudoku solverBoard, which are those filled
 	 * in by the trySolving method. Not permitted are the fields of the
 	 * randomFill method and the assumed ones. The higher the difficulty, the
 	 * more fields are erased.
@@ -287,7 +299,7 @@ public class SudokuSolver {
 		while (totalTSFills.size() > (int) ((0.5 - 0.0555555555555555 * (sudoku.getDifficulty() - 1)) * deleteable)) {
 			// get a random value of the stack
 			int actualCoord = totalTSFills.remove((int) (Math.random() * totalTSFills.size()));
-			board[actualCoord / length][actualCoord % length].value = 0;
+			solverBoard[actualCoord / length][actualCoord % length].setCurrentValue(0);
 			entriesDeleted++;
 		}
 		System.out.println(entriesDeleted + " out of " + deleteable + " deletable entries deleted");
@@ -299,11 +311,11 @@ public class SudokuSolver {
 
 	/**
 	 * Checks if the inserted value at the specified coordinates on the inserted
-	 * board is allowed or not. It is, if the value is not already inserted in
+	 * solverBoard is allowed or not. It is, if the value is not already inserted in
 	 * the same row, column or block.
 	 * 
 	 * @param board
-	 *            The board on which to check
+	 *            The solverBoard on which to check
 	 * @param value
 	 *            The value to check
 	 * @param iCoord
@@ -322,7 +334,7 @@ public class SudokuSolver {
 	 * same number inserted yet).
 	 * 
 	 * @param board
-	 *            The board on which to check
+	 *            The solverBoard on which to check
 	 * @param value
 	 *            The value which shall be checked
 	 * @param iCoord
@@ -339,7 +351,7 @@ public class SudokuSolver {
 		int jStartValue = blockLength * (jCoord / blockLength);
 		for (int i = iStartValue; i < iStartValue + blockLength; i++) {
 			for (int j = jStartValue; j < jStartValue + blockLength; j++) {
-				if (board[i][j].value == value) {
+				if (board[i][j].getCurrentValue() == value) {
 					answer = false;
 				}
 			}
@@ -352,7 +364,7 @@ public class SudokuSolver {
 	 * the same number inserted yet).
 	 * 
 	 * @param board
-	 *            The board on which to check
+	 *            The solverBoard on which to check
 	 * @param value
 	 *            The value to check
 	 * @param jCoord
@@ -361,7 +373,7 @@ public class SudokuSolver {
 	private static boolean testColumn(SolverField[][] board, int value, int jCoord) {
 		boolean answer = true;
 		for (int i = 0; i < board.length; i++) {
-			if (board[i][jCoord].value == value) {
+			if (board[i][jCoord].getCurrentValue() == value) {
 				answer = false;
 			}
 		}
@@ -373,7 +385,7 @@ public class SudokuSolver {
 	 * same number inserted yet)
 	 * 
 	 * @param board
-	 *            The board on which to check
+	 *            The solverBoard on which to check
 	 * @param value
 	 *            The value to check
 	 * @param iCoord
@@ -382,7 +394,7 @@ public class SudokuSolver {
 	private static boolean testRow(SolverField[][] board, int value, int iCoord) {
 		boolean answer = true;
 		for (int j = 0; j < board.length; j++) {
-			if (board[iCoord][j].value == value) {
+			if (board[iCoord][j].getCurrentValue() == value) {
 				answer = false;
 			}
 		}
@@ -397,9 +409,9 @@ public class SudokuSolver {
 		boolean answer = true;
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
-				if (board[i][j].value == 0) {
+				if (solverBoard[i][j].getCurrentValue() == 0) {
 					for (int k = 1; k < length; k++) {
-						answer = answer && !isAllowed(board, k, i, j);
+						answer = answer && !isAllowed(solverBoard, k, i, j);
 					}
 					if (!answer) {
 						return false;
@@ -411,13 +423,13 @@ public class SudokuSolver {
 	}
 
 	/**
-	 * Returns true if the entries of the Sudoku board contain no "0". If it
+	 * Returns true if the entries of the Sudoku solverBoard contain no "0". If it
 	 * does so, it is considered as "finished".
 	 */
 	private boolean isFinished() {
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
-				if (board[i][j].value == 0) {
+				if (solverBoard[i][j].getCurrentValue() == 0) {
 					return false;
 				}
 			}
@@ -429,7 +441,7 @@ public class SudokuSolver {
 	private void clear() {
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
-				board[i][j].value = 0;
+				solverBoard[i][j].setCurrentValue(0);
 			}
 		}
 	}
@@ -450,12 +462,12 @@ public class SudokuSolver {
 	private void insertNumber(int value, int iCoord, int jCoord) {
 		// remove the possibilities from the row
 		for (int j = 0; j < length; j++) {
-			board[iCoord][j].possibilities.remove(value);
+			solverBoard[iCoord][j].getPossibilities().remove(value);
 		}
 
 		// remove the possibilities from the column
 		for (int i = 0; i < length; i++) {
-			board[i][jCoord].possibilities.remove(value);
+			solverBoard[i][jCoord].getPossibilities().remove(value);
 		}
 
 		// remove the possibilities from the block
@@ -463,13 +475,13 @@ public class SudokuSolver {
 		int jStartValue = blockLength * (jCoord / blockLength);
 		for (int i = iStartValue; i < iStartValue + blockLength; i++) {
 			for (int j = jStartValue; j < jStartValue + blockLength; j++) {
-				board[i][j].possibilities.remove(value);
+				solverBoard[i][j].getPossibilities().remove(value);
 			}
 		}
 
 		backups.peek().pushTSFills(iCoord * length + jCoord);
 
-		board[iCoord][jCoord].value = value;
+		solverBoard[iCoord][jCoord].setCurrentValue(value);
 	}
 
 	// -------------------------------------------------------------------------
@@ -486,11 +498,10 @@ public class SudokuSolver {
 		boolean answer = false;
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
-				if (board[i][j].possibilities.size() == 1) {
-					// TODO: check this
-					int onlyPossibility = (int) board[i][j].possibilities.toArray()[0];
+				if (solverBoard[i][j].getPossibilities().size() == 1) {
+					int onlyPossibility = (int) solverBoard[i][j].getPossibilities().toArray()[0];
 					insertNumber(onlyPossibility, i, j);
-					System.out.println("nur eine Möglichkeit verbleibt: " + i + "  " + j + "  " + onlyPossibility);
+//					System.out.println("DEBUG: nur eine Möglichkeit verbleibt: " + i + "  " + j + "  " + onlyPossibility);
 					answer = true;
 				}
 			}
@@ -515,7 +526,7 @@ public class SudokuSolver {
 			}
 			for (int j = 0; j < length; j++) {
 				// remove already inserted values in this row from the set
-				possi.remove(board[i][j].value);
+				possi.remove(solverBoard[i][j].getCurrentValue());
 			}
 			// now it contains only possibilities for this row
 
@@ -524,7 +535,7 @@ public class SudokuSolver {
 				LinkedList<Coordinate> allowedFieldsForThisNumber = new LinkedList<>();
 				for (int j = 0; j < length; j++) { // iterating the row
 					// only search in the empty fields
-					if (board[i][j].value == 0 && SudokuSolver.isAllowed(board, k, i, j)) {
+					if (solverBoard[i][j].getCurrentValue() == 0 && SudokuSolver.isAllowed(solverBoard, k, i, j)) {
 						// add all possible coordinates of this row for this
 						// number
 						allowedFieldsForThisNumber.add(new Coordinate(i, j));
@@ -558,7 +569,7 @@ public class SudokuSolver {
 			}
 			for (int i = 0; i < length; i++) {
 				// remove already inserted values in this column from the set
-				possi.remove(board[i][j].value);
+				possi.remove(solverBoard[i][j].getCurrentValue());
 			} // now it contains only possibilities for this column
 
 			// iterating the remaining possibilities of the current column
@@ -566,7 +577,7 @@ public class SudokuSolver {
 				LinkedList<Coordinate> allowedFieldsForThisNumber = new LinkedList<>();
 				for (int i = 0; i < length; i++) { // iterating the column
 					// only search in the empty fields
-					if (board[i][j].value == 0 && SudokuSolver.isAllowed(board, k, i, j)) {
+					if (solverBoard[i][j].getCurrentValue() == 0 && SudokuSolver.isAllowed(solverBoard, k, i, j)) {
 						// add all possible coordinates of this column for this
 						// number
 						allowedFieldsForThisNumber.add(new Coordinate(i, j));
@@ -605,7 +616,7 @@ public class SudokuSolver {
 					for (int j = 0; j < length; j++) {
 						// remove already inserted values in this block from the
 						// set
-						possi.remove(board[i][j].value);
+						possi.remove(solverBoard[i][j].getCurrentValue());
 					} // now it contains only possibilities for this block
 				}
 
@@ -617,7 +628,7 @@ public class SudokuSolver {
 						// iterating the columns of the current block
 						for (int j = jBlock; j < jBlock + blockLength; j++) {
 							// only search in the empty fields
-							if (board[i][j].value == 0 && SudokuSolver.isAllowed(board, k, i, j)) {
+							if (solverBoard[i][j].getCurrentValue() == 0 && SudokuSolver.isAllowed(solverBoard, k, i, j)) {
 								// add all possible coordinates of this block
 								// for this number
 								allowedFieldsForThisNumber.add(new Coordinate(i, j));

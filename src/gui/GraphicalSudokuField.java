@@ -29,12 +29,12 @@ import utilities.Keyboard;
 import utilities.GameStatus;
 
 /**
- * SudokuField extends JTextField and adds a flag if it is darkened, i and j
+ * GraphicalSudokuField extends JTextField and adds a flag if it is darkened, i and j
  * Coordinates as well as a restriction on inputs: Only numbers and whitespaces
  * are accepted. Other inputs have no effect. Furthermore all necessary
  * listeners are added in the constructor requiring a SudokuGUI parent.
  */
-public class SudokuField extends JTextField {
+public class GraphicalSudokuField extends JTextField {
 	/** only inserted to prevent warnings */
 	private static final long serialVersionUID = 8902929711409056538L;
 	private boolean darkened;
@@ -44,7 +44,7 @@ public class SudokuField extends JTextField {
 	private Sudoku sudoku;
 
 	/**
-	 * Creates a new SudokuField object with all functionality.
+	 * Creates a new GraphicalSudokuField object with all functionality.
 	 * 
 	 * @param iCoord
 	 *            The i coordinate where the field is placed in its parents
@@ -55,7 +55,7 @@ public class SudokuField extends JTextField {
 	 * @param parent
 	 *            The parent GUI to which this field belongs
 	 */
-	SudokuField(int iCoord, int jCoord, SudokuGUI parent) {
+	GraphicalSudokuField(int iCoord, int jCoord, SudokuGUI parent) {
 		super();
 		this.iCoord = iCoord;
 		this.jCoord = jCoord;
@@ -65,7 +65,7 @@ public class SudokuField extends JTextField {
 
 		// 0 means erased field
 		setEditable(sudoku.getBoard(iCoord, jCoord) == 0);
-		sudoku.setCurrentState(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
+		sudoku.setCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
 		setFont(parent.getStandardFont());
 		setHorizontalAlignment(JTextField.CENTER);
 
@@ -102,13 +102,13 @@ public class SudokuField extends JTextField {
 							setForeground(parent.getFieldStandardColor());
 							try {
 								int newContent = Integer.parseInt(getText().trim());
-								sudoku.setCurrentState(newContent, iCoord, jCoord);
+								sudoku.setCurrentValue(newContent, iCoord, jCoord);
 							} catch (NumberFormatException ex) {
-								sudoku.setCurrentState(0, iCoord, jCoord);
+								sudoku.setCurrentValue(0, iCoord, jCoord);
 							}
 						} else if (getFont().equals(parent.getNoteFont())) {
 							setForeground(parent.getFieldNoteColor());
-							sudoku.setCurrentState(0, iCoord, jCoord);
+							sudoku.setCurrentValue(0, iCoord, jCoord);
 						}
 
 						parent.updateRightPanel();
@@ -123,7 +123,7 @@ public class SudokuField extends JTextField {
 					// left click
 					if (SwingUtilities.isLeftMouseButton(click) && click.getClickCount() == 2) {
 						// open the color chooser dialog
-						parent.showColorChooser((SudokuField) click.getSource());
+						parent.showColorChooser((GraphicalSudokuField) click.getSource());
 					}
 
 					// right click
@@ -216,7 +216,7 @@ public class SudokuField extends JTextField {
 						fieldNumber = Integer.parseInt(fieldContent);
 					} catch (NumberFormatException ex) {
 					}
-					int correctNumber = sudoku.getSolvedBoard(getICoord(), getJCoord());
+					int correctNumber = sudoku.getSolutionValue(getICoord(), getJCoord());
 					
 					// update the current state in the sudoku
 					// this must occur in the keyReleased method because the
@@ -224,12 +224,12 @@ public class SudokuField extends JTextField {
 					try {
 						int newContent = Integer.parseInt(getText().trim());
 						if (getFont().equals(parent.getStandardFont())) {
-							sudoku.setCurrentState(newContent, iCoord, jCoord);
+							sudoku.setCurrentValue(newContent, iCoord, jCoord);
 						} else {
-							sudoku.setCurrentState(0, iCoord, jCoord);
+							sudoku.setCurrentValue(0, iCoord, jCoord);
 						}
 					} catch (NumberFormatException ex) {
-						sudoku.setCurrentState(0, iCoord, jCoord);
+						sudoku.setCurrentValue(0, iCoord, jCoord);
 					}
 					
 					// update the inserted possibilities
@@ -283,14 +283,14 @@ public class SudokuField extends JTextField {
 			setForeground(Color.BLACK);
 			setEditable(false);
 			setBackground(Color.WHITE);
-			sudoku.setCurrentState(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
+			sudoku.setCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
 		}
 	}
 
 	/**
-	 * Creates a new SudokuField without any additional functionality.
+	 * Creates a new GraphicalSudokuField without any additional functionality.
 	 */
-	SudokuField(int i, int j) {
+	GraphicalSudokuField(int i, int j) {
 		this.iCoord = i;
 		this.jCoord = j;
 	}
@@ -308,7 +308,7 @@ public class SudokuField extends JTextField {
 	}
 
 	/**
-	 * Darkens this SudokuField if it is not already darker.
+	 * Darkens this GraphicalSudokuField if it is not already darker.
 	 * 
 	 * @return If this method did something
 	 */

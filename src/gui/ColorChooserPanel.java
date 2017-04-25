@@ -17,14 +17,14 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 public class ColorChooserPanel extends  AbstractColorChooserPanel {
 	/** just to inhibit warnings */
 	private static final long serialVersionUID = 5106935617338696751L;
-	SudokuField parentField;
+	GraphicalSudokuField parentField;
 	JPanel topPanel;
 	JPanel bottomPanel;
 	Color selectedColor;
 	JToggleButton currentlySelected;
 	LinkedList<JToggleButton> buttons;
 	
-	public ColorChooserPanel(SudokuField field) {
+	public ColorChooserPanel(GraphicalSudokuField field) {
 		parentField = field;
 	}
 
