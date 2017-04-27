@@ -13,28 +13,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
-public class SolutionWindow {
-	
-	private Font fieldFont= new Font("SansSerif", Font.BOLD, 30);
+class SolutionWindow {
+
 	private JFrame mainFrame;
-	private JPanel centerPanel;
-	private int[][] boardSolved;
-	
+
 	// Constructor
 	SolutionWindow(SudokuField[][] board, Color fieldStandardColor){
 		int gap = 5;
-		this.boardSolved = boardSolved;
-		int blockLength = (int) Math.sqrt(boardSolved.length);
+		int length = board.length;
+		int blockLength = (int) Math.sqrt(length);
+		Font fieldFont= new Font("SansSerif", Font.BOLD, 30);
 		mainFrame = new JFrame("Lösung");
 		
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		// only close the solution frame
-		mainFrame.setSize(new Dimension(45*boardSolved.length, 45*boardSolved.length+80));
+		mainFrame.setSize(new Dimension(45*length, 45*length+80));
 		mainFrame.setLayout(new BorderLayout());
 		
-		centerPanel = new JPanel(new GridLayout(blockLength, blockLength, gap, gap));
+		JPanel centerPanel = new JPanel(new GridLayout(blockLength, blockLength, gap, gap));
 		centerPanel.setBackground(Color.BLACK);
 		
-		for(int blockNumber= 0; blockNumber < boardSolved.length; blockNumber++){		// generating the blocks
+		for(int blockNumber= 0; blockNumber < length; blockNumber++){		// generating the blocks
 			JPanel block= new JPanel();
 			block.setLayout(new GridLayout(blockLength, blockLength));
 			
@@ -43,7 +41,7 @@ public class SolutionWindow {
 			for(int i = iStartValue; i < iStartValue + blockLength; i++){
 				for(int j = jStartValue; j < jStartValue + blockLength; j++){
 					GraphicalSudokuField field= new GraphicalSudokuField(i, j);		// giving each block its fields
-					field.setText(boardSolved[i][j]+"");
+					field.setText(board[i][j].getSolutionValue() +"");
 					field.setHorizontalAlignment(JTextField.CENTER);
 					field.setFont(fieldFont);
 					field.setEditable(false);

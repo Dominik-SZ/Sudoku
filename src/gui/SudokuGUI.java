@@ -682,6 +682,7 @@ public class SudokuGUI {
                         }
                     }
 
+                    showPossibilitiesButton.setSelected(false);
                     sudoku.resetCurrentState();
                     updateRightPanel();
                     outline(-1);
@@ -1366,22 +1367,32 @@ public class SudokuGUI {
     }
 
     /**
-     * This method takes all fields of the boardGraphic with standard font into
-     * account and writes, depending on these, the remaining possibilities for
-     * each field into it.
+     * Searches for empty fields or fields with noteFont in the boardGraphic
+     * and displays the specific possibilities for those fields in them. To
+     * ensure those possibilities are right, the possibilities are
+     * recalculated in the sudoku.
      */
     void showPossibilities() {
+
+        sudoku.calculatePossibilities();
+
         // iterate all fields
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                GraphicalSudokuField currentField = boardGraphic[i][j];
-                Collection<Integer> currentPossibilities = sudoku.getPossibilities(i, j);
-                String currentText = currentField.getText();
 
-                for(int pos: currentPossibilities){
-                    currentText = currentText.concat(pos + " ");
+                GraphicalSudokuField currentField = boardGraphic[i][j];
+                if(currentField.getFont().equals(noteFont) || currentField.getText().trim().equals("")){
+                    currentField.setFont(noteFont);
+
+                    Collection<Integer> currentPossibilities = sudoku.getPossibilities(i, j);
+                    String currentText = "";
+                    for(int pos: currentPossibilities){
+                        currentText = currentText.concat(pos + " ");
+                    }
+                    currentField.setText(currentText.trim());
                 }
-                currentField.setText(currentText.trim());
+
+
             }
         }
     }

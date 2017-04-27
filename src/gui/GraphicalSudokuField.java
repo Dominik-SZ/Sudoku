@@ -65,7 +65,7 @@ public class GraphicalSudokuField extends JTextField {
 
 		// 0 means erased field
 		setEditable(sudoku.getBoard(iCoord, jCoord) == 0);
-		sudoku.setCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
+		sudoku.insertCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
 		setFont(parent.getStandardFont());
 		setHorizontalAlignment(JTextField.CENTER);
 
@@ -102,13 +102,13 @@ public class GraphicalSudokuField extends JTextField {
 							setForeground(parent.getFieldStandardColor());
 							try {
 								int newContent = Integer.parseInt(getText().trim());
-								sudoku.setCurrentValue(newContent, iCoord, jCoord);
+								sudoku.insertCurrentValue(newContent, iCoord, jCoord);
 							} catch (NumberFormatException ex) {
-								sudoku.setCurrentValue(0, iCoord, jCoord);
+								sudoku.insertCurrentValue(0, iCoord, jCoord);
 							}
 						} else if (getFont().equals(parent.getNoteFont())) {
 							setForeground(parent.getFieldNoteColor());
-							sudoku.setCurrentValue(0, iCoord, jCoord);
+							sudoku.insertCurrentValue(0, iCoord, jCoord);
 						}
 
 						parent.updateRightPanel();
@@ -224,12 +224,12 @@ public class GraphicalSudokuField extends JTextField {
 					try {
 						int newContent = Integer.parseInt(getText().trim());
 						if (getFont().equals(parent.getStandardFont())) {
-							sudoku.setCurrentValue(newContent, iCoord, jCoord);
+							sudoku.insertCurrentValue(newContent, iCoord, jCoord);
 						} else {
-							sudoku.setCurrentValue(0, iCoord, jCoord);
+							sudoku.insertCurrentValue(0, iCoord, jCoord);
 						}
 					} catch (NumberFormatException ex) {
-						sudoku.setCurrentValue(0, iCoord, jCoord);
+						sudoku.insertCurrentValue(0, iCoord, jCoord);
 					}
 					
 					// update the inserted possibilities
@@ -283,7 +283,7 @@ public class GraphicalSudokuField extends JTextField {
 			setForeground(Color.BLACK);
 			setEditable(false);
 			setBackground(Color.WHITE);
-			sudoku.setCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
+			sudoku.insertCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
 		}
 	}
 

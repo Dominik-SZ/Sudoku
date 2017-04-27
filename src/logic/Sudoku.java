@@ -35,18 +35,6 @@ public class Sudoku {
      */
     private int difficulty;
 
-//    /**
-//     * the current state of the sudoku played by the user
-//     */
-//    private int[][] currentState;
-//    /**
-//     * the Sudoku starting state when beginning to play
-//     */
-//    private int[][] startBoard;
-//    /**
-//     * the solved Sudoku board
-//     */
-//    private int[][] solvedBoard;
     /**
      * the solver used to fill the boards
      */
@@ -89,8 +77,13 @@ public class Sudoku {
         }
         this.length = length;
         this.difficulty = difficulty;
-//        this.currentState = new int[length][length];
         this.blockLength = (int) Math.sqrt(length);
+        this.board = new SudokuField[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                board[i][j] = new SudokuField(length);
+            }
+        }
         this.solver = new SudokuSolver(this);
     }
 
@@ -137,40 +130,40 @@ public class Sudoku {
      * @param solution Determines if the solved or the normal field is chosen
      */
     String toString(boolean zeros, boolean solution) {
-        String represantation = "\n"; // an empty line to separate at the top
+        String representation = "\n"; // an empty line to separate at the top
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if (j % blockLength == 0 && j != 0) {
                     // separate the blocks vertically with "|"s
-                    represantation += " |";
+                    representation += " |";
                 }
                 for (int k = MathUtilities.digits(length) - MathUtilities.digits(board[i][j].getStartValue()) + 1; k > 0; k--) {
-                    represantation += " "; // add the right amount of spaces
+                    representation += " "; // add the right amount of spaces
                 }
                 if (solution) { // the solution field is demanded
                     if (board[i][j].getSolutionValue() == 0 && !zeros) {
-                        represantation += " ";
+                        representation += " ";
                     } else {
-                        represantation += board[i][j].getSolutionValue();
+                        representation += board[i][j].getSolutionValue();
                     }
                 } else { // the normal field is demanded
                     if (board[i][j].getStartValue() == 0 && !zeros) {
-                        represantation += " ";
+                        representation += " ";
                     } else {
-                        represantation += board[i][j].getStartValue();
+                        representation += board[i][j].getStartValue();
                     }
                 }
             }
             if (i % blockLength == blockLength - 1 && i != length - 1) {
-                represantation += "\n ";
+                representation += "\n ";
                 for (int k = (MathUtilities.digits(length) + 1) * length + (blockLength - 1) * 2 - 1; k > 0; k--) {
                     // separate the blocks horizontally with "-"s
-                    represantation += "-";
+                    representation += "-";
                 }
             }
-            represantation += "\n"; // new line
+            representation = representation.concat("\n"); // new line
         }
-        return represantation;
+        return representation;
     }
 
     /**
@@ -244,6 +237,11 @@ public class Sudoku {
         return blocked;
     }
 
+    /**
+     * Returns the coordinates of all fields, whose currentValue is not 0.
+     *
+     * @return The coordinates of all fields, whose currentValue is not 0
+     */
     public Collection<Coordinate> getFilled() {
         Set<Coordinate> filled = new HashSet<>();
 
@@ -329,6 +327,30 @@ public class Sudoku {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 board[i][j].setCurrentValue(board[i][j].getStartValue());
+            }
+        }
+    }
+
+    /**
+     * Calculates the current possibility for all empty fields of the board based
+     * of the currently inserted currentValues of the board.
+     * Previously inserted possibilities are overwritten.
+     */
+    public void calculatePossibilities() {
+        // iterate the whole board
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+
+                SudokuField currentField = board[i][j];
+                currentField.getPossibilities().clear();
+                if (currentField.getCurrentValue() == 0) {    // empty field
+                    for (int k = 1; k <= length; k++) {
+                        if (SudokuSolver.isAllowed(board, k, i, j)) {
+                            currentField.getPossibilities().add(k);
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -451,14 +473,16 @@ public class Sudoku {
     }
 
     /**
-     * Sets a new value in the currentState of this Sudoku
+     * Sets a new value in the currentState of this Sudoku and recalculates
+     * the possibilities on the whole board
      *
      * @param value  The new value to be inserted
      * @param iCoord The i coordinate on which to insert
      * @param jCoord The j coordinate on which to insert
      */
-    public void setCurrentValue(int value, int iCoord, int jCoord) {
+    public void insertCurrentValue(int value, int iCoord, int jCoord) {
         board[iCoord][jCoord].setCurrentValue(value);
+        calculatePossibilities();
     }
 
 }
