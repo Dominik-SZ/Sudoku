@@ -2,6 +2,7 @@ package logic;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 import utilities.Coordinate;
@@ -501,7 +502,7 @@ class SudokuSolver {
      * one possibility remaining. If such a field is found, the only remaining
      * value is inserted via insertValue().
      *
-     * @return If only one possibility has been found
+     * @return If this method found a value to insert
      */
     private boolean onlyOnePossibilityOnField() {
         boolean answer = false;
@@ -523,6 +524,9 @@ class SudokuSolver {
      * one field. If such a value and field is found, the value gets placed on
      * this field and true is returned. If no field and value are found, false
      * is returned.
+     * This is an interpreting method.
+     *
+     * @return If this method found a value to insert
      */
     private boolean hiddenSingleRow() {
         HashSet<Integer> possi = new HashSet<>();
@@ -566,6 +570,9 @@ class SudokuSolver {
      * but one field. If such a value and field is found, the value gets placed
      * on this field and true is returned. If no field and value are found,
      * false is returned.
+     * This is an interpreting method.
+     *
+     * @return If this method found a value to insert
      */
     private boolean hiddenSingleColumn() {
         HashSet<Integer> possi = new HashSet<>();
@@ -608,21 +615,26 @@ class SudokuSolver {
      * one field. If such a value and field is found, the value gets placed on
      * this field and true is returned. If no field and value are found, false
      * is returned.
+     * This is an interpreting method.
+     *
+     * @return If this method found a value to insert
      */
     private boolean hiddenSingleBlock() {
         HashSet<Integer> possi = new HashSet<>();
         boolean answer = false;
+
         // iterating the rows blockwise
         for (int iBlock = 0; iBlock < length; iBlock = iBlock + blockLength) {
             // iterating the columns blockwise
             for (int jBlock = 0; jBlock < length; jBlock = jBlock + blockLength) {
+
                 possi.clear();
                 for (int k = 1; k <= length; k++) {
                     // filling the set with every number from 1-length
                     possi.add(k);
                 }
                 for (int i = iBlock; i < iBlock + blockLength; i++) {
-                    for (int j = 0; j < length; j++) {
+                    for (int j = jBlock; j < jBlock + blockLength; j++) {
                         // remove already inserted values in this block from the
                         // set
                         possi.remove(solverBoard[i][j].getCurrentValue());
@@ -653,6 +665,241 @@ class SudokuSolver {
             }
         }
         return answer; // false if no value has been found
+    }
+
+    /**
+     * Checks all blocks if a possibility in it is only possible in the same
+     * row or column. If that is the case, this possibility is removed in all
+     * other fields in this row or column outside the block.
+     * This is a restrictive method.
+     *
+     * @return  If this method did something effectively
+     */
+    private boolean blockIntersection() {
+
+        boolean changed = false;
+        LinkedList<Coordinate> occurrences = new LinkedList<>();
+
+        // iterating the rows blockwise
+        for (int iBlock = 0; iBlock < length; iBlock = iBlock + blockLength) {
+            // iterating the columns blockwise
+            for (int jBlock = 0; jBlock < length; jBlock = jBlock + blockLength) {
+
+                // iterate all possible numbers
+                for(int k = 1; k <= length; k++) {
+                    occurrences.clear();
+                    // save all occurrences of this number in this block
+                    for(int i = iBlock; i < iBlock + blockLength; i++) {
+                        for(int j = jBlock; j < jBlock + blockLength; j++) {
+                            SolverField currentField = solverBoard[i][j];
+                            if(currentField.getCurrentValue() == 0 && currentField.getPossibilities().contains(k)) {
+                                // save the occurrences of the current number
+                                occurrences.add(new Coordinate(i, j));
+                            }
+
+                        }
+                    }
+
+                    // check if all occurrences are in the same row
+                    int firstI = occurrences.getFirst().i;
+                    boolean sameRow = true;
+                    for(Coordinate coord: occurrences) {
+                        if(coord.i != firstI){
+                            sameRow = false;
+                            break;
+                        }
+                    }
+                    // remove the number from the rest of the row
+                    if(sameRow) {
+                        // the part of the row on the left of the block
+                        for(int j = 0; j < jBlock; j++) {
+                            solverBoard[firstI][j].getPossibilities().remove(k);
+                        }
+                        // the part of the row on the right of the block
+                        for(int j = jBlock + blockLength; j < length; j++) {
+                            solverBoard[firstI][j].getPossibilities().remove(k);
+                        }
+                    }
+
+                    try {
+                        // check if all occurrences are in the same column
+                        int firstJ = occurrences.getFirst().j;
+                        boolean sameColumn = true;
+                        for(Coordinate coord: occurrences) {
+                            if(coord.j != firstJ) {
+                                sameColumn = false;
+                                break;
+                            }
+                        }
+                        if(sameColumn) {
+                            // the part of the column on top of the block
+                            for(int i = 0; i < iBlock; i++) {
+                                if (solverBoard[i][firstJ].getPossibilities().contains(k)) {
+                                    solverBoard[i][firstJ].getPossibilities().remove(k);
+                                    changed = true;
+                                }
+                            }
+                            // the part of the column below the block
+                            for(int i = iBlock + blockLength; i < length; i++) {
+                                if (solverBoard[i][firstJ].getPossibilities().contains(k)) {
+                                    solverBoard[i][firstJ].getPossibilities().remove(k);
+                                    changed = true;
+                                }
+                            }
+                        }
+                    } catch (NoSuchElementException ex) {
+                        // do nothing. Skip this number
+                    }
+                }
+
+            }
+        }
+        return changed;
+    }
+
+    /**
+     * Checks if all possibilities of a row for a specific number are in the
+     * same block. If they are, this number is removed from the possibilities
+     * of the rest of the fields in this block.
+     *
+     * @return  If this method did something effectively
+     */
+    private boolean rowIntersection() {
+
+        boolean changed = false;
+        LinkedList<Coordinate> occurrences = new LinkedList<>();
+
+        // iterate the rows
+        for(int iRow = 0; iRow < length; iRow++) {
+
+            // iterate all possible numbers
+            for(int k = 1; k <= length; k++) {
+
+                // save all occurrences of this number in this row
+                occurrences.clear();
+                for(int j = 0; j < length; j++) {
+                    SolverField currentField = solverBoard[iRow][j];
+                    if(currentField.getCurrentValue() == 0 && currentField.getPossibilities().contains(k)){
+                        occurrences.add(new Coordinate(iRow, j));
+                    }
+                }
+
+                try {
+                    // check if all occurrences are in the same block
+                    int iOccurrence = occurrences.getFirst().i;
+                    int iBlockNumber = occurrences.getFirst().i / blockLength;
+                    int jBlockNumber = occurrences.getFirst().j / blockLength;
+                    boolean sameBlock = true;
+
+                    for(Coordinate coord: occurrences) {
+                        if(coord.i / blockLength != iBlockNumber || coord.j / blockLength != jBlockNumber) {
+                            sameBlock = false;
+                            break;
+                        }
+                    }
+
+                    if(sameBlock) {
+                        int iStart = iBlockNumber + blockLength;
+                        int jStart  =jBlockNumber * blockLength;
+
+                        // remove the possibilities in the rows on top of the occurred row in the same block
+                        for(int i = iStart; i < iOccurrence; i++) {
+                            for(int j = jStart; j < jStart + blockLength; j++) {
+                                if(solverBoard[i][j].getPossibilities().contains(k)){
+                                    changed = true;
+                                    solverBoard[i][j].getPossibilities().remove(k);
+                                }
+                            }
+                        }
+                        // remove the possibilities in the rows below the occurred row in the same block
+                        for(int i = iOccurrence + 1; i < iStart + blockLength; i++) {
+                            for(int j = jStart; j < jStart + blockLength; j++) {
+                                if(solverBoard[i][j].getPossibilities().contains(k)){
+                                    changed = true;
+                                    solverBoard[i][j].getPossibilities().remove(k);
+                                }
+                            }
+                        }
+
+                    }
+
+                } catch (NoSuchElementException ex) {
+                    // do nothing. Skip this number
+                }
+
+            }
+        }
+        return changed;
+    }
+
+    private boolean columnIntersection() {
+
+        boolean changed = false;
+        LinkedList<Coordinate> occurrences = new LinkedList<>();
+
+        // iterate all columns
+        for(int jColumn = 0; jColumn < length; jColumn++) {
+
+            // iterate all possible numbers
+            for(int k = 1; k <= length; k++) {
+
+                // save all occurrences of this number in this column
+                occurrences.clear();
+                for(int i = 0; i < length; i++) {
+                    SolverField currentField = solverBoard[i][jColumn];
+                    if(currentField.getCurrentValue() == 0 && currentField.getPossibilities().contains(k)){
+                        occurrences.add(new Coordinate(i, jColumn));
+                    }
+                }
+
+                try {
+                    // check if all occurrences are in the same block
+                    int jOccurrence = occurrences.getFirst().j;
+                    int iBlockNumber = occurrences.getFirst().i / blockLength;
+                    int jBlockNumber = occurrences.getFirst().j / blockLength;
+                    boolean sameBlock = true;
+
+                    for(Coordinate coord: occurrences) {
+                        if(coord.i / blockLength != iBlockNumber || coord.j / blockLength != jBlockNumber) {
+                            sameBlock = false;
+                            break;
+                        }
+                    }
+
+                    if(sameBlock) {
+                        int iStart = iBlockNumber + blockLength;
+                        int jStart  =jBlockNumber * blockLength;
+
+                        // remove the possibilities in the columns left of the occurred column in the same block
+                        for(int i = iStart; i < iStart + blockLength; i++) {
+                            for(int j = jStart; j < jOccurrence; j++) {
+                                if(solverBoard[i][j].getPossibilities().contains(k)){
+                                    changed = true;
+                                    solverBoard[i][j].getPossibilities().remove(k);
+                                }
+                            }
+                        }
+                        // remove the possibilities in the columns right of the occurred column in the same block
+                        for(int i = iStart + 1; i < iStart + blockLength; i++) {
+                            for(int j = jOccurrence; j < jStart + blockLength; j++) {
+                                if(solverBoard[i][j].getPossibilities().contains(k)){
+                                    changed = true;
+                                    solverBoard[i][j].getPossibilities().remove(k);
+                                }
+                            }
+                        }
+
+                    }
+
+                } catch (NoSuchElementException ex) {
+                    // do nothing. Skip this number
+                }
+
+
+            }
+
+        }
+        return changed;
     }
 
 }
