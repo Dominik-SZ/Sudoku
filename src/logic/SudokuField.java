@@ -6,15 +6,16 @@ import java.util.HashSet;
 
 public class SudokuField {
 
-    private int length;         // the length of the based
+    /** the maximum value of this field */
+    private final int maxValue;
     private int currentValue;
     private HashSet<Integer> possibilities;
 
     private int startValue;
     private int solutionValue;
 
-    SudokuField(int length) {
-        this.length = length;
+    SudokuField(int maxValue) {
+        this.maxValue = maxValue;
         this.currentValue = 0;
         this.startValue = 0;
         this.solutionValue = 0;
@@ -26,16 +27,12 @@ public class SudokuField {
 
     /**
      * Fills the possibilities HashMap of the field with all numbers from
-     * 1 to length.
+     * 1 to maxValue.
      */
     public void resetPossibilities() {
-        for (int k = 1; k <= length; k++) {
+        for (int k = 1; k <= maxValue; k++) {
             possibilities.add(k);
         }
-    }
-
-    public void setLength(int length) {
-        this.length = length;
     }
 
     public int getCurrentValue() {
