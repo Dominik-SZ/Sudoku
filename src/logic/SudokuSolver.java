@@ -178,26 +178,16 @@ public class SudokuSolver {
      * deleted afterwards.
      */
     private boolean trySolving() {
-        boolean answer;
-
+        boolean answer = false;
         Collection<SolvingStrategy> strategies = Arrays.asList(
                 new HiddenSingleRow(sudoku, this),
 				new HiddenSingleColumn(sudoku, this),
 				new HiddenSingleBlock(sudoku, this)
         );
 
-        strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
-                .forEach(strategy -> strategy.apply());
+        boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
+                .map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
 
-        answer = onlyOnePossibilityOnField();
-
-        // if the length is at least 16, those strategies are necessary to fill
-        // the Sudoku
-        if (sudoku.getDifficulty() >= 4 || length >= 16) {
-            answer = answer || hiddenSingleRow();
-            answer = answer || hiddenSingleColumn();
-            answer = answer || hiddenSingleBlock();
-        }
         return answer;
     }
 
