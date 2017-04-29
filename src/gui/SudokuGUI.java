@@ -1374,8 +1374,6 @@ public class SudokuGUI {
      */
     void showPossibilities() {
 
-        sudoku.calculatePossibilities();
-
         // iterate all fields
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {

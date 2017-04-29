@@ -535,7 +535,8 @@ public class Sudoku {
 
     /**
      * Sets a new value in the currentState of this Sudoku and removes the
-     * affected possibilities
+     * affected possibilities. Note that this method only keeps possibility-
+     * integrity, if the previous entry was 0.
      *
      * @param value  The new value to be inserted
      * @param iCoord The i coordinate on which to insert
@@ -571,7 +572,7 @@ public class Sudoku {
      * @param iCoord    The i coordinate of the value to be removed
      * @param jCoord    The j coordinate of the value to be removed
      */
-    void removeCurrentValue(int iCoord, int jCoord) {
+    public void removeCurrentValue(int iCoord, int jCoord) {
 
         board[iCoord][jCoord].setCurrentValue(0);
 

@@ -138,6 +138,19 @@ public class GraphicalSudokuField extends JTextField {
 							}
 						}
 
+						// update the game state in the sudoku
+						try {
+							int newContent = Integer.parseInt(fieldContent);
+							if (getFont().equals(parent.getStandardFont())) {
+								sudoku.removeCurrentValue(iCoord, jCoord);
+								sudoku.insertCurrentValue(newContent, iCoord, jCoord);
+							} else {
+								sudoku.removeCurrentValue(iCoord, jCoord);
+							}
+						} catch (NumberFormatException ex) {
+							sudoku.removeCurrentValue(iCoord, jCoord);
+						}
+
 						// check if the field should stop being painted red
 						if (getBackground().equals(Color.RED) && getFont().equals(parent.getNoteFont())) {
 							if (darkened) {
@@ -222,14 +235,15 @@ public class GraphicalSudokuField extends JTextField {
 					// this must occur in the keyReleased method because the
 					// text is not updated yet in the keyPressed method
 					try {
-						int newContent = Integer.parseInt(getText().trim());
+						int newContent = Integer.parseInt(fieldContent);
 						if (getFont().equals(parent.getStandardFont())) {
+							sudoku.removeCurrentValue(iCoord, jCoord);
 							sudoku.insertCurrentValue(newContent, iCoord, jCoord);
 						} else {
-							sudoku.insertCurrentValue(0, iCoord, jCoord);
+							sudoku.removeCurrentValue(iCoord, jCoord);
 						}
 					} catch (NumberFormatException ex) {
-						sudoku.insertCurrentValue(0, iCoord, jCoord);
+						sudoku.removeCurrentValue(iCoord, jCoord);
 					}
 					
 					// update the inserted possibilities
