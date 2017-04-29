@@ -208,6 +208,49 @@ public class Sudoku {
     }
 
     /**
+     * Checks if the inserted value at the specified coordinates on the inserted
+     * board is allowed or not. It is, if the value is not already inserted in
+     * the same row, column or block.
+     *
+     * @param value  The value to check
+     * @param iCoord The i coordinate of the position to check
+     * @param jCoord The j coordinate of the position to check
+     * @return If the value is allowed to be inserted there
+     */
+    boolean isAllowed(int value, int iCoord, int jCoord) {
+
+        boolean answer = true;
+
+        // check block
+        int blockLength = (int) Math.sqrt(board.length);
+        int iStartValue = blockLength * (iCoord / blockLength);
+        int jStartValue = blockLength * (jCoord / blockLength);
+        for (int i = iStartValue; i < iStartValue + blockLength; i++) {
+            for (int j = jStartValue; j < jStartValue + blockLength; j++) {
+                if (board[i][j].getCurrentValue() == value) {
+                    answer = false;
+                }
+            }
+        }
+
+        // check column
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][jCoord].getCurrentValue() == value) {
+                answer = false;
+            }
+        }
+
+        // check row
+        for (int j = 0; j < board.length; j++) {
+            if (board[iCoord][j].getCurrentValue() == value) {
+                answer = false;
+            }
+        }
+
+        return answer;
+    }
+
+    /**
      * Returns all coordinates blocked by the inserted one.
      *
      * @param initial the initial coordinate
@@ -345,7 +388,7 @@ public class Sudoku {
                 currentField.getPossibilities().clear();
                 if (currentField.getCurrentValue() == 0) {    // empty field
                     for (int k = 1; k <= length; k++) {
-                        if (SudokuSolver.isAllowed(board, k, i, j)) {
+                        if (isAllowed(k, i, j)) {
                             currentField.getPossibilities().add(k);
                         }
                     }
@@ -358,6 +401,20 @@ public class Sudoku {
     public Collection<Integer> getPossibilities(int iCoord, int jCoord) {
         return board[iCoord][jCoord].getPossibilities();
     }
+
+    /**
+     * Resets the possibilities in all fields of the board, meaning they become
+     * filled with all values from 1 to length.
+     */
+    void resetAllPossibilities() {
+        for(int i = 0; i < length; i++) {
+            for(int j = 0; j < length; j++) {
+                board[i][j].resetPossibilities();
+            }
+        }
+    }
+
+    //-------------------------------------------------------------------------
 
     // Methods necessary for communication with other classes
     // Getter-Methods:
@@ -392,10 +449,6 @@ public class Sudoku {
     }
 
 
-    public SudokuField[][] getSolutionValue() {
-        return board;
-    }
-
     public int getSolutionValue(int coord) {
         return board[coord / length][coord % length].getSolutionValue();
     }
@@ -418,6 +471,10 @@ public class Sudoku {
 
     public SudokuField[][] getBoard() {
         return this.board;
+    }
+
+    int getCurrentValue(int i, int j) {
+        return this.board[i][j].getCurrentValue();
     }
 
     // Setter-Methods
@@ -461,6 +518,10 @@ public class Sudoku {
         }
     }
 
+    void setCurrentValue(int value, int iCoord, int jCoord) {
+        board[iCoord][jCoord].setCurrentValue(value);
+    }
+
     /**
      * Sets a new solution value at the specified coordinates of the Sudoku board
      *
@@ -473,8 +534,8 @@ public class Sudoku {
     }
 
     /**
-     * Sets a new value in the currentState of this Sudoku and recalculates
-     * the possibilities on the whole board
+     * Sets a new value in the currentState of this Sudoku and removes the
+     * affected possibilities
      *
      * @param value  The new value to be inserted
      * @param iCoord The i coordinate on which to insert
@@ -482,7 +543,68 @@ public class Sudoku {
      */
     public void insertCurrentValue(int value, int iCoord, int jCoord) {
         board[iCoord][jCoord].setCurrentValue(value);
-        calculatePossibilities();
+
+        // remove the possibilities from the row
+        for (int j = 0; j < length; j++) {
+            board[iCoord][j].getPossibilities().remove(value);
+        }
+
+        // remove the possibilities from the column
+        for (int i = 0; i < length; i++) {
+            board[i][jCoord].getPossibilities().remove(value);
+        }
+
+        // remove the possibilities from the block
+        int iStartValue = blockLength * (iCoord / blockLength);
+        int jStartValue = blockLength * (jCoord / blockLength);
+        for (int i = iStartValue; i < iStartValue + blockLength; i++) {
+            for (int j = jStartValue; j < jStartValue + blockLength; j++) {
+                board[i][j].getPossibilities().remove(value);
+            }
+        }
+    }
+
+    /**
+     * Removes the current value on the inserted coordinate (sets it to 0)
+     * and updates the possibilities on all affected fields.
+     *
+     * @param iCoord    The i coordinate of the value to be removed
+     * @param jCoord    The j coordinate of the value to be removed
+     */
+    void removeCurrentValue(int iCoord, int jCoord) {
+
+        board[iCoord][jCoord].setCurrentValue(0);
+
+        // update the possibilities of the row
+        for (int j = 0; j < length; j++) {
+            for (int k = 0; k < length; k++) {
+                if (isAllowed(k, iCoord, j)) {
+                    board[iCoord][j].getPossibilities().add(k);
+                }
+            }
+        }
+
+        // update the possibilities of the column
+        for (int i = 0; i < length; i++) {
+            for (int k = 0; k < length; k++) {
+                if (isAllowed(k, i, jCoord)) {
+                    board[i][jCoord].getPossibilities().add(k);
+                }
+            }
+        }
+
+        // update the possibilities of the block
+        int iStartValue = blockLength * (iCoord / blockLength);
+        int jStartValue = blockLength * (jCoord / blockLength);
+        for (int i = iStartValue; i < iStartValue + blockLength; i++) {
+            for (int j = jStartValue; j < jStartValue + blockLength; j++) {
+                for (int k = 0; k < length; k++) {
+                    if (isAllowed(k, i, j)) {
+                        board[i][j].getPossibilities().add(k);
+                    }
+                }
+            }
+        }
     }
 
 }
