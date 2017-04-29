@@ -735,6 +735,14 @@ class SudokuSolver {
         return changed;
     }
 
+    /**
+     * Checks if all possibilities of a column for a specific number are in the
+     * same block. If they are, this number is removed from the possibilities
+     * of the rest of the fields in this block.
+     * This is a restrictive method.
+     *
+     * @return  If this method did something effectively
+     */
     private boolean columnIntersection() {
 
         boolean changed = false;
