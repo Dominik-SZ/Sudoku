@@ -185,7 +185,8 @@ public class SudokuSolver {
 				new HiddenSingleBlock(sudoku, this)
         );
 
-        strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty());
+        boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
+                .map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
 
         return answer;
     }
