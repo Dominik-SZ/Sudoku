@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * is returned.
  * This is an interpreting method.
  */
-class HiddenSingleRow implements SolvingStrategy {
+public class HiddenSingleRow implements SolvingStrategy {
 
 	private Sudoku sudoku;
 	private SudokuSolver solver;
