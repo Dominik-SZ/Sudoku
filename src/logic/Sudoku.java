@@ -217,7 +217,7 @@ public class Sudoku {
      * @param jCoord The j coordinate of the position to check
      * @return If the value is allowed to be inserted there
      */
-    boolean isAllowed(int value, int iCoord, int jCoord) {
+    public boolean isAllowed(int value, int iCoord, int jCoord) {
 
         boolean answer = true;
 
@@ -473,7 +473,7 @@ public class Sudoku {
         return this.board;
     }
 
-    int getCurrentValue(int i, int j) {
+    public int getCurrentValue(int i, int j) {
         return this.board[i][j].getCurrentValue();
     }
 

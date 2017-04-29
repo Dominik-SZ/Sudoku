@@ -35,7 +35,9 @@ import utilities.GameStatus;
  * listeners are added in the constructor requiring a SudokuGUI parent.
  */
 public class GraphicalSudokuField extends JTextField {
-	/** only inserted to prevent warnings */
+	/**
+	 * only inserted to prevent warnings
+	 */
 	private static final long serialVersionUID = 8902929711409056538L;
 	private boolean darkened;
 	private int iCoord;
@@ -45,15 +47,10 @@ public class GraphicalSudokuField extends JTextField {
 
 	/**
 	 * Creates a new GraphicalSudokuField object with all functionality.
-	 * 
-	 * @param iCoord
-	 *            The i coordinate where the field is placed in its parents
-	 *            boardGraphic
-	 * @param jCoord
-	 *            The j coordinate where the field is placed in its parents
-	 *            boardGraphic
-	 * @param parent
-	 *            The parent GUI to which this field belongs
+	 *
+	 * @param iCoord The i coordinate where the field is placed in its parents boardGraphic
+	 * @param jCoord The j coordinate where the field is placed in its parents boardGraphic
+	 * @param parent The parent GUI to which this field belongs
 	 */
 	GraphicalSudokuField(int iCoord, int jCoord, SudokuGUI parent) {
 		super();
@@ -74,8 +71,7 @@ public class GraphicalSudokuField extends JTextField {
 			setText("");
 			setForeground(Color.blue);
 
-			@SuppressWarnings("serial")
-			Action toggleNoteMode = new AbstractAction() {
+			@SuppressWarnings("serial") Action toggleNoteMode = new AbstractAction() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -159,9 +155,9 @@ public class GraphicalSudokuField extends JTextField {
 								setBackground(Color.WHITE);
 							}
 						}
-						
+
 						// update the inserted possibilities
-						if(parent.getPossibilityMode()){
+						if (parent.getPossibilityMode()) {
 							parent.showPossibilities();
 						}
 
@@ -173,12 +169,12 @@ public class GraphicalSudokuField extends JTextField {
 
 						// check if the outline should be updated
 						int oldOutline = parent.getCurrentOutline();
-						try{
+						try {
 							if (!fieldContent.equals("") && Integer.parseInt(fieldContent) == oldOutline) {
 								parent.setCurrentOutline(-1);
 								parent.outline(oldOutline);
 							}
-						} catch (NumberFormatException ex){
+						} catch (NumberFormatException ex) {
 						}
 
 					}
@@ -204,8 +200,7 @@ public class GraphicalSudokuField extends JTextField {
 						try {
 							JFrame frame = new JFrame();
 							frame.setUndecorated(true);
-							BufferedImage bufferedImage = ImageIO
-									.read(egg.getClass().getResourceAsStream("/icons/Grinsebacke882x882.jpg"));
+							BufferedImage bufferedImage = ImageIO.read(egg.getClass().getResourceAsStream("/icons/Grinsebacke882x882.jpg"));
 							ImageIcon image = new ImageIcon(bufferedImage);
 							JLabel label = new JLabel(image);
 							frame.add(label);
@@ -230,7 +225,7 @@ public class GraphicalSudokuField extends JTextField {
 					} catch (NumberFormatException ex) {
 					}
 					int correctNumber = sudoku.getSolutionValue(getICoord(), getJCoord());
-					
+
 					// update the current state in the sudoku
 					// this must occur in the keyReleased method because the
 					// text is not updated yet in the keyPressed method
@@ -245,9 +240,9 @@ public class GraphicalSudokuField extends JTextField {
 					} catch (NumberFormatException ex) {
 						sudoku.removeCurrentValue(iCoord, jCoord);
 					}
-					
+
 					// update the inserted possibilities
-					if(parent.getPossibilityMode()){
+					if (parent.getPossibilityMode()) {
 						parent.showPossibilities();
 					}
 
@@ -278,8 +273,7 @@ public class GraphicalSudokuField extends JTextField {
 					}
 
 					// check if the outline should be updated
-					if (fieldNumber == parent.getCurrentOutline() || getBorder().equals(parent.getOutlineBorder())
-							&& fieldNumber != parent.getCurrentOutline()) {
+					if (fieldNumber == parent.getCurrentOutline() || getBorder().equals(parent.getOutlineBorder()) && fieldNumber != parent.getCurrentOutline()) {
 						int oldOutline = parent.getCurrentOutline();
 						parent.setCurrentOutline(-1);
 						parent.outline(oldOutline);
@@ -323,7 +317,7 @@ public class GraphicalSudokuField extends JTextField {
 
 	/**
 	 * Darkens this GraphicalSudokuField if it is not already darker.
-	 * 
+	 *
 	 * @return If this method did something
 	 */
 	boolean darken() {
@@ -379,7 +373,9 @@ public class GraphicalSudokuField extends JTextField {
 	 * component.
 	 */
 	static class OnlyNumbersDocument extends PlainDocument {
-		/** only inserted to prevent warnings */
+		/**
+		 * only inserted to prevent warnings
+		 */
 		private static final long serialVersionUID = 5997722226368407519L;
 
 		@Override

@@ -335,20 +335,18 @@ public class SudokuGUI {
         saveItem.setToolTipText("Speichere das Sudoku in einer Textdatei.");
 
         final SudokuGUI gui = this;
-        saveItem.addActionListener(new ActionListener() {
+        saveItem.addActionListener(e -> {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                int returnVal = chooser.showDialog(mainFrame, "Speichern");
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int returnVal = chooser.showDialog(mainFrame, "Speichern");
 
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    String path = chooser.getSelectedFile().getAbsolutePath();
-                    FileIO.save(gui, sudoku, path);
-                }
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                String path = chooser.getSelectedFile().getAbsolutePath();
+                FileIO.save(gui, sudoku, path);
             }
         });
+
         fileMenu.add(saveItem);
 
         JMenuItem loadItem = new JMenuItem("Laden");
