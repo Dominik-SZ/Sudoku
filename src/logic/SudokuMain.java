@@ -51,7 +51,6 @@ public class SudokuMain {
 
         System.out.println("generate new Sudoku");
         Sudoku sudoku = new Sudoku(length, difficulty);
-        sudoku.fill();
 
         SudokuGUI window = new SudokuGUI(sudoku);
         window.setVisible(true);

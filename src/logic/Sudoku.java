@@ -36,11 +36,6 @@ public class Sudoku {
     private int difficulty;
 
     /**
-     * the solver used to fill the boards
-     */
-    private SudokuSolver solver;
-
-    /**
      * the board of this Sudoku
      */
     private SudokuField[][] board;
@@ -84,20 +79,10 @@ public class Sudoku {
                 board[i][j] = new SudokuField(length);
             }
         }
-        this.solver = new SudokuSolver(this);
+        new SudokuSolver(this).fill();
     }
 
     // -------------------------------------------------------------------------
-
-    /**
-     * Main generating method to fill an empty sudoku making it definitely
-     * solvable. The startBoard and solvedBoard are afterwards ready to go. It
-     * also prints the solution and the Sudoku to the system.out, as well as
-     * some additional info.
-     */
-    void fill() {
-        solver.fill();
-    }
 
     /**
      * Counts the amount of filled fields (not containing 0).
