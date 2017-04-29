@@ -178,17 +178,15 @@ public class SudokuSolver {
      * deleted afterwards.
      */
     private boolean trySolving() {
-        boolean answer = false;
         Collection<SolvingStrategy> strategies = Arrays.asList(
                 new HiddenSingleRow(sudoku, this),
 				new HiddenSingleColumn(sudoku, this),
 				new HiddenSingleBlock(sudoku, this)
         );
 
-        boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
-                .map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
-
-        return answer;
+        return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
+                                            .map(SolvingStrategy::apply)
+                                            .reduce(Boolean::logicalOr).orElse(false);
     }
 
     /**
