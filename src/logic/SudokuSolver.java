@@ -34,7 +34,7 @@ public class SudokuSolver {
 
     SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
-//        this.length = sudoku.getLength();
+        this.length = sudoku.getLength();
         this.blockLength = sudoku.getBlockLength();
         // generate a stepWidth, which has no common divisor with the Sudoku
         // length greater than 1
@@ -42,13 +42,6 @@ public class SudokuSolver {
         while (MathUtilities.greatestCommonDivisor(stepWidth, length) != 1) {
             stepWidth++;
         }
-//        // initialize the solverBoard
-//        solverBoard = new SolverField[length][length];
-//        for (int i = 0; i < length; i++) {
-//            for (int j = 0; j < length; j++) {
-//                solverBoard[i][j] = new SolverField(0, length);
-//            }
-//        }
 
         backups = new Stack<>();
         backups.push(new BackupPoint(-1, new LinkedList<>()));

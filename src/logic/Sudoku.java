@@ -379,7 +379,7 @@ public class Sudoku {
      * of the currently inserted currentValues of the board.
      * Previously inserted possibilities are overwritten.
      */
-    public void calculatePossibilities() {
+    void calculatePossibilities() {
         // iterate the whole board
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
