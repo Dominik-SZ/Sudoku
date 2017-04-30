@@ -55,7 +55,7 @@ public class FileIO {
 			// (line 2) save the board of the sudoku
 			writer.print("\r\nStartBoard;");
 			for (int k = 0; k < fieldAmount; k++) {
-				writer.print(sudoku.getBoard(k) + ";");
+				writer.print(sudoku.getStartValue(k) + ";");
 			}
 
 			// (line 3) save the boardSolved of the sudoku

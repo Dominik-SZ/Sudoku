@@ -49,28 +49,29 @@ public class BlockIntersection implements SolvingStrategy {
 						}
 					}
 
-					// check if all occurrences are in the same row
-					int firstI = occurrences.getFirst().i;
-					boolean sameRow = true;
-					for(Coordinate coord: occurrences) {
-						if(coord.i != firstI){
-							sameRow = false;
-							break;
-						}
-					}
-					// remove the number from the rest of the row
-					if(sameRow) {
-						// the part of the row on the left of the block
-						for(int j = 0; j < jBlock; j++) {
-							sudoku.getPossibilities(firstI, j).remove(k);
-						}
-						// the part of the row on the right of the block
-						for(int j = jBlock + blockLength; j < length; j++) {
-							sudoku.getPossibilities(firstI, j).remove(k);
-						}
-					}
-
 					try {
+						// check if all occurrences are in the same row
+						int firstI = occurrences.getFirst().i;
+						boolean sameRow = true;
+						for(Coordinate coord: occurrences) {
+							if(coord.i != firstI){
+								sameRow = false;
+								break;
+							}
+						}
+						// remove the number from the rest of the row
+						if(sameRow) {
+							// the part of the row on the left of the block
+							for(int j = 0; j < jBlock; j++) {
+								sudoku.getPossibilities(firstI, j).remove(k);
+							}
+							// the part of the row on the right of the block
+							for(int j = jBlock + blockLength; j < length; j++) {
+								sudoku.getPossibilities(firstI, j).remove(k);
+							}
+						}
+
+
 						// check if all occurrences are in the same column
 						int firstJ = occurrences.getFirst().j;
 						boolean sameColumn = true;

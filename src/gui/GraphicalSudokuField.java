@@ -61,8 +61,8 @@ public class GraphicalSudokuField extends JTextField {
 		this.sudoku = parent.getSudoku();
 
 		// 0 means erased field
-		setEditable(sudoku.getBoard(iCoord, jCoord) == 0);
-		sudoku.insertCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
+		setEditable(sudoku.getStartValue(iCoord, jCoord) == 0);
+		sudoku.insertCurrentValue(sudoku.getStartValue(iCoord, jCoord), iCoord, jCoord);
 		setFont(parent.getStandardFont());
 		setHorizontalAlignment(JTextField.CENTER);
 
@@ -287,11 +287,11 @@ public class GraphicalSudokuField extends JTextField {
 
 		// PRESET FIELDS:
 		else {
-			setText(parent.getSudoku().getBoard(iCoord, jCoord) + "");
+			setText(parent.getSudoku().getStartValue(iCoord, jCoord) + "");
 			setForeground(Color.BLACK);
 			setEditable(false);
 			setBackground(Color.WHITE);
-			sudoku.insertCurrentValue(sudoku.getBoard(iCoord, jCoord), iCoord, jCoord);
+			sudoku.insertCurrentValue(sudoku.getStartValue(iCoord, jCoord), iCoord, jCoord);
 		}
 	}
 

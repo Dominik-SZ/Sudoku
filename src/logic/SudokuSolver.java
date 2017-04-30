@@ -112,9 +112,10 @@ public class SudokuSolver {
         }
 
         int trySolvingAssumeCycles = 0;
+        int cap = length * length /3;
         while (!isFinished()) {
             // check if there is a need to restart
-            if (trySolvingAssumeCycles > length * length / 3) {
+            if (trySolvingAssumeCycles > cap) {
                 // System.out.println("NEW TRY"); // restart the fill method if
                 // it seems like there is no solution to find
                 backups.clear(); // clear the backups for the next trial
@@ -172,20 +173,17 @@ public class SudokuSolver {
      * deleted afterwards.
      */
     private boolean trySolving() {
-    	System.out.println("enter try solving");
         Collection<SolvingStrategy> strategies = Arrays.asList(
-//                new RowIntersection(sudoku),
-//                new ColumnIntersection(sudoku),
- //               new BlockIntersection(sudoku),
-                new HiddenSingleRow(sudoku, this),
-				new HiddenSingleColumn(sudoku, this),
-				new HiddenSingleBlock(sudoku, this)
+                new RowIntersection(sudoku),
+                new ColumnIntersection(sudoku),
+                new BlockIntersection(sudoku)
+//                new HiddenSingleRow(sudoku, this),
+//				new HiddenSingleColumn(sudoku, this),
+//				new HiddenSingleBlock(sudoku, this)
         );
 
-        System.out.println("try the sick shit");
         boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
                 .map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
-		System.out.println("return the result of the sick shit: " + result);
 
         return result;
     }
@@ -255,7 +253,7 @@ public class SudokuSolver {
         // Remove all values which have been made based on the assumption
         while (!tSFills.isEmpty()) {
             int coord = tSFills.pop();
-            sudoku.setCurrentValue(0, coord / length, coord % length);
+            sudoku.removeCurrentValue(coord / length, coord % length);
         }
 
         int coord = latestBackup.getChangedCoord();
@@ -270,7 +268,7 @@ public class SudokuSolver {
 
         // test another possible assumption on this field
         else {
-            sudoku.setCurrentValue(latestBackup.popRandomPossibility(), i, j);
+            sudoku.insertCurrentValue(latestBackup.popRandomPossibility(), i, j);
             // System.out.println("DEBUG: stepBack(): keep node Coord:
             // "+latestBackup.getChangedCoord() + " now with value:
             // "+getCurrentValue(latestBackup.getChangedCoord()));
@@ -321,6 +319,7 @@ public class SudokuSolver {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if (sudoku.getPossibilities(i, j).size() == 0) {
+                	System.out.println("isLocked: no remaining possibilities found at i=" + i + " and j=" +j);
 					return true;
                 }
             }
@@ -349,7 +348,7 @@ public class SudokuSolver {
     private void clear() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                sudoku.setCurrentValue(0, i, j);
+                sudoku.removeCurrentValue(i, j);
             }
         }
     }

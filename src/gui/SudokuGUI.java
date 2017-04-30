@@ -651,7 +651,7 @@ public class SudokuGUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                SolutionWindow solutionWindow = new SolutionWindow(sudoku.getBoard(), fieldStandardColor);
+                SolutionWindow solutionWindow = new SolutionWindow(sudoku.getStartValue(), fieldStandardColor);
                 solutionWindow.setVisible(true);
             }
         });
@@ -673,7 +673,7 @@ public class SudokuGUI {
                     for (int i = 0; i < length; i++) {
                         for (int j = 0; j < length; j++) {
                             // check if the original Sudoku's field is empty
-                            if (sudoku.getBoard(i, j) == 0) {
+                            if (sudoku.getStartValue(i, j) == 0) {
                                 boardGraphic[i][j].setText("");
                                 boardGraphic[i][j].setBackground(Color.WHITE);
                             }
