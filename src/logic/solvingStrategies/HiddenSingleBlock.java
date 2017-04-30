@@ -68,7 +68,8 @@ public class HiddenSingleBlock implements  SolvingStrategy{
 					}
 					if (allowedFieldsForThisNumber.size() == 1) {
 						Coordinate coord = allowedFieldsForThisNumber.getFirst();
-						solver.insertValue(k, coord.i, coord.j, true);
+						solver.pushTrySolvingBackup(coord.i, coord.j);
+						sudoku.insertCurrentValue(k, coord.i, coord.j);
 						answer = true;
 					}
 				}

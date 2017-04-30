@@ -401,5 +401,16 @@ public class SudokuSolver {
 //
 //        sudoku.removeCurrentValue(iCoord, jCoord);
 //    }
+//-----------------------------------------------------------------------------
+	// Getter and Setter
 
+	/**
+	 * Saves a trySolving entry in the current backup of this solver.
+	 *
+	 * @param iCoord	The i coordinate of the inserted value
+	 * @param jCoord 	The j coordinate of the inserted value
+	 */
+	public void pushTrySolvingBackup(int iCoord, int jCoord) {
+		backups.peek().pushTSFills(iCoord * length + jCoord);
+	}
 }

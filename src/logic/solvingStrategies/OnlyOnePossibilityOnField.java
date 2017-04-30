@@ -26,7 +26,8 @@ public class OnlyOnePossibilityOnField implements SolvingStrategy {
 			for (int j = 0; j < length; j++) {
 				if (sudoku.getPossibilities(i, j).size() == 1) {
 					int onlyPossibility = (int) sudoku.getPossibilities(i, j).toArray()[0];
-					solver.insertValue(onlyPossibility, i, j, true);
+					solver.pushTrySolvingBackup(i, j);
+					sudoku.insertCurrentValue(onlyPossibility, i, j);
 					answer = true;
 				}
 			}
