@@ -3,7 +3,6 @@ package logic;
 import java.util.*;
 
 import logic.solvingStrategies.*;
-import utilities.Coordinate;
 import utilities.MathUtilities;
 
 
@@ -16,10 +15,6 @@ public class SudokuSolver {
      * the length additionally saved to save access
      */
     private int length;
-    /**
-     * the block length additionally saved to save access
-     */
-    private int blockLength;
 
     /**
      * the backups to stepBack() to, if an assumption proofs to be wrong
@@ -35,7 +30,6 @@ public class SudokuSolver {
     SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
-        this.blockLength = sudoku.getBlockLength();
         // generate a stepWidth, which has no common divisor with the Sudoku
         // length greater than 1
         stepWidth = (int) (length * 1.3);

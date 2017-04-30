@@ -222,7 +222,7 @@ public class Sudoku {
         boolean answer = true;
 
         // check block
-        int blockLength = (int) Math.sqrt(board.length);
+        int blockLength = (int) Math.sqrt(length);
         int iStartValue = blockLength * (iCoord / blockLength);
         int jStartValue = blockLength * (jCoord / blockLength);
         for (int i = iStartValue; i < iStartValue + blockLength; i++) {
@@ -234,14 +234,14 @@ public class Sudoku {
         }
 
         // check column
-        for (int i = 0; i < board.length; i++) {
+        for (int i = 0; i < length; i++) {
             if (board[i][jCoord].getCurrentValue() == value) {
                 answer = false;
             }
         }
 
         // check row
-        for (int j = 0; j < board.length; j++) {
+        for (int j = 0; j < length; j++) {
             if (board[iCoord][j].getCurrentValue() == value) {
                 answer = false;
             }
