@@ -50,7 +50,7 @@ public class SudokuSolver {
      * as well as some additional info.
      */
     void fill() {
-    	System.out.println("start filling");
+        System.out.println("start filling");
         int fillTrials = 1;
         // try to fill the Sudoku completely until it succeeds
         while (!fillTrial()) {
@@ -69,7 +69,7 @@ public class SudokuSolver {
 
         // erase the permitted fields considering the difficulty
         erase();
-		System.out.println("successfully erased");
+        System.out.println("successfully erased");
 
         // saving the newly generated state as startBoard in the Sudoku
         for (int i = 0; i < length; i++) {
@@ -92,32 +92,31 @@ public class SudokuSolver {
      * it exceeds the allowed amount of trials. It returns whether it was
      * successful.
      *
-     * @return If the the method was successful in filling the sudoku
-     * (startValues and solutionValues and currentValues)
+     * @return If the the method was successful in filling the sudoku (startValues and solutionValues and currentValues)
      */
     private boolean fillTrial() {
 
-    	System.out.println("start fill trial");
+        System.out.println("start fill trial");
         do {
             clear();
-			System.out.println("start random fill");
+            System.out.println("start random fill");
             // fill about a quarter of the fields without direct conflicts
             randomFill(length * length / 4);
-            System.out.println("one random fill successfully performed");
         } while (isLocked());
-		System.out.println("randomFill successfully performed");
-		System.out.println(sudoku.toString());
+        System.out.println("randomFill successfully performed");
+        System.out.println(sudoku.toString());
 
         while (trySolving()) {
+            System.out.println("trySolving iteration");
         }
 
         int trySolvingAssumeCycles = 0;
-        int cap = length * length /3;
+        int cap = length * length / 3;
         while (!isFinished()) {
-            // check if there is a need to restart
+
+            // restart the fill method if it seems like there is no solution to find
             if (trySolvingAssumeCycles > cap) {
-                // System.out.println("NEW TRY"); // restart the fill method if
-                // it seems like there is no solution to find
+                System.out.println("NEW TRY");
                 backups.clear(); // clear the backups for the next trial
                 backups.push(new BackupPoint(-1, new LinkedList<>()));
                 sudoku.resetAllPossibilities();
@@ -126,8 +125,10 @@ public class SudokuSolver {
 
             // make an assumption
             try {
+                System.out.println("assume");
                 assume(backups.peek().getChangedCoord());
             } catch (NoBackupsException ex) {
+                System.out.println("no backups exception");
                 return false;
             }
 
@@ -137,12 +138,16 @@ public class SudokuSolver {
             // }
 
             // trySolving loop
-            while (trySolving()) {
-            } // use the trySolving method as long as it succeeds
+            // use the trySolving method as long as it succeeds
+            boolean a = trySolving();
+            System.out.println("first TrySolving: " + a);
+            while (a) {
+                System.out.println("trySolving: " + a);
+                a = trySolving();
+            }
 
             trySolvingAssumeCycles++;
-            // System.out.println("amount of trySolving, assume cycles: "+
-            // trySolvingAssumeCycles);
+            System.out.println("amount of trySolving, assume cycles: " + trySolvingAssumeCycles);
         }
         return true; // Sudoku is finished
     }
@@ -177,13 +182,12 @@ public class SudokuSolver {
                 new RowIntersection(sudoku),
                 new ColumnIntersection(sudoku),
                 new BlockIntersection(sudoku)
-//                new HiddenSingleRow(sudoku, this),
-//				new HiddenSingleColumn(sudoku, this),
-//				new HiddenSingleBlock(sudoku, this)
+                //                new HiddenSingleRow(sudoku, this),
+                //				new HiddenSingleColumn(sudoku, this),
+                //				new HiddenSingleBlock(sudoku, this)
         );
 
-        boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
-                .map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
+        boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty()).map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
 
         return result;
     }
@@ -261,7 +265,7 @@ public class SudokuSolver {
         int j = coord % length;
         // no possible assumptions for this field remaining => change field
         if (latestBackup.getPossibilities().isEmpty()) {
-//            System.out.println("DEBUG: stepBack(): change field from i = " + i + " j = " + j);
+            //            System.out.println("DEBUG: stepBack(): change field from i = " + i + " j = " + j);
             sudoku.removeCurrentValue(i, j);
             assume(coord);
         }
@@ -319,8 +323,8 @@ public class SudokuSolver {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if (sudoku.getPossibilities(i, j).size() == 0) {
-                	System.out.println("isLocked: no remaining possibilities found at i=" + i + " and j=" +j);
-					return true;
+                    System.out.println("isLocked: no remaining possibilities found at i=" + i + " and j=" + j);
+                    return true;
                 }
             }
         }
@@ -353,50 +357,50 @@ public class SudokuSolver {
         }
     }
 
-//    /**
-//     * Inserts the inserted value in the startBoard at the specified iCoord and
-//     * jCoord. Also all possibilities, which are directly blocked as a result of
-//     * this new entry, are removed and the new entry is added to the trySolving
-//     * stack of the current backup point if it is deletable.
-//     *
-//     * @param value  The value, which should be inserted
-//     * @param iCoord The i coordinate at which to insert the value
-//     * @param jCoord The j coordinate at which to insert the value
-//     * @param deletable If the inserted value is generated by the trySolving
-//     *                  method and thus may be erased later on
-//     */
-//    public void insertValue(int value, int iCoord, int jCoord, boolean deletable) {
-//
-//        sudoku.insertCurrentValue(value, iCoord, jCoord);
-//
-//        if (deletable) {
-//            backups.peek().pushTSFills(iCoord * length + jCoord);
-//        }
-//
-//    }
-//
-//    /**
-//     * Removes the value at the specified coordinate of the solverBoard
-//     * (setting it to 0) and updates the possibilities of all affected
-//     * coordinates
-//     *
-//     * @param iCoord    The i coordinate at which to remove
-//     * @param jCoord    The j coordinate at which to remove
-//     */
-//    private void removeValue(int iCoord, int jCoord) {
-//
-//        sudoku.removeCurrentValue(iCoord, jCoord);
-//    }
-//-----------------------------------------------------------------------------
-	// Getter and Setter
+    //    /**
+    //     * Inserts the inserted value in the startBoard at the specified iCoord and
+    //     * jCoord. Also all possibilities, which are directly blocked as a result of
+    //     * this new entry, are removed and the new entry is added to the trySolving
+    //     * stack of the current backup point if it is deletable.
+    //     *
+    //     * @param value  The value, which should be inserted
+    //     * @param iCoord The i coordinate at which to insert the value
+    //     * @param jCoord The j coordinate at which to insert the value
+    //     * @param deletable If the inserted value is generated by the trySolving
+    //     *                  method and thus may be erased later on
+    //     */
+    //    public void insertValue(int value, int iCoord, int jCoord, boolean deletable) {
+    //
+    //        sudoku.insertCurrentValue(value, iCoord, jCoord);
+    //
+    //        if (deletable) {
+    //            backups.peek().pushTSFills(iCoord * length + jCoord);
+    //        }
+    //
+    //    }
+    //
+    //    /**
+    //     * Removes the value at the specified coordinate of the solverBoard
+    //     * (setting it to 0) and updates the possibilities of all affected
+    //     * coordinates
+    //     *
+    //     * @param iCoord    The i coordinate at which to remove
+    //     * @param jCoord    The j coordinate at which to remove
+    //     */
+    //    private void removeValue(int iCoord, int jCoord) {
+    //
+    //        sudoku.removeCurrentValue(iCoord, jCoord);
+    //    }
+    //-----------------------------------------------------------------------------
+    // Getter and Setter
 
-	/**
-	 * Saves a trySolving entry in the current backup of this solver.
-	 *
-	 * @param iCoord	The i coordinate of the inserted value
-	 * @param jCoord 	The j coordinate of the inserted value
-	 */
-	public void pushTrySolvingBackup(int iCoord, int jCoord) {
-		backups.peek().pushTSFills(iCoord * length + jCoord);
-	}
+    /**
+     * Saves a trySolving entry in the current backup of this solver.
+     *
+     * @param iCoord The i coordinate of the inserted value
+     * @param jCoord The j coordinate of the inserted value
+     */
+    public void pushTrySolvingBackup(int iCoord, int jCoord) {
+        backups.peek().pushTSFills(iCoord * length + jCoord);
+    }
 }

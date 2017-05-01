@@ -28,6 +28,7 @@ public class HiddenSingleRow implements SolvingStrategy {
 
 	@Override
 	public boolean apply() {
+		System.out.println("HiddenSingleRow applied");
 		HashSet<Integer> possi = new HashSet<>();
 		boolean changed = false;
 		for (int i = 0; i < length; i++) { // iterating the rows

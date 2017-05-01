@@ -30,6 +30,7 @@ public class HiddenSingleBlock implements  SolvingStrategy{
 
 	@Override
 	public boolean apply() {
+		System.out.println("HiddenSingleBlock applied");
 		HashSet<Integer> possi = new HashSet<>();
 		boolean answer = false;
 

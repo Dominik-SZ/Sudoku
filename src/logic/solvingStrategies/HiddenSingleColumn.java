@@ -28,6 +28,7 @@ public class HiddenSingleColumn implements SolvingStrategy{
 
 	@Override
 	public boolean apply() {
+		System.out.println("HiddenSingleColumn applied");
 		HashSet<Integer> possi = new HashSet<>();
 		boolean answer = false;
 		for (int j = 0; j < length; j++) { // iterating the columns
