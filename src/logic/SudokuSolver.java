@@ -181,10 +181,10 @@ public class SudokuSolver {
         Collection<SolvingStrategy> strategies = Arrays.asList(
                 new RowIntersection(sudoku),
                 new ColumnIntersection(sudoku),
-                new BlockIntersection(sudoku)
-                //                new HiddenSingleRow(sudoku, this),
-                //				new HiddenSingleColumn(sudoku, this),
-                //				new HiddenSingleBlock(sudoku, this)
+                new BlockIntersection(sudoku),
+                new HiddenSingleRow(sudoku, this),
+                new HiddenSingleColumn(sudoku, this),
+                new HiddenSingleBlock(sudoku, this)
         );
 
         boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty()).map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
