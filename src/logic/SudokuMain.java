@@ -50,10 +50,9 @@ public class SudokuMain {
     private static void run(int length, int difficulty) {
 
         System.out.println("generate new Sudoku");
-        Sudoku Sudoku = new Sudoku(length, difficulty);
-        Sudoku.fill();
+        Sudoku sudoku = new Sudoku(length, difficulty);
 
-        SudokuGUI window = new SudokuGUI(Sudoku);
+        SudokuGUI window = new SudokuGUI(sudoku);
         window.setVisible(true);
     }
 }

@@ -183,13 +183,13 @@ public class SudokuSolver {
                 new ColumnIntersection(sudoku),
                 new BlockIntersection(sudoku),
                 new HiddenSingleRow(sudoku, this),
-                new HiddenSingleColumn(sudoku, this),
-                new HiddenSingleBlock(sudoku, this)
+				new HiddenSingleColumn(sudoku, this),
+				new HiddenSingleBlock(sudoku, this)
         );
 
-        boolean result = strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty()).map(SolvingStrategy::apply).reduce(Boolean::logicalOr).orElse(false);
-
-        return result;
+        return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
+                                            .map(SolvingStrategy::apply)
+                                            .reduce(Boolean::logicalOr).orElse(false);
     }
 
     /**

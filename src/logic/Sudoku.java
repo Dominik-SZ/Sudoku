@@ -35,15 +35,11 @@ public class Sudoku {
 	 */
 	private int difficulty;
 
-	/**
-	 * the solver used to fill the boards
-	 */
-	private SudokuSolver solver;
-	/**
-	 * the board of this Sudoku
-	 */
-	private SudokuField[][] board;
-	/**
+    /**
+
+     * the board of this Sudoku
+     */
+    private SudokuField[][] board;/**
 	 * if the possibilities are guaranteed to be correct at the moment
 	 */
 	private boolean possibilityIntegrity;
@@ -59,63 +55,54 @@ public class Sudoku {
 		this(9, 5);
 	}
 
-	/**
-	 * Creates a new Sudoku Object with the given length and difficulty.
-	 * An empty board is initialized and the attributes blockLength and stepWidth
-	 * determined. Note that sudoku.fill() is required to actually fill the
-	 * board.
-	 *
-	 * @param length     The length of the Sudoku (default is 9).
-	 * @param difficulty How difficult the Sudoku is going to be. Ranges from 1 to 10 (default is 5).
-	 * @throws IllegalArgumentException if the inserted length is no square number or the inserted difficulty is out of
-	 *                                  bounds (1-10).
-	 */
-	public Sudoku(int length, int difficulty) throws IllegalArgumentException {
-		if (Math.sqrt(length) % 1 != 0) {
-			throw new IllegalArgumentException("length is no square number: " + length);
-		}
-		if (difficulty < 1 || difficulty > 10) {
-			throw new IllegalArgumentException("difficulty out of bounds: " + difficulty + ". Allowed range is 1-10.");
-		}
-		this.length = length;
-		this.difficulty = difficulty;
-		this.blockLength = (int) Math.sqrt(length);
-		this.board = new SudokuField[length][length];
-		for (int i = 0; i < length; i++) {
-			for (int j = 0; j < length; j++) {
-				board[i][j] = new SudokuField(length);
-			}
-		}
-		possibilityIntegrity = true;
-		this.solver = new SudokuSolver(this);
-	}
+    /**
+     * Creates a new Sudoku Object with the given length and difficulty.
+     * An empty board is initialized and the attributes blockLength and stepWidth
+     * determined. Note that sudoku.fill() is required to actually fill the
+     * board.
+     *
+     * @param length     The length of the Sudoku (default is 9).
+     * @param difficulty How difficult the Sudoku is going to be. Ranges from 1 to 10
+                        (default is 5).
+     * @throws IllegalArgumentException if the inserted length is no square number or the inserted
+                                       difficulty is out of* bounds (1-10).
+     */
+    public Sudoku(int length, int difficulty) throws IllegalArgumentException {
+        if (Math.sqrt(length) % 1 != 0) {
+            throw new IllegalArgumentException("length is no square number: " + length);
+        }
+        if (difficulty < 1 || difficulty > 10) {
+            throw new IllegalArgumentException("difficulty out of bounds: " + difficulty + ". Allowed range is 1-10.");
+        }
+        this.length = length;
+        this.difficulty = difficulty;
+        this.blockLength = (int) Math.sqrt(length);
+        this.board = new SudokuField[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                board[i][j] = new SudokuField(length);
+            }
+        }possibilityIntegrity = true;
+         new SudokuSolver(this).fill();
+    }
 
 	// -------------------------------------------------------------------------
 
-	/**
-	 * Main generating method to fill an empty sudoku making it definitely
-	 * solvable. The startBoard and solvedBoard are afterwards ready to go. It
-	 * also prints the solution and the Sudoku to the system.out, as well as
-	 * some additional info.
-	 */
-	void fill() {
-		solver.fill();
-	}
+    /**
 
-	/**
-	 * Counts the amount of filled fields (not containing 0).
-	 */
-	public int count() {
-		int count = 0;
-		for (int i = 0; i < length; i++) {
-			for (int j = 0; j < length; j++) {
-				if (board[i][j].getStartValue() != 0) {
-					count++;
-				}
-			}
-		}
-		return count;
-	}
+     * Counts the amount of filled fields (not containing 0).
+     */
+    public int count() {
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (board[i][j].getStartValue() != 0) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 
 	/**
 	 * Returns a String representation of the normal Sudoku with empty fields

@@ -5,7 +5,7 @@ package logic.solvingStrategies;
  */
 public interface SolvingStrategy {
 
-	public boolean apply();
-	public int getDifficulty();
+	boolean apply();
+	int getDifficulty();
 
 }
