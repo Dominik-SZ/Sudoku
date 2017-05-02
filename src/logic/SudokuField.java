@@ -45,7 +45,7 @@ public class SudokuField {
         return currentValue;
     }
 
-    public void setCurrentValue(int currentValue) {
+    void setCurrentValue(int currentValue) {
         this.currentValue = currentValue;
     }
 

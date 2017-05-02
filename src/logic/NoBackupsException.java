@@ -1,6 +1,6 @@
 package logic;
 
-public class NoBackupsException extends Exception {
+class NoBackupsException extends Exception {
 
     NoBackupsException() {
         super();

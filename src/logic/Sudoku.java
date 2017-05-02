@@ -39,7 +39,8 @@ public class Sudoku {
 
      * the board of this Sudoku
      */
-    private SudokuField[][] board;/**
+    private SudokuField[][] board;
+    /**
 	 * if the possibilities are guaranteed to be correct at the moment
 	 */
 	private boolean possibilityIntegrity;

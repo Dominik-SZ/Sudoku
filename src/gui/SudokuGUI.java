@@ -1,45 +1,22 @@
 package gui;
 
+import logic.Sudoku;
+import logic.SudokuMain;
+import utilities.*;
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
+import javax.swing.*;
+import javax.swing.Timer;
+import javax.swing.border.*;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-
-import logic.Sudoku;
-import logic.SudokuMain;
-import utilities.Direction;
-import utilities.Keyboard;
-import utilities.ComponentPrinter;
-import utilities.Coordinate;
-import utilities.DarkenStatus;
-import utilities.GameStatus;
+import java.util.*;
 
 /**
  * This Class makes it possible to create a GUI for a calculated Sudoku in which
@@ -48,10 +25,6 @@ import utilities.GameStatus;
  * @author Dominik
  */
 public class SudokuGUI {
-    /**
-     * only inserted to prevent warnings
-     */
-    private static final long serialVersionUID = -5611312691569909674L;
     /**
      * the length of the Sudoku. Additionally saved to save access.
      */
@@ -77,21 +50,9 @@ public class SudokuGUI {
      */
     private JFrame mainFrame;
     /**
-     * the top part of the main frame
-     */
-    private JMenuBar menuBar;
-    /**
      * the center part of the main frame
      */
     private JPanel centerPanel;
-    /**
-     * the right part of the main frame
-     */
-    private JPanel rightPanel;
-    /**
-     * the bottom part of the main frame
-     */
-    private JPanel bottomPanel;
     /**
      * the left part of the main frame
      */
@@ -223,9 +184,9 @@ public class SudokuGUI {
         currentOutline = -1;
         possibilityPairsCoordinates = new LinkedList<>();
 
-        usedBackgroundColors = new HashSet<Color>();
+        usedBackgroundColors = new HashSet<>();
 
-        indexToColor = new HashMap<Integer, Color>();
+        indexToColor = new HashMap<>();
         indexToColor.put(0, Color.BLACK);
         indexToColor.put(1, Color.DARK_GRAY);
         indexToColor.put(2, Color.GRAY);
@@ -241,7 +202,7 @@ public class SudokuGUI {
         mainFrame = new JFrame("Sudoku");
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         try {
-            LinkedList<Image> images = new LinkedList<Image>();
+            LinkedList<Image> images = new LinkedList<>();
             images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon128x128.png")));
             images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon64x64.png")));
             images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon32x32.png")));
@@ -282,7 +243,7 @@ public class SudokuGUI {
      */
     private void buildTopPanel() {
 
-        menuBar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
         // menuBar.setPreferredSize(new Dimension(0, 50));
         mainFrame.add(menuBar, BorderLayout.NORTH);
 
@@ -300,25 +261,21 @@ public class SudokuGUI {
             BufferedImage newSudokuImage = ImageIO
                     .read(mainFrame.getClass().getResourceAsStream("/icons/newFileIcon.png"));
             newSudokuItem.setIcon(new ImageIcon(newSudokuImage));
-        } catch (IOException ex) {
+        } catch (IOException ignored) {
         }
         newSudokuItem.setMnemonic('N');
         newSudokuItem.setToolTipText("Ersetzt das momentane Sudoku durch ein neues.");
         newSudokuItem.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
-        newSudokuItem.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int answer = JOptionPane.showConfirmDialog(null,
-                        "Bist du sicher, dass du mit einem neuen Sudoku starten möchtest? "
-                                + "Das momentane Sudoku wird nicht gespeichert.",
-                        "Neues Sudoku bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                if (answer == JOptionPane.OK_OPTION) {
-                    mainFrame.dispose();
-                    String oldLength = length + "";
-                    String oldDifficulty = sudoku.getDifficulty() + "";
-                    SudokuMain.main(new String[]{oldLength, oldDifficulty});
-                }
+        newSudokuItem.addActionListener(e -> {
+            int answer = JOptionPane.showConfirmDialog(null,
+                    "Bist du sicher, dass du mit einem neuen Sudoku starten möchtest? "
+                            + "Das momentane Sudoku wird nicht gespeichert.",
+                    "Neues Sudoku bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (answer == JOptionPane.OK_OPTION) {
+                mainFrame.dispose();
+                String oldLength = length + "";
+                String oldDifficulty = sudoku.getDifficulty() + "";
+                SudokuMain.main(new String[]{oldLength, oldDifficulty});
             }
         });
         fileMenu.add(newSudokuItem);
@@ -353,28 +310,24 @@ public class SudokuGUI {
         try {
             BufferedImage loadIcon = ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/loadIcon.png"));
             loadItem.setIcon(new ImageIcon(loadIcon));
-        } catch (IOException ex) {
+        } catch (IOException ignored) {
         }
         loadItem.setMnemonic('L');
         loadItem.setAccelerator(KeyStroke.getKeyStroke('L', InputEvent.CTRL_DOWN_MASK));
         loadItem.setToolTipText("Lade ein gespeichertes Sudoku.");
-        loadItem.addActionListener(new ActionListener() {
+        loadItem.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int returnVal = chooser.showDialog(mainFrame, "Laden");
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                int returnVal = chooser.showDialog(mainFrame, "Laden");
+            String path;
 
-                String path;
-
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    path = chooser.getSelectedFile().getAbsolutePath();
-                    if (FileIO.load(path)) {
-                        mainFrame.dispose();
-                    }
-
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                path = chooser.getSelectedFile().getAbsolutePath();
+                if (FileIO.load(path)) {
+                    mainFrame.dispose();
                 }
+
             }
         });
         fileMenu.add(loadItem);
@@ -383,18 +336,12 @@ public class SudokuGUI {
         try {
             BufferedImage printImage = ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/printIcon.png"));
             printItem.setIcon(new ImageIcon(printImage));
-        } catch (IOException ex) {
+        } catch (IOException ignored) {
         }
         printItem.setMnemonic('D');
         printItem.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK));
         printItem.setToolTipText("Drucke das aktuelle Sudoku auf eine DIN A4 Seite skaliert aus.");
-        printItem.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                print();
-            }
-        });
+        printItem.addActionListener(arg0 -> print());
         fileMenu.add(printItem);
 
         JMenuItem helpFillItem = new JMenuItem("noch nicht implementiert");
@@ -437,44 +384,40 @@ public class SudokuGUI {
         timerLabel = new JLabel();
         // timerLabel.setPreferredSize(new Dimension(0, topHeight));
         timerLabel.setFont(labelFont);
-        ActionListener timerListener = new ActionListener() {
+        ActionListener timerListener = arg0 -> {
+            long nanoSeconds = System.nanoTime() - startTime;
+            long seconds = nanoSeconds / (long) 1000000000;
+            long minutes = seconds / 60;
+            seconds = seconds % 60;
+            long hours = minutes / 60;
+            minutes = minutes % 60;
 
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                long nanoSeconds = System.nanoTime() - startTime;
-                long seconds = nanoSeconds / (long) 1000000000;
-                long minutes = seconds / 60;
-                seconds = seconds % 60;
-                long hours = minutes / 60;
-                minutes = minutes % 60;
-
-                if (hours == 0) { // less than an hour
-                    if (seconds < 10) {
-                        if (minutes < 10) {
-                            timerLabel.setText("Zeit gespielt: 0" + minutes + ":0" + seconds);
-                        } else {
-                            timerLabel.setText("Zeit gespielt: " + minutes + ":0" + seconds);
-                        }
+            if (hours == 0) { // less than an hour
+                if (seconds < 10) {
+                    if (minutes < 10) {
+                        timerLabel.setText("Zeit gespielt: 0" + minutes + ":0" + seconds);
                     } else {
-                        if (minutes < 10) {
-                            timerLabel.setText("Zeit gespielt: 0" + minutes + ":" + seconds);
-                        } else {
-                            timerLabel.setText("Zeit gespielt: " + minutes + ":" + seconds);
-                        }
+                        timerLabel.setText("Zeit gespielt: " + minutes + ":0" + seconds);
                     }
-                } else { // more than an hour
-                    if (seconds < 10) {
-                        if (minutes < 10) {
-                            timerLabel.setText("Zeit gespielt: " + hours + ":0" + minutes + ":0" + seconds);
-                        } else {
-                            timerLabel.setText("Zeit gespielt: " + hours + ":" + minutes + ":0" + seconds);
-                        }
+                } else {
+                    if (minutes < 10) {
+                        timerLabel.setText("Zeit gespielt: 0" + minutes + ":" + seconds);
                     } else {
-                        if (minutes < 10) {
-                            timerLabel.setText("Zeit gespielt: 0" + hours + ":0" + minutes + ":" + seconds);
-                        } else {
-                            timerLabel.setText("Zeit gespielt: " + +minutes + ":" + seconds);
-                        }
+                        timerLabel.setText("Zeit gespielt: " + minutes + ":" + seconds);
+                    }
+                }
+            } else { // more than an hour
+                if (seconds < 10) {
+                    if (minutes < 10) {
+                        timerLabel.setText("Zeit gespielt: " + hours + ":0" + minutes + ":0" + seconds);
+                    } else {
+                        timerLabel.setText("Zeit gespielt: " + hours + ":" + minutes + ":0" + seconds);
+                    }
+                } else {
+                    if (minutes < 10) {
+                        timerLabel.setText("Zeit gespielt: 0" + hours + ":0" + minutes + ":" + seconds);
+                    } else {
+                        timerLabel.setText("Zeit gespielt: " + +minutes + ":" + seconds);
                     }
                 }
             }
@@ -490,7 +433,10 @@ public class SudokuGUI {
      * Generates the right panel of the main frame
      */
     private void buildRightPanel() {
-        rightPanel = new JPanel();
+        /*
+      the right part of the main frame
+     */
+        JPanel rightPanel = new JPanel();
         mainFrame.add(BorderLayout.EAST, rightPanel);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         paintable.add(rightPanel);
@@ -520,17 +466,14 @@ public class SudokuGUI {
             numberButton.setToolTipText("Hebt alle " + numberButton.getText().substring(0, 3) + " hervor.");
             numberButton.setMinimumSize(preferredDimension);
             numberButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            numberButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ev) {
-                    JButton button = (JButton) ev.getSource();
-                    String text = button.getText();
-                    // cutting off the "er"
-                    text = text.substring(0, text.length() - 4);
-                    int number = Integer.parseInt(text);
+            numberButton.addActionListener(ev -> {
+                JButton button = (JButton) ev.getSource();
+                String text = button.getText();
+                // cutting off the "er"
+                text = text.substring(0, text.length() - 4);
+                int number = Integer.parseInt(text);
 
-                    outline(number);
-                }
+                outline(number);
             });
             numberDisplay[i - 1] = numberButton;
             numberPanel.add(numberButton);
@@ -557,13 +500,7 @@ public class SudokuGUI {
                 "Entscheidet, ob die rechte Anzeige" + "die Anzahl der eingefügten Zahlen hochzählt oder ob die"
                         + "noch fehlenden Zahlen angezeigt werden, also runtergezählt wird.");
         countDownwardsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        countDownwardsButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                updateRightPanel();
-            }
-        });
+        countDownwardsButton.addActionListener(arg0 -> updateRightPanel());
         paintable.add(countDownwardsButton);
     }
 
@@ -571,7 +508,9 @@ public class SudokuGUI {
      * Generates the bottom panel of the main frame.
      */
     private void buildBottomPanel() {
-        bottomPanel = new JPanel();
+
+        // the bottom part of the main frame
+        JPanel bottomPanel = new JPanel();
         paintable.add(bottomPanel);
 
         // check for mistakes button
@@ -647,13 +586,9 @@ public class SudokuGUI {
         solutionButton.setToolTipText("öffnet ein kleines zusätzliches Fenster, in dem die Lösung des Sudokus "
                 + "nachgeschlagen werden kann.");
         solutionButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        solutionButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SolutionWindow solutionWindow = new SolutionWindow(sudoku.getStartValue(), fieldStandardColor);
-                solutionWindow.setVisible(true);
-            }
+        solutionButton.addActionListener(e -> {
+            SolutionWindow solutionWindow = new SolutionWindow(sudoku.getStartValue(), fieldStandardColor);
+            solutionWindow.setVisible(true);
         });
         bottomPanel.add(solutionButton);
 
@@ -661,32 +596,28 @@ public class SudokuGUI {
         JButton resetButton = new JButton("Reset");
         resetButton.setToolTipText("Setzt das Sudoku auf den Ausgangszustand zurück.");
         resetButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        resetButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int answer = JOptionPane.showConfirmDialog(null,
-                        "Bist du sicher, dass du das Sudoku resetten möchtest? Alle deine Einträge "
-                                + "und Einfärbungen werden entfernt.",
-                        "Reset bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-                if (answer == JOptionPane.OK_OPTION) {
-                    for (int i = 0; i < length; i++) {
-                        for (int j = 0; j < length; j++) {
-                            // check if the original Sudoku's field is empty
-                            if (sudoku.getStartValue(i, j) == 0) {
-                                boardGraphic[i][j].setText("");
-                                boardGraphic[i][j].setBackground(Color.WHITE);
-                            }
+        resetButton.addActionListener(e -> {
+            int answer = JOptionPane.showConfirmDialog(null,
+                    "Bist du sicher, dass du das Sudoku resetten möchtest? Alle deine Einträge "
+                            + "und Einfärbungen werden entfernt.",
+                    "Reset bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (answer == JOptionPane.OK_OPTION) {
+                for (int i = 0; i < length; i++) {
+                    for (int j = 0; j < length; j++) {
+                        // check if the original Sudoku's field is empty
+                        if (sudoku.getStartValue(i, j) == 0) {
+                            boardGraphic[i][j].setText("");
+                            boardGraphic[i][j].setBackground(Color.WHITE);
                         }
                     }
-
-                    showPossibilitiesButton.setSelected(false);
-                    sudoku.resetCurrentState();
-                    updateRightPanel();
-                    outline(-1);
-                    startTime = System.nanoTime();
-                    timer.start();
                 }
+
+                showPossibilitiesButton.setSelected(false);
+                sudoku.resetCurrentState();
+                updateRightPanel();
+                outline(-1);
+                startTime = System.nanoTime();
+                timer.start();
             }
         });
         bottomPanel.add(resetButton);
@@ -708,58 +639,57 @@ public class SudokuGUI {
         String[] colorStrings = {"schwarz", "dunkelgrau", "grau", "weiß", "pink", "rot", "orange", "gelb", "grün",
                 "dunkelgrün", "blau", "mehr Farben"};
 
-        ActionListener boxListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                @SuppressWarnings("unchecked")
-                JComboBox<String> selectedBox = (JComboBox<String>) e.getSource();
-                int selectedIndex = selectedBox.getSelectedIndex();
+        ActionListener boxListener = e-> {
 
-                Color previousColor = Color.WHITE;
-                switch (selectedBox.getName()) {
-                    case "foreground":
-                        previousColor = foregroundColor;
-                        break;
-                    case "background":
-                        previousColor = backgroundColor;
-                        break;
-                    case "fieldStandardColor":
-                        previousColor = fieldStandardColor;
-                        break;
-                    case "fieldNoteColor":
-                        previousColor = fieldNoteColor;
-                        break;
-                }
+            @SuppressWarnings("unchecked")
+            JComboBox<String> selectedBox = (JComboBox<String>) e.getSource();
+            int selectedIndex = selectedBox.getSelectedIndex();
 
-                Color selectedColor;
-                if (selectedIndex == 11) { // "mehr Farben"
-                    selectedColor = JColorChooser.showDialog(mainFrame, "Wähle deine gewünschte Farbe", previousColor);
-                    if (selectedColor == null) { // abbrechen button pressed
-                        selectedColor = previousColor;
-                    }
-                } else {
-                    selectedColor = indexToColor.get(selectedIndex);
-                }
-
-                switch (selectedBox.getName()) {
-                    case "foreground":
-                        foregroundColor = selectedColor;
-                        updateForeground();
-                        break;
-                    case "background":
-                        backgroundColor = selectedColor;
-                        updateBackground();
-                        break;
-                    case "fieldStandardColor":
-                        fieldStandardColor = selectedColor;
-                        updateFieldStandard();
-                        break;
-                    case "fieldNoteColor":
-                        fieldNoteColor = selectedColor;
-                        updateFieldNote();
-                        break;
-                }
+            Color previousColor = Color.WHITE;
+            switch (selectedBox.getName()) {
+                case "foreground":
+                    previousColor = foregroundColor;
+                    break;
+                case "background":
+                    previousColor = backgroundColor;
+                    break;
+                case "fieldStandardColor":
+                    previousColor = fieldStandardColor;
+                    break;
+                case "fieldNoteColor":
+                    previousColor = fieldNoteColor;
+                    break;
             }
+
+            Color selectedColor;
+            if (selectedIndex == 11) { // "mehr Farben"
+                selectedColor = JColorChooser.showDialog(mainFrame, "Wähle deine gewünschte Farbe", previousColor);
+                if (selectedColor == null) { // abbrechen button pressed
+                    selectedColor = previousColor;
+                }
+            } else {
+                selectedColor = indexToColor.get(selectedIndex);
+            }
+
+            switch (selectedBox.getName()) {
+                case "foreground":
+                    foregroundColor = selectedColor;
+                    updateForeground();
+                    break;
+                case "background":
+                    backgroundColor = selectedColor;
+                    updateBackground();
+                    break;
+                case "fieldStandardColor":
+                    fieldStandardColor = selectedColor;
+                    updateFieldStandard();
+                    break;
+                case "fieldNoteColor":
+                    fieldNoteColor = selectedColor;
+                    updateFieldNote();
+                    break;
+            }
+
         };
         // -------------------------------------------------------------------------------------------------
         JLabel foregroundColorLabel = new JLabel("Schriftfarbe");
@@ -801,26 +731,22 @@ public class SudokuGUI {
                 + " Zahlen durch die rechten Knöpfe die dadurch blockierten Felder verdunkelt.");
         darkenBox.setSelectedIndex(1); // standard choice (partly)
         darkenBox.setEditable(true);
-        darkenBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switch (darkenBox.getSelectedIndex()) {
-                    case (0):
-                        darkenMode = DarkenStatus.NONE;
-                        break;
-                    case (1):
-                        darkenMode = DarkenStatus.PARTLY;
-                        break;
-                    case (2):
-                        darkenMode = DarkenStatus.COMPLETE;
-                        break;
-                }
-                int lastOutline = currentOutline;
-                // to prevent the method from undoing the last outline
-                currentOutline = -1;
-                outline(lastOutline);
+        darkenBox.addActionListener(e -> {
+            switch (darkenBox.getSelectedIndex()) {
+                case (0):
+                    darkenMode = DarkenStatus.NONE;
+                    break;
+                case (1):
+                    darkenMode = DarkenStatus.PARTLY;
+                    break;
+                case (2):
+                    darkenMode = DarkenStatus.COMPLETE;
+                    break;
             }
+            int lastOutline = currentOutline;
+            // to prevent the method from undoing the last outline
+            currentOutline = -1;
+            outline(lastOutline);
         });
         putIntoPanel(darkenLabel, darkenBox);
         // -------------------------------------------------------------------------------------------------
@@ -970,7 +896,7 @@ public class SudokuGUI {
                         if (Integer.parseInt(text) == number && boardGraphic[i][j].getFont().equals(standardFont)) {
                             amount++;
                         }
-                    } catch (NumberFormatException | NullPointerException ex) {
+                    } catch (NumberFormatException | NullPointerException ignored) {
                     }
                 }
             }
@@ -1283,26 +1209,14 @@ public class SudokuGUI {
         cc.setChooserPanels(chooserPanels);
 
         // invoked if the user closes the dialog with OK
-        ActionListener okListener = new ActionListener() {
+        ActionListener okListener = okPressed -> {
+            field.setBackground(cc.getColor());
 
-            @Override
-            public void actionPerformed(ActionEvent okPressed) {
-                field.setBackground(cc.getColor());
-
-                field.setBorder(oldBorder);
-            }
-
+            field.setBorder(oldBorder);
         };
 
         // invoked if the user closes the dialog with Cancel
-        ActionListener cancelListener = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                field.setBorder(oldBorder);
-            }
-
-        };
+        ActionListener cancelListener = arg0 -> field.setBorder(oldBorder);
 
         JDialog ccDialog = JColorChooser.createDialog(field, "Wähle deine gewünschte Farbe für dieses Feld", true, cc,
                 okListener, cancelListener);

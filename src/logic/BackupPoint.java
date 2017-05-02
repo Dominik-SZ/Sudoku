@@ -28,7 +28,7 @@ class BackupPoint {
 	BackupPoint(int changedCoord, LinkedList<Integer> possibilities) {
 		this.changedCoord = changedCoord;
 		this.possibilities = possibilities;
-		this.tSFills = new Stack<Integer>();
+		this.tSFills = new Stack<>();
 	}
 
 	int getChangedCoord() {
