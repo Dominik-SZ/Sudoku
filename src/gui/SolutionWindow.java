@@ -40,10 +40,11 @@ class SolutionWindow {
 			int jStartValue = blockLength * (blockNumber % blockLength);
 			for(int i = iStartValue; i < iStartValue + blockLength; i++){
 				for(int j = jStartValue; j < jStartValue + blockLength; j++){
-					GraphicalSudokuField field= new GraphicalSudokuField(i, j);		// giving each block its fields
+
+                    // giving each block its fields
+					GraphicalSudokuField field= new GraphicalSudokuField(fieldFont, i, j);
 					field.setText(board[i][j].getSolutionValue() +"");
 					field.setHorizontalAlignment(JTextField.CENTER);
-					field.setFont(fieldFont);
 					field.setEditable(false);
 					field.setBorder(new EtchedBorder(10));
 					field.setBackground(Color.WHITE);

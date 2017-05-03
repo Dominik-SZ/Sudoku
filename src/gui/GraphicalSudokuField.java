@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -9,15 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -35,15 +27,26 @@ import utilities.GameStatus;
  * listeners are added in the constructor requiring a SudokuGUI parent.
  */
 public class GraphicalSudokuField extends JTextField {
-	/**
-	 * only inserted to prevent warnings
-	 */
-	private static final long serialVersionUID = 8902929711409056538L;
+
 	private boolean darkened;
 	private int iCoord;
 	private int jCoord;
 	private SudokuGUI parent;
 	private Sudoku sudoku;
+
+	/**
+	 * Creates a new GraphicalSudokuField without any additional functionality.
+     *
+     * @param font The font for this field
+     * @param i The i coordinate at which the field is placed
+     * @param j The j coordinate at which the field is placed
+	 */
+	GraphicalSudokuField(Font font, int i, int j) {
+	    setFont(font);
+		this.iCoord = i;
+		this.jCoord = j;
+        setHorizontalAlignment(JTextField.CENTER);
+	}
 
 	/**
 	 * Creates a new GraphicalSudokuField object with all functionality.
@@ -174,7 +177,7 @@ public class GraphicalSudokuField extends JTextField {
 								parent.setCurrentOutline(-1);
 								parent.outline(oldOutline);
 							}
-						} catch (NumberFormatException ex) {
+						} catch (NumberFormatException ignored) {
 						}
 
 					}
@@ -192,7 +195,7 @@ public class GraphicalSudokuField extends JTextField {
 					egg += ev.getKeyChar();
 					try {
 						egg = egg.substring(1, 12);
-					} catch (StringIndexOutOfBoundsException ex) {
+					} catch (StringIndexOutOfBoundsException ignored) {
 					}
 					parent.setEgg(egg);
 
@@ -210,7 +213,7 @@ public class GraphicalSudokuField extends JTextField {
 							frame.requestFocus();
 							frame.setAlwaysOnTop(true);
 							frame.setVisible(true);
-						} catch (Exception e) {
+						} catch (Exception ignored) {
 						}
 					}
 				}
@@ -222,7 +225,7 @@ public class GraphicalSudokuField extends JTextField {
 					int fieldNumber = 0;
 					try {
 						fieldNumber = Integer.parseInt(fieldContent);
-					} catch (NumberFormatException ex) {
+					} catch (NumberFormatException ignored) {
 					}
 					int correctNumber = sudoku.getSolutionValue(getICoord(), getJCoord());
 
@@ -293,14 +296,6 @@ public class GraphicalSudokuField extends JTextField {
 			setBackground(Color.WHITE);
 			sudoku.insertCurrentValue(sudoku.getStartValue(iCoord, jCoord), iCoord, jCoord);
 		}
-	}
-
-	/**
-	 * Creates a new GraphicalSudokuField without any additional functionality.
-	 */
-	GraphicalSudokuField(int i, int j) {
-		this.iCoord = i;
-		this.jCoord = j;
 	}
 
 	/**

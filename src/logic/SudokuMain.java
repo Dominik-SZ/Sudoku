@@ -41,9 +41,14 @@ public class SudokuMain {
             dialog.setVisible(true);
         }
 
-        // the user did not cancel or load
-        if (optionsArray[2] != -1 && optionsArray[2] != -2) {
+        // the user starts a new Sudoku
+        if (optionsArray[2] == 0) {
             run(optionsArray[0], optionsArray[1]);
+        }
+        // the user inserts an own Sudoku
+        if(optionsArray[2] == 1) {
+            SudokuGUI gui = new SudokuGUI(optionsArray[0]);
+            gui.setVisible(true);
         }
     }
 

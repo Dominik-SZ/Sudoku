@@ -1,5 +1,6 @@
 package gui;
 
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 import logic.Sudoku;
 import logic.SudokuMain;
 import utilities.*;
@@ -29,6 +30,10 @@ public class SudokuGUI {
      * the length of the Sudoku. Additionally saved to save access.
      */
     private int length;
+    /**
+     * the blockLength of the Sudoku
+     */
+    private int blockLength;
     /**
      * the standard font for the Sudoku fields
      */
@@ -162,12 +167,95 @@ public class SudokuGUI {
 
     // -------------------------------------------------------------------------
 
-    // Constructor
+    // Constructors
+
+    /**
+     * Builds a Swing GUI to insert a Sudoku manually by the player. No helping methods are provided until activate()
+     * is called.
+     */
+    public SudokuGUI(int length) {
+        this.keyboard = new Keyboard();
+        this.paintable = new LinkedList<>();
+        this.length = length;
+        this.blockLength = (int) Math.sqrt(length);
+        egg = "";
+        standardFont = new Font("SansSerif", Font.BOLD, 30);
+        noteFont = new Font("SansSerif", Font.BOLD, 15);
+        if (length <= 4) {
+            labelFont = new Font("SansSerif", Font.PLAIN, 12);
+        } else {
+            labelFont = new Font("SansSerif", Font.PLAIN, 16);
+        }
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        standardBorder = new EtchedBorder(10);
+        outlineBorder = new CompoundBorder(new LineBorder(Color.BLACK, 4), standardBorder);
+        boardGraphic = new GraphicalSudokuField[length][length];
+        darkenMode = DarkenStatus.PARTLY;
+        currentOutline = -1;
+        possibilityPairsCoordinates = new LinkedList<>();
+
+        usedBackgroundColors = new HashSet<>();
+
+        indexToColor = new HashMap<>();
+        indexToColor.put(0, Color.BLACK);
+        indexToColor.put(1, Color.DARK_GRAY);
+        indexToColor.put(2, Color.GRAY);
+        indexToColor.put(3, Color.WHITE);
+        indexToColor.put(4, Color.PINK);
+        indexToColor.put(5, Color.RED);
+        indexToColor.put(6, Color.ORANGE);
+        indexToColor.put(7, Color.YELLOW);
+        indexToColor.put(8, Color.GREEN);
+        indexToColor.put(9, new Color(0, 153, 0));
+        indexToColor.put(10, Color.BLUE);
+
+        mainFrame = new JFrame("Sudoku");
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        try {
+            LinkedList<Image> images = new LinkedList<>();
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon128x128.png")));
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon64x64.png")));
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon32x32.png")));
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon16x16.png")));
+            mainFrame.setIconImages(images);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mainFrame.setLayout(new BorderLayout());
+        mainFrame.setMinimumSize(new Dimension(37 * length + 470, 37 * length + 260));
+        mainFrame.setMaximumSize(new Dimension((int) screenSize.getWidth(), (int) screenSize.getHeight() - 43));
+        mainFrame.setPreferredSize(new Dimension(length * 70 + 470, length * 70 + 260));
+        int startWidth = (int) Math.min(mainFrame.getPreferredSize().getWidth(), mainFrame.getMaximumSize().getWidth());
+        int startHeight = (int) Math.min(mainFrame.getPreferredSize().getHeight(),
+                                         mainFrame.getMaximumSize().getHeight());
+        mainFrame.setSize(new Dimension(startWidth, startHeight));
+
+        buildCenterPanel(false);
+        buildLeftPanel();
+
+        updateForeground();
+        updateBackground();
+
+        mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null); // center the frame
+
+        // make the tooltips last longer
+        ToolTipManager.sharedInstance().setDismissDelay(15000);
+    }
+
+    /**
+     * Builds a Swing GUI for a completely filled Sudoku in which the Sudoku can be solved by a player. All helping
+     * tools are enabled.
+     *
+     * @param sudoku    The Sudoku which should be played on by this GUI
+     */
     public SudokuGUI(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.keyboard = new Keyboard();
         this.paintable = new LinkedList<>();
-        length = sudoku.getLength();
+        this.length = sudoku.getLength();
+        this.blockLength = sudoku.getBlockLength();
         egg = "";
         standardFont = new Font("SansSerif", Font.BOLD, 30);
         noteFont = new Font("SansSerif", Font.BOLD, 15);
@@ -223,7 +311,7 @@ public class SudokuGUI {
 
         // build all the secondary panels
         buildTopPanel();
-        buildCenterPanel();
+        buildCenterPanel(true);
         buildRightPanel();
         buildBottomPanel();
         buildLeftPanel();
@@ -836,34 +924,41 @@ public class SudokuGUI {
     /**
      * Generates the centerPanel of the mainFrame and the boardGraphic of the
      * Window, which contains the SudokuFields on which the game is played.
+     *
+     * @param functionality If the generated GraphicalSudokuFields get functionality
      */
-    private void buildCenterPanel() {
+    private void buildCenterPanel(boolean functionality) {
         int gap = 5;
-        centerPanel = new JPanel(new GridLayout(sudoku.getBlockLength(), sudoku.getBlockLength(), gap, gap));
+        centerPanel = new JPanel(new GridLayout(blockLength, blockLength, gap, gap));
+        mainFrame.add(BorderLayout.CENTER, centerPanel);
         paintable.add(centerPanel);
 
         // generating the blocks
         for (int blockNumber = 0; blockNumber < length; blockNumber++) {
             JPanel block = new JPanel();
-            block.setLayout(new GridLayout(sudoku.getBlockLength(), sudoku.getBlockLength()));
+            block.setLayout(new GridLayout(blockLength, blockLength));
 
-            int iStartValue = sudoku.getBlockLength() * (blockNumber / sudoku.getBlockLength());
-            int jStartValue = sudoku.getBlockLength() * (blockNumber % sudoku.getBlockLength());
-            for (int i = iStartValue; i < iStartValue + sudoku.getBlockLength(); i++) {
-                for (int j = jStartValue; j < jStartValue + sudoku.getBlockLength(); j++) {
+            int iStartValue = blockLength * (blockNumber / blockLength);
+            int jStartValue = blockLength * (blockNumber % blockLength);
+            for (int i = iStartValue; i < iStartValue + blockLength; i++) {
+                for (int j = jStartValue; j < jStartValue + blockLength; j++) {
+
                     // giving each block its fields
-                    GraphicalSudokuField field = new GraphicalSudokuField(i, j, this);
+                    GraphicalSudokuField field;
+                    if(functionality) {
+                        field = new GraphicalSudokuField(i, j, this);
+                    } else {
+                        field = new GraphicalSudokuField(standardFont, i, j);
+                    }
                     field.setBorder(standardBorder);
 
                     boardGraphic[i][j] = field;
                     block.add(field);
                 }
             }
-            centerPanel.add(BorderLayout.CENTER, block); // adding the blocks to
-            // the center panel
+            // adding the blocks to the center panel
+            centerPanel.add(BorderLayout.CENTER, block);
         }
-        mainFrame.add(BorderLayout.CENTER, centerPanel); // adding the panel to
-        // the main frame
     }
 
     /**
@@ -872,10 +967,12 @@ public class SudokuGUI {
      * Focus in a middle field.
      */
     public void setVisible(boolean arg) {
-        updateRightPanel();
+        // updateRightPanel();
         mainFrame.setVisible(arg);
         startTime = System.nanoTime();
-        timer.start();
+        if(timer != null) {
+            timer.start();
+        }
         setFocusInMiddle();
     }
 
@@ -1484,6 +1581,16 @@ public class SudokuGUI {
         usedBackgroundColors.add(Color.WHITE.darker());
         usedBackgroundColors.add(fieldStandardColor);
         usedBackgroundColors.add(fieldNoteColor);
+    }
+
+    /**
+     * Tries to activate the Sudoku inserted by the user and gives Feedback if it was successful.
+     *
+     * @return  Returncode
+     */
+    private int activate() {
+        // TODO:  implement
+        return 0;
     }
 
     // ----------------------------------------------------------------------------------------------
