@@ -236,10 +236,27 @@ public class Sudoku {
         return count;
     }
 
+    /**
+     * Checks if the inserted value at the specified coordinates is allowed to be placed. It is, if the possibilities
+     * of this field contain the inserted value. Therefore possibility integrity must be assured when using this
+     * function. In return it is way faster, than the other isAllowed() method.
+     *
+     * @param value  The value to check
+     * @param iCoord The i coordinate of the position to check
+     * @param jCoord The j coordinate of the position to check
+     * @return If the value is allowed to be inserted there
+     */
+    public boolean isAllowedQuick(int value, int iCoord, int jCoord) throws PossibilityIntegrityViolatedException {
+        if(!possibilityIntegrity) {
+            throw new PossibilityIntegrityViolatedException();
+        }
+        return board[iCoord][jCoord].getPossibilities().contains(value);
+    }
+
 	/**
-	 * Checks if the inserted value at the specified coordinates on the inserted
-	 * board is allowed or not. It is, if the value is not already inserted in
-	 * the same row, column or block.
+	 * Checks if the inserted value at the specified coordinates is allowed to be placed. It is, if the value
+     * is not already inserted as currentValue in the same row, column or block. This method does not require
+     * possibility integrity.
 	 *
 	 * @param value  The value to check
 	 * @param iCoord The i coordinate of the position to check
