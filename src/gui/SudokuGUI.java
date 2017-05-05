@@ -243,6 +243,7 @@ public class SudokuGUI {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
         paintable.add(topPanel);
         mainFrame.add(topPanel, BorderLayout.NORTH);
+        topPanel.add(Box.createHorizontalStrut(10));
         JButton activateButton = new JButton("activate");
         activateButton.addActionListener(e -> activate());
         topPanel.add(activateButton, BorderLayout.NORTH);
@@ -539,8 +540,8 @@ public class SudokuGUI {
      */
     private void buildRightPanel() {
         /*
-      the right part of the main frame
-     */
+        the right part of the main frame
+        */
         JPanel rightPanel = new JPanel();
         mainFrame.add(BorderLayout.EAST, rightPanel);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
@@ -984,7 +985,12 @@ public class SudokuGUI {
      * Focus in a middle field.
      */
     public void setVisible(boolean arg) {
-        // updateRightPanel();
+
+        try {
+            updateRightPanel();
+        } catch (NullPointerException ignored) {
+            // do nothing
+        }
         mainFrame.setVisible(arg);
         startTime = System.nanoTime();
         if(timer != null) {
@@ -1000,6 +1006,8 @@ public class SudokuGUI {
      */
     void updateRightPanel() {
         boolean downwards = countDownwardsButton.isSelected();
+
+        // iterate all numbers from 1 to length
         for (int number = 1; number <= length; number++) {
             int amount = 0;
             for (int i = 0; i < length; i++) {
@@ -1014,18 +1022,18 @@ public class SudokuGUI {
                     }
                 }
             }
-            JTextField actualTextField = amountDisplay[number - 1];
+            JTextField currentTextField = amountDisplay[number - 1];
             if (downwards) {
-                actualTextField.setText(String.valueOf(length - amount));
+                currentTextField.setText(String.valueOf(length - amount));
             } else {
-                actualTextField.setText(String.valueOf(amount));
+                currentTextField.setText(String.valueOf(amount));
             }
             // test if the number is inserted too often
-            if (Integer.parseInt(actualTextField.getText().trim()) > length
-                    || Integer.parseInt(actualTextField.getText().trim()) < 0) {
-                actualTextField.setForeground(Color.RED);
+            if (Integer.parseInt(currentTextField.getText().trim()) > length
+                    || Integer.parseInt(currentTextField.getText().trim()) < 0) {
+                currentTextField.setForeground(Color.RED);
             } else {
-                actualTextField.setForeground(Color.BLACK);
+                currentTextField.setForeground(Color.BLACK);
             }
         }
     }
