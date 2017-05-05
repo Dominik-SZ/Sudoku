@@ -298,7 +298,7 @@ public class Sudoku {
      * Clears the board of the Sudoku. All currentValues are hereby set to 0 and the possibilities reset.
      * Afterwards possibility integrity is assured
      */
-	public void clear() {
+	void clear() {
 	    for(int i = 0; i < length; i++) {
 	        for(int j = 0; j < length; j++) {
 	            board[i][j].setCurrentValue(0);

@@ -21,6 +21,8 @@ public class SudokuMain {
      */
     public static void main(String[] args) {
         int[] optionsArray = new int[3];
+        optionsArray[2] = -1;
+
         PromptDialog dialog;
         if (args.length == 2) {
             String length = PromptDialog.checkLength(args[0]);

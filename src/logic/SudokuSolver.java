@@ -88,7 +88,7 @@ public class SudokuSolver {
     }
 
     /**
-     * Tries to solve the Sudoku like a player and returns if it was successful doing so
+     * Tries to solve the Sudoku like a player and returns if it was successful doing so.
      *
      * @return  If solving the Sudoku succeeded
      */
@@ -147,8 +147,8 @@ public class SudokuSolver {
             if (trySolvingAssumeCycles > cap) {
                 System.out.println("NEW TRY");
                 backups.clear(); // clear the backups for the next trial
-                backups.push(new BackupPoint(-1, new LinkedList<>()));
-                sudoku.resetAllPossibilities();
+                backups.push(new BackupPoint(-1, new LinkedList<>())); // Backup for the first tsFills
+                sudoku.clear();
                 return false;
             }
 
@@ -158,23 +158,20 @@ public class SudokuSolver {
                 assume(backups.peek().getChangedCoord());
             } catch (NoBackupsException ex) {
                 System.out.println("no backups exception");
+                backups.clear(); // clear the backups for the next trial
+                backups.push(new BackupPoint(-1, new LinkedList<>())); // Backup for the first tsFills
+                sudoku.clear();
                 return false;
             } catch (PossibilityIntegrityViolatedException e) {
                 e.printStackTrace();
             }
 
-            // if (isLocked()) {
-            // System.out.println("DEBUG: is locked!");
-            // stepBack();
-            // }
-
             // trySolving loop
             // use the trySolving method as long as it succeeds
-            boolean a = trySolving();
-            System.out.println("first TrySolving: " + a);
-            while (a) {
-                System.out.println("trySolving: " + a);
-                a = trySolving();
+            while (true) {
+                if(!trySolving()) {
+                    break;
+                }
             }
 
             trySolvingAssumeCycles++;
@@ -187,6 +184,7 @@ public class SudokuSolver {
      * Inserts "amount" values randomly on fields of the solverBoard filled with 0
      * considering the gamerules (making sure that every number appears at most
      * once in every row, column and block).
+     * This method maintains possibility integrity
      */
     private void randomFill(int amount) {
         for (int k = 0; k < amount; k++) {
@@ -200,8 +198,8 @@ public class SudokuSolver {
                 } else {
                     k--;
                 }
-            } catch (PossibilityIntegrityViolatedException ignored) {
-                // should never occur
+            } catch (PossibilityIntegrityViolatedException ex) {
+                ex.printStackTrace();
             }
         }
     }
