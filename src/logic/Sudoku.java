@@ -294,6 +294,20 @@ public class Sudoku {
 		return true;
 	}
 
+    /**
+     * Clears the board of the Sudoku. All currentValues are hereby set to 0 and the possibilities reset.
+     * Afterwards possibility integrity is assured
+     */
+	public void clear() {
+	    for(int i = 0; i < length; i++) {
+	        for(int j = 0; j < length; j++) {
+	            board[i][j].setCurrentValue(0);
+	            board[i][j].resetPossibilities();
+            }
+        }
+        possibilityIntegrity = true;
+    }
+
 	/**
 	 * Returns all coordinates blocked by the inserted one.
 	 *
@@ -545,6 +559,10 @@ public class Sudoku {
 	public int getCurrentValue(int i, int j) {
 		return this.board[i][j].getCurrentValue();
 	}
+
+	public boolean getPossibilityIntegrity() {
+	    return possibilityIntegrity;
+    }
 
 	// Setter-Methods
 
