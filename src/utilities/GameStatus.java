@@ -5,5 +5,5 @@ package utilities;
  * This refers to the board edited by the user.
  */
 public enum GameStatus {
-	INCOMPLETE, CORRECT, INCORRECT
+	INCOMPLETE, CORRECT, INCORRECT, ALTERNATIVELY_FILLED
 }

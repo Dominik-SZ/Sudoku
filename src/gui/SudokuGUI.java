@@ -244,7 +244,7 @@ public class SudokuGUI {
         paintable.add(topPanel);
         mainFrame.add(topPanel, BorderLayout.NORTH);
         topPanel.add(Box.createHorizontalStrut(10));
-        JButton activateButton = new JButton("activate");
+        JButton activateButton = new JButton("aktivieren");
         activateButton.addActionListener(e -> activate());
         topPanel.add(activateButton, BorderLayout.NORTH);
         topPanel.add(Box.createHorizontalStrut(10));
@@ -1284,31 +1284,52 @@ public class SudokuGUI {
      * @param status The status which will be told to the user
      */
     void showStatus(GameStatus status) {
-        if (status == GameStatus.INCOMPLETE) {
-            JOptionPane.showMessageDialog(null, "Das Sudoku ist noch nicht vollständig befüllt.", "Da fehlt noch was!",
-                    JOptionPane.INFORMATION_MESSAGE);
 
-        } else if (status == GameStatus.CORRECT) {
-            timer.stop();
-            // play the success sound
-            try {
-                Clip clip = AudioSystem.getClip();
-                AudioInputStream inputStream = AudioSystem
-                        .getAudioInputStream(clip.getClass().getResourceAsStream("/utilities/success.wav"));
-                clip.open(inputStream);
-                clip.start();
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                System.out.println("Error trying to play sound!");
-                e.printStackTrace();
-            }
+        switch(status) {
+            case INCOMPLETE:
+                JOptionPane.showMessageDialog(null, "Das Sudoku ist noch nicht vollständig befüllt.",
+                                              "Da fehlt noch was!", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case CORRECT:
+                timer.stop();
+                // play the success sound
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem
+                            .getAudioInputStream(clip.getClass().getResourceAsStream("/utilities/success.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    System.out.println("Error trying to play sound!");
+                    e.printStackTrace();
+                }
 
-            // show the success pop up window
-            String time = timerLabel.getText().substring(15, timerLabel.getText().length());
-            JOptionPane.showMessageDialog(null, "Alles richtig! Glückwunsch!!\r\nBenötigte Zeit:" + time, "Gewonnen!",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Sudoku ist noch nicht korrekt befüllt.", "Stimmt so nicht ganz",
-                    JOptionPane.INFORMATION_MESSAGE);
+                // show the success pop up window
+                String time = timerLabel.getText().substring(15, timerLabel.getText().length());
+                JOptionPane.showMessageDialog(null, "Alles richtig! Glückwunsch!!\r\nBenötigte Zeit:"
+                                                      + time, "Gewonnen!", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case ALTERNATIVELY_FILLED:
+                timer.stop();
+                // play the success sound
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem
+                            .getAudioInputStream(clip.getClass().getResourceAsStream("/utilities/success.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                    System.out.println("Error trying to play sound!");
+                    e.printStackTrace();
+                }
+
+                // show the alternatively filled pop up window
+                String time2 = timerLabel.getText().substring(15, timerLabel.getText().length());
+                JOptionPane.showMessageDialog(null, "So gehts auch! Glückwunsch!!\r\nBenötigte Zeit:" + time2,
+                                              "Alternative Lösung gefunden!", JOptionPane.INFORMATION_MESSAGE);
+            case INCORRECT:
+                JOptionPane.showMessageDialog(null, "Sudoku ist noch nicht korrekt befüllt.",
+                                              "Stimmt so nicht ganz", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }

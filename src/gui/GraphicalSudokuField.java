@@ -166,7 +166,7 @@ public class GraphicalSudokuField extends JTextField {
 
 						// check if the game is finished
 						GameStatus currentStatus = sudoku.getStatus();
-						if (currentStatus == GameStatus.CORRECT || currentStatus == GameStatus.INCORRECT) {
+						if (currentStatus != GameStatus.INCOMPLETE) {
 							parent.showStatus(currentStatus);
 						}
 
@@ -262,7 +262,7 @@ public class GraphicalSudokuField extends JTextField {
 
 					// check if the game is finished
 					GameStatus currentStatus = sudoku.getStatus();
-					if (currentStatus == GameStatus.CORRECT || currentStatus == GameStatus.INCORRECT) {
+					if (currentStatus != GameStatus.INCOMPLETE) {
 						parent.showStatus(currentStatus);
 					}
 

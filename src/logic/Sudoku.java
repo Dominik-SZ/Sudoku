@@ -382,9 +382,11 @@ public class Sudoku {
 			return GameStatus.INCOMPLETE;
 		} else if (isFilledCorrectly()) {
 			return GameStatus.CORRECT;
+		} else if(isFilledAlternatively()) {
+			return GameStatus.ALTERNATIVELY_FILLED;
 		} else {
-			return GameStatus.INCORRECT;
-		}
+		    return GameStatus.INCORRECT;
+        }
 	}
 
 	/**
@@ -418,6 +420,44 @@ public class Sudoku {
 				}
 			}
 		}
+		return true;
+	}
+
+	/**
+	 * Can be used to check if the current values of the board contain no conflicts (same number in same row, column
+	 * or block). This returns true even if the inserted solution differs from the original expected one.
+	 *
+	 * @return	If the current values of the board contain no conflicts
+	 */
+	private boolean isFilledAlternatively() {
+
+		HashSet<Integer> occurences = new HashSet<>();
+		// check the rows
+		for(int i = 0; i < length; i++) {
+			occurences.clear();
+			for(int j = 0; j < length; j++) {
+				if(occurences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
+					return false;
+				}
+				occurences.add(board[i][j].getCurrentValue());
+			}
+		}
+
+		// check the columns
+		for(int j = 0; j < length; j++) {
+			occurences.clear();
+			for(int i = 0; i < length; i++) {
+				if(occurences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
+					return false;
+				}
+				occurences.add(board[i][j].getCurrentValue());
+			}
+		}
+
+		// check the blocks
+		//TODO: Bin zu dicht hierfür
+
+
 		return true;
 	}
 
