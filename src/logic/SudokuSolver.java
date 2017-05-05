@@ -253,9 +253,7 @@ public class SudokuSolver {
 
                 LinkedList<Integer> possi = new LinkedList<>();
 
-                for(int currentPossibility: sudoku.getPossibilities(i, j)) {
-                    possi.add(currentPossibility);
-                }
+                possi.addAll(sudoku.getPossibilities(i, j));
 
                 if (possi.isEmpty()) { // Sudoku is locked
                     // System.out.println("DEBUG: assume: step back");

@@ -246,7 +246,7 @@ public class Sudoku {
      * @param jCoord The j coordinate of the position to check
      * @return If the value is allowed to be inserted there
      */
-    public boolean isAllowedQuick(int value, int iCoord, int jCoord) throws PossibilityIntegrityViolatedException {
+    boolean isAllowedQuick(int value, int iCoord, int jCoord) throws PossibilityIntegrityViolatedException {
         if(!possibilityIntegrity) {
             throw new PossibilityIntegrityViolatedException();
         }
@@ -463,40 +463,6 @@ public class Sudoku {
 		return board[iCoord][jCoord].getPossibilities();
 	}
 
-	/**
-	 * Resets the possibilities in all fields of the board, meaning they become
-	 * filled with all values from 1 to length.
-	 * This method only keeps possibility integrity if all currentValues of the board are empty.
-	 */
-	void resetAllPossibilities() {
-		for (int i = 0; i < length; i++) {
-			for (int j = 0; j < length; j++) {
-				board[i][j].resetPossibilities();
-			}
-		}
-		if (isEmpty()) {
-			possibilityIntegrity = true;
-		} else {
-			possibilityIntegrity = false;
-		}
-	}
-
-	/**
-	 * Checks if all fields of the board have 0 as currentValue.
-	 *
-	 * @return If the board is empty
-	 */
-	private boolean isEmpty() {
-		for (int i = 0; i < length; i++) {
-			for (int j = 0; j < length; j++) {
-				if (board[i][j].getCurrentValue() != 0) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
 	//-------------------------------------------------------------------------
 
 	// Methods necessary for communication with other classes
@@ -560,7 +526,7 @@ public class Sudoku {
 		return this.board[i][j].getCurrentValue();
 	}
 
-	public boolean getPossibilityIntegrity() {
+	boolean getPossibilityIntegrity() {
 	    return possibilityIntegrity;
     }
 
