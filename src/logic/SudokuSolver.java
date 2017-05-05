@@ -88,6 +88,35 @@ public class SudokuSolver {
     }
 
     /**
+     * Tries to solve the Sudoku like a player and returns if it was successful doing so
+     *
+     * @return  If solving the Sudoku succeeded
+     */
+    boolean solve() {
+        boolean successful = true;
+        while(successful && !isFinished()) {
+            successful = trySolving();
+        }
+
+        if(successful) {
+            // saving the Solution array before erasing
+            for (int i = 0; i < length; i++) {
+                for (int j = 0; j < length; j++) {
+                    int currentValue = sudoku.getCurrentValue(i, j);
+                    sudoku.setSolutionValue(currentValue, i, j);
+                }
+            }
+            System.out.println("Solution: ");
+            System.out.println(sudoku.toString(true, true));
+        }
+        sudoku.calculatePossibilities();
+
+        return successful;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
      * Helping method which tries to fill the Sudoku completely, but gives up if
      * it exceeds the allowed amount of trials. It returns whether it was
      * successful.

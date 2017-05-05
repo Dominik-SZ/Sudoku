@@ -57,23 +57,21 @@ public class Sudoku {
 	}
 
     /**
-     * Creates a new Sudoku Object with the given length and difficulty.
-     * An empty board is initialized and the attributes blockLength and stepWidth
-     * determined. Note that sudoku.fill() is required to actually fill the
-     * board.
+     * Creates a new Sudoku Object with the given length and difficulty. An empty board is initialized and the
+     * attributes blockLength and stepWidth determined. Note that sudoku.fill() is required to actually fill the board.
      *
      * @param length     The length of the Sudoku (default is 9).
      * @param difficulty How difficult the Sudoku is going to be. Ranges from 1 to 10
                         (default is 5).
      * @throws IllegalArgumentException if the inserted length is no square number or the inserted
-                                       difficulty is out of* bounds (1-10).
+                                       difficulty is out of bounds (1-10).
      */
     public Sudoku(int length, int difficulty) throws IllegalArgumentException {
         if (Math.sqrt(length) % 1 != 0) {
-            throw new IllegalArgumentException("length is no square number: " + length);
+            throw new IllegalArgumentException("Length is no square number: " + length);
         }
         if (difficulty < 1 || difficulty > 10) {
-            throw new IllegalArgumentException("difficulty out of bounds: " + difficulty + ". Allowed range is 1-10.");
+            throw new IllegalArgumentException("Difficulty out of bounds: " + difficulty + ". Allowed range is 1-10.");
         }
         this.length = length;
         this.difficulty = difficulty;
@@ -83,14 +81,54 @@ public class Sudoku {
             for (int j = 0; j < length; j++) {
                 board[i][j] = new SudokuField(length);
             }
-        }possibilityIntegrity = true;
-         new SudokuSolver(this).fill();
+        }
+        possibilityIntegrity = true;
+    }
+
+    /**
+     * Create a new Sudoku with the inserted values as startValues and currentValues. To try to generate
+     * solutionValues use solve(). This can be used to insert Sudokus out of riddle magazines or similar sources.
+     *
+     * @param startBoard The inserted startValues
+     */
+    public Sudoku(int[][] startBoard) {
+        if(startBoard.length != startBoard[0].length) {
+            throw new IllegalArgumentException("The dimensions of the inserted startBoard must be equal" + startBoard
+                    .length + " != " + startBoard[0].length);
+        }
+        if(Math.sqrt(startBoard.length) % 1 != 0) {
+            throw new IllegalArgumentException("Length is no square number: " + startBoard.length);
+        }
+        this.length = startBoard.length;
+        this.blockLength = (int) Math.sqrt(length);
+        this.difficulty = 10;   // if it becomes solved, all values used to solve it are erased
+
+        board = new SudokuField[length][length];
+        for(int i = 0; i < length; i++) {
+            for(int j = 0; j < length; j++) {
+                board[i][j] = new SudokuField(length);
+                board[i][j].setStartValue(startBoard[i][j]);
+                board[i][j].setCurrentValue(startBoard[i][j]);
+            }
+        }
+        calculatePossibilities();
     }
 
 	// -------------------------------------------------------------------------
 
     /**
+     * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The currentValues of the
+     * board are initialized to the startValues. This method maintains possibility integrity.
+     */
+    void fill() {
+        new SudokuSolver(this).fill();
+    }
 
+    public boolean solve() {
+        return new SudokuSolver(this).solve();
+    }
+
+    /**
      * Counts the amount of filled fields (not containing 0).
      */
     public int count() {

@@ -164,6 +164,10 @@ public class SudokuGUI {
      * used to choose the note foreground color of the sudoku fields
      */
     private JComboBox<String> fieldNoteColorBox;
+    /**
+     * used to give the user feedback when trying to activate a Sudoku
+     */
+    private JLabel feedback;
 
     // -------------------------------------------------------------------------
 
@@ -233,6 +237,19 @@ public class SudokuGUI {
 
         buildCenterPanel(false);
         buildLeftPanel();
+
+        // build the topPanel
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        paintable.add(topPanel);
+        mainFrame.add(topPanel, BorderLayout.NORTH);
+        JButton activateButton = new JButton("activate");
+        activateButton.addActionListener(e -> activate());
+        topPanel.add(activateButton, BorderLayout.NORTH);
+        topPanel.add(Box.createHorizontalStrut(10));
+        feedback = new JLabel("");
+        topPanel.add(feedback, BorderLayout.NORTH);
+        paintable.add(feedback);
 
         updateForeground();
         updateBackground();
@@ -1585,12 +1602,35 @@ public class SudokuGUI {
 
     /**
      * Tries to activate the Sudoku inserted by the user and gives Feedback if it was successful.
-     *
-     * @return  Returncode
      */
-    private int activate() {
-        // TODO:  implement
-        return 0;
+    private void activate() {
+        try {
+            int[][] insertedBoard = new int[length][length];
+            for(int i = 0; i < length; i++) {
+                for(int j = 0; j < length; j++) {
+                    if(boardGraphic[i][j].getText().equals("")) {
+                        insertedBoard[i][j] = 0;
+                    } else {
+                        insertedBoard[i][j] = Integer.parseInt(boardGraphic[i][j].getText().trim());
+                    }
+                }
+            }
+            this.sudoku = new Sudoku(insertedBoard);
+
+            if(!sudoku.solve()) {
+                throw new SolvingFailedException();
+            }
+
+            sudoku.solve();
+            mainFrame.dispose();
+            SudokuGUI window = new SudokuGUI(sudoku);
+            window.setVisible(true);
+        } catch (NumberFormatException nfe) {
+            feedback.setText("Bitte nur eine Zahl pro Feld eingeben.");
+        } catch (SolvingFailedException sfe) {
+            feedback.setText("Sudoku kann so nicht gelöst werden.");
+        }
+
     }
 
     // ----------------------------------------------------------------------------------------------
