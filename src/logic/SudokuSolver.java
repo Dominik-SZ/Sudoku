@@ -109,7 +109,7 @@ public class SudokuSolver {
             System.out.println("Solution: ");
             System.out.println(sudoku.toString(true, true));
         }
-        sudoku.calculatePossibilities();
+        erase();
 
         return successful;
     }

@@ -114,35 +114,6 @@ public class Sudoku {
         calculatePossibilities();
     }
 
-	// -------------------------------------------------------------------------
-
-    /**
-     * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The currentValues of the
-     * board are initialized to the startValues. This method maintains possibility integrity.
-     */
-    void fill() {
-        new SudokuSolver(this).fill();
-    }
-
-    public boolean solve() {
-        return new SudokuSolver(this).solve();
-    }
-
-    /**
-     * Counts the amount of filled fields (not containing 0).
-     */
-    public int count() {
-        int count = 0;
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < length; j++) {
-                if (board[i][j].getStartValue() != 0) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
 	/**
 	 * Returns a String representation of the normal Sudoku with empty fields
 	 * displayed as 0.
@@ -195,46 +166,75 @@ public class Sudoku {
 		return representation;
 	}
 
-	/**
-	 * Prints the current Sudoku and the matching solution to the File
-	 * "Sudoku.txt".
-	 */
-	public void printToTextFile(String path) {
-		printToTextFile(path, "Sudoku.txt", "Solution.txt");
-	}
+    /**
+     * Prints the current Sudoku and the matching solution to the File
+     * "Sudoku.txt".
+     */
+    public void printToTextFile(String path) {
+        printToTextFile(path, "Sudoku.txt", "Solution.txt");
+    }
 
-	// currently not used
+    // currently not used
 
-	/**
-	 * Prints the current sudoku and the matching solution to the inserted file
-	 * name.
-	 *
-	 * @param path             The path leading to the folder of the generated text files
-	 * @param fileName         The name of the destination file
-	 * @param solutionFileName The name of the solution file
-	 */
-	private void printToTextFile(String path, String fileName, String solutionFileName) {
-		PrintWriter out = null;
-		path = path.replace('\\', '/');
-		try {
-			out = new PrintWriter(new FileWriter(new File(path + fileName + ".txt")));
-			out.println("Difficulty: " + difficulty);
-			out.println(count() + " fields are filled.");
-			out.print(toString(false, false)); // print the normal field
-			out.close();
-			out = new PrintWriter(new FileWriter(new File(path + solutionFileName + ".txt")));
-			out.println("Solution:");
-			out.print(toString(true, true)); // print the solution
-		} catch (IOException e) {
-			System.err.println("Caught IOException: " + e.getMessage());
-		} finally {
-			if (out != null) {
-				out.close();
-			} else {
-				System.out.println("PrintWriter not open");
-			}
-		}
-	}
+    /**
+     * Prints the current sudoku and the matching solution to the inserted file
+     * name.
+     *
+     * @param path             The path leading to the folder of the generated text files
+     * @param fileName         The name of the destination file
+     * @param solutionFileName The name of the solution file
+     */
+    private void printToTextFile(String path, String fileName, String solutionFileName) {
+        PrintWriter out = null;
+        path = path.replace('\\', '/');
+        try {
+            out = new PrintWriter(new FileWriter(new File(path + fileName + ".txt")));
+            out.println("Difficulty: " + difficulty);
+            out.println(count() + " fields are filled.");
+            out.print(toString(false, false)); // print the normal field
+            out.close();
+            out = new PrintWriter(new FileWriter(new File(path + solutionFileName + ".txt")));
+            out.println("Solution:");
+            out.print(toString(true, true)); // print the solution
+        } catch (IOException e) {
+            System.err.println("Caught IOException: " + e.getMessage());
+        } finally {
+            if (out != null) {
+                out.close();
+            } else {
+                System.out.println("PrintWriter not open");
+            }
+        }
+    }
+
+	// -------------------------------------------------------------------------
+
+    /**
+     * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The currentValues of the
+     * board are initialized to the startValues. This method maintains possibility integrity.
+     */
+    void fill() {
+        new SudokuSolver(this).fill();
+    }
+
+    public boolean solve() {
+        return new SudokuSolver(this).solve();
+    }
+
+    /**
+     * Counts the amount of filled fields (not containing 0).
+     */
+    public int count() {
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (board[i][j].getStartValue() != 0) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 
 	/**
 	 * Checks if the inserted value at the specified coordinates on the inserted
@@ -248,8 +248,6 @@ public class Sudoku {
 	 */
 	public boolean isAllowed(int value, int iCoord, int jCoord) {
 
-		boolean answer = true;
-
 		// check block
 		int blockLength = (int) Math.sqrt(length);
 		int iStartValue = blockLength * (iCoord / blockLength);
@@ -257,7 +255,7 @@ public class Sudoku {
 		for (int i = iStartValue; i < iStartValue + blockLength; i++) {
 			for (int j = jStartValue; j < jStartValue + blockLength; j++) {
 				if (board[i][j].getCurrentValue() == value) {
-					answer = false;
+					return false;
 				}
 			}
 		}
@@ -265,18 +263,18 @@ public class Sudoku {
 		// check column
 		for (int i = 0; i < length; i++) {
 			if (board[i][jCoord].getCurrentValue() == value) {
-				answer = false;
+				return false;
 			}
 		}
 
 		// check row
 		for (int j = 0; j < length; j++) {
 			if (board[iCoord][j].getCurrentValue() == value) {
-				answer = false;
+				return false;
 			}
 		}
 
-		return answer;
+		return true;
 	}
 
 	/**
