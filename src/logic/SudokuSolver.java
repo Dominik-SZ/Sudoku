@@ -2,6 +2,8 @@ package logic;
 
 import java.util.*;
 
+import logic.exceptions.NoBackupsException;
+import logic.exceptions.PossibilityIntegrityViolatedException;
 import logic.solvingStrategies.*;
 import utilities.MathUtilities;
 
@@ -235,6 +237,7 @@ public class SudokuSolver {
      * method is called.
      *
      * @param coord The 1D coordinate of the last assumption
+     * @throws PossibilityIntegrityViolatedException If possibility integrity is not assured
      */
     private void assume(int coord) throws NoBackupsException, PossibilityIntegrityViolatedException {
         if(!sudoku.getPossibilityIntegrity()) {

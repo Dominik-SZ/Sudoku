@@ -1,4 +1,4 @@
-package logic;
+package logic.exceptions;
 
 /**
  * Should be thrown, when a method requires possibility integrity, which is not assured.

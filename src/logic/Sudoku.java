@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import logic.exceptions.PossibilityIntegrityViolatedException;
 import utilities.Coordinate;
 import utilities.MathUtilities;
 import utilities.GameStatus;
@@ -427,7 +428,7 @@ public class Sudoku {
 	 * Can be used to check if the current values of the board contain no conflicts (same number in same row, column
 	 * or block). This returns true even if the inserted solution differs from the original expected one.
 	 *
-	 * @return	If the current values of the board contain no conflicts
+	 * @return	If the current values of the board contain no conflicts and zeros
 	 */
 	private boolean isFilledAlternatively() {
 
@@ -455,8 +456,24 @@ public class Sudoku {
 		}
 
 		// check the blocks
-		//TODO: Bin zu dicht hierfür
+		for(int iBlock = 0; iBlock < blockLength; iBlock++) {
+			for(int jBlock = 0; jBlock < blockLength; jBlock++) {
 
+                occurences.clear();
+			    // iterate the current block
+			    int iStartValue = iBlock * blockLength;
+			    int jStartValue = jBlock * blockLength;
+                for(int i = iStartValue; i < iStartValue + blockLength; i++) {
+                    for(int j = jStartValue; j < jStartValue + blockLength; j++) {
+                        if(occurences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
+                            return false;
+                        }
+                        occurences.add(board[i][j].getCurrentValue());
+                    }
+                }
+
+            }
+		}
 
 		return true;
 	}
@@ -613,7 +630,8 @@ public class Sudoku {
 
 	/**
 	 * Sets the inserted value at the specified coordinates as currentValue in the board.
-	 * Note that this method breaks possibility integrity. Consider using insertValue or removeValue instead.
+	 * Note that this method is very quick but breaks possibility integrity. Consider using insertValue or removeValue
+     * instead.
 	 *
 	 * @param value  The value to be set
 	 * @param iCoord The i coordinate at which to set the specified value
@@ -682,9 +700,11 @@ public class Sudoku {
 	 */
 	public void removeCurrentValue(int iCoord, int jCoord) {
 
+	    // case of the value already being 0
 		if (board[iCoord][jCoord].getCurrentValue() == 0) {
 			return;
 		}
+
 		board[iCoord][jCoord].setCurrentValue(0);
 
 		// update the possibilities of the row
