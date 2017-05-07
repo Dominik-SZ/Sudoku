@@ -496,7 +496,7 @@ public class Sudoku {
 	 * Previously inserted possibilities are overwritten.
 	 * Afterwards possibility integrity is assured.
 	 */
-	void calculatePossibilities() {
+    public void calculatePossibilities() {
 		// iterate the whole board
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
@@ -583,7 +583,7 @@ public class Sudoku {
 		return this.board[i][j].getCurrentValue();
 	}
 
-	boolean getPossibilityIntegrity() {
+	public boolean isPossibilityInteger() {
 	    return possibilityIntegrity;
     }
 

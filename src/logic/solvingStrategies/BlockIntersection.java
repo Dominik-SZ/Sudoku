@@ -1,6 +1,7 @@
 package logic.solvingStrategies;
 
 import logic.Sudoku;
+import logic.exceptions.PossibilityIntegrityViolatedException;
 import utilities.Coordinate;
 
 import java.util.LinkedList;
@@ -25,7 +26,10 @@ public class BlockIntersection implements SolvingStrategy {
 
 
 	@Override
-	public boolean apply() {
+	public boolean apply() throws PossibilityIntegrityViolatedException {
+		if(!sudoku.isPossibilityInteger()) {
+		    throw new PossibilityIntegrityViolatedException();
+        }
 
 		boolean changed = false;
 		LinkedList<Coordinate> occurrences = new LinkedList<>();

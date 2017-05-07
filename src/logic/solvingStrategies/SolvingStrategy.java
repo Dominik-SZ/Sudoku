@@ -1,11 +1,10 @@
 package logic.solvingStrategies;
 
-/**
- * Created by Nico on 29.04.2017. Nico ist cool.
- */
+import logic.exceptions.PossibilityIntegrityViolatedException;
+
 public interface SolvingStrategy {
 
-	boolean apply();
+	boolean apply() throws PossibilityIntegrityViolatedException;
 	int getDifficulty();
 
 }

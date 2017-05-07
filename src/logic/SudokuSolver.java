@@ -222,9 +222,14 @@ public class SudokuSolver {
                 new HiddenSingleBlock(sudoku, this)
         );
 
-        return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
-                                            .map(SolvingStrategy::apply)
-                                            .reduce(Boolean::logicalOr).orElse(false);
+        try {
+            return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
+                                                .map(SolvingStrategy::apply)
+                                                .reduce(Boolean::logicalOr).orElse(false);
+        } catch (PossibilityIntegrityViolatedException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
@@ -240,7 +245,7 @@ public class SudokuSolver {
      * @throws PossibilityIntegrityViolatedException If possibility integrity is not assured
      */
     private void assume(int coord) throws NoBackupsException, PossibilityIntegrityViolatedException {
-        if(!sudoku.getPossibilityIntegrity()) {
+        if(!sudoku.isPossibilityInteger()) {
             throw new PossibilityIntegrityViolatedException();
         }
 

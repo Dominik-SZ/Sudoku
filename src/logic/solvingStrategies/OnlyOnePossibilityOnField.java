@@ -2,6 +2,7 @@ package logic.solvingStrategies;
 
 import logic.Sudoku;
 import logic.SudokuSolver;
+import logic.exceptions.PossibilityIntegrityViolatedException;
 
 /**
  * Iterates the whole possibility array and searches for fields with only
@@ -20,7 +21,11 @@ public class OnlyOnePossibilityOnField implements SolvingStrategy {
 	}
 
 	@Override
-	public boolean apply() {
+	public boolean apply() throws PossibilityIntegrityViolatedException {
+
+		if(!sudoku.isPossibilityInteger()) {
+			throw new PossibilityIntegrityViolatedException();
+		}
 		boolean answer = false;
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < length; j++) {
