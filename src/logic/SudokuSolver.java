@@ -7,6 +7,8 @@ import logic.exceptions.PossibilityIntegrityViolatedException;
 import logic.solvingStrategies.*;
 import utilities.MathUtilities;
 
+import static logic.exceptions.PossibilityIntegrityViolatedException.wrap;
+
 
 public class SudokuSolver {
     /**
@@ -224,7 +226,7 @@ public class SudokuSolver {
 
         try {
             return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
-                                                .map(SolvingStrategy::apply)
+                                                .map(wrap(SolvingStrategy::apply))
                                                 .reduce(Boolean::logicalOr).orElse(false);
         } catch (PossibilityIntegrityViolatedException e) {
             e.printStackTrace();
