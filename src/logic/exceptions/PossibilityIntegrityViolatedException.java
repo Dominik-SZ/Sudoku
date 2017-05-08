@@ -19,13 +19,13 @@ public class PossibilityIntegrityViolatedException extends Exception {
      * Wraps the function that throws a {@link PossibilityIntegrityViolatedException},
      * so that it still throws the exception but the compiler doesn't complain.
      *
-     * @see <a href="http://www.stackoverflow.com/a/27644392">http://www.stackoverflow.com/a/27644392</a>
-     * @see <a href="http://www.stackoverflow.com/a/30974991">http://www.stackoverflow.com/a/30974991</a>
-     *
      * @param func a {@link Function} that throws a PossibilityIntegrityViolatedException
      * @return a function that seems not to throw a PossibilityIntegrityViolatedException
      * (although it does :)
-     * @throws PossibilityIntegrityViolatedException
+     * @throws PossibilityIntegrityViolatedException if the wrapped function throws a
+     *                                               PossibilityIntegrityViolatedException
+     * @see <a href="http://www.stackoverflow.com/a/27644392">http://www.stackoverflow.com/a/27644392</a>
+     * @see <a href="http://www.stackoverflow.com/a/30974991">http://www.stackoverflow.com/a/30974991</a>
      */
     public static <T, R> Function<T, R> wrap(Function_WithException<T, R, PossibilityIntegrityViolatedException> func)
             throws PossibilityIntegrityViolatedException {
@@ -43,7 +43,8 @@ public class PossibilityIntegrityViolatedException extends Exception {
 
     /**
      * A {@link Function} that throws an exception of type {@code <E>}.
-     * @param <E>   the type of exception that is thrown by the function
+     *
+     * @param <E> the type of exception that is thrown by the function
      */
     @FunctionalInterface
     public interface Function_WithException<T, R, E extends Exception> {
