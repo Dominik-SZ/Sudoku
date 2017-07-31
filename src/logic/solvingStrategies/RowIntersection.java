@@ -2,9 +2,8 @@ package logic.solvingStrategies;
 
 
 import logic.Sudoku;
-import logic.SudokuSolver;
 import logic.exceptions.PossibilityIntegrityViolatedException;
-import utilities.Coordinate;
+import util.Coordinate;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -15,7 +14,7 @@ import java.util.NoSuchElementException;
  * of the rest of the fields in this block.
  * This is a restrictive method.
  */
-public class RowIntersection implements  SolvingStrategy{
+public class RowIntersection implements SolvingStrategy{
 	private Sudoku sudoku;
 	private int length;
 	private int blockLength;

@@ -1,4 +1,4 @@
-package utilities;
+package util;
 
 /**
  * Offers an enumeration for the different states the Sudoku board can be in.

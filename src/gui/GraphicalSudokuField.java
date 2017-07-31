@@ -16,9 +16,9 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import logic.Sudoku;
-import utilities.Direction;
-import utilities.Keyboard;
-import utilities.GameStatus;
+import util.Direction;
+import util.Keyboard;
+import util.GameStatus;
 
 /**
  * GraphicalSudokuField extends JTextField and adds a flag if it is darkened, i and j

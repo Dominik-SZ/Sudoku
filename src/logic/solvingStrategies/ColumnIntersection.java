@@ -3,7 +3,7 @@ package logic.solvingStrategies;
 
 import logic.Sudoku;
 import logic.exceptions.PossibilityIntegrityViolatedException;
-import utilities.Coordinate;
+import util.Coordinate;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;

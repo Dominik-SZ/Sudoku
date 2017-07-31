@@ -1,9 +1,8 @@
 package gui;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import logic.Sudoku;
 import logic.SudokuMain;
-import utilities.*;
+import util.*;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -1039,9 +1038,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Outlines all displayed Sudoku fields with the inserted number if their
-     * input is a final input (they have the standardFont). All fields of the
-     * boardGraphic are checked by doing so. All other outlines are undone and
+     * Outlines all displayed Sudoku fields with the inserted number if their input is a final input (they have the
+     * standardFont). All fields of the boardGraphic are checked by doing so. All other outlines are undone and
      * if the inserted number is already outlined, it is also undone.
      *
      * @param newOutline The number whose holding fields shall become outlined
@@ -1105,8 +1103,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Updates the foreground color of all components in the "paintable" list.
-     * The attribute foregroundColor is used to determine the color.
+     * Updates the foreground color of all components in the "paintable" list. The attribute foregroundColor is used
+     * to determine the color.
      */
     private void updateForeground() {
         for (Component i : paintable) {
@@ -1115,8 +1113,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Updates the background color of all components in the "paintable" list.
-     * The attribute backgroundColor is used to determine the color.
+     * Updates the background color of all components in the "paintable" list. The attribute backgroundColor is used
+     * to determine the color.
      */
     private void updateBackground() {
         for (Component i : paintable) {
@@ -1125,9 +1123,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Updates the foreground color of all editable Sudoku fields in the
-     * boardGraphic with standard font. The attribute fieldStandardColor is used
-     * to determine the color.
+     * Updates the foreground color of all editable Sudoku fields in the boardGraphic with standard font. The
+     * attribute fieldStandardColor is used to determine the color.
      */
     private void updateFieldStandard() {
         for (int i = 0; i < length; i++) {
@@ -1141,9 +1138,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Updates the foreground color of all editable Sudoku fields in the
-     * boardGraphic with note font. The attribute fieldNoteColor is used to
-     * determine the color.
+     * Updates the foreground color of all editable Sudoku fields in the boardGraphic with note font. The attribute
+     * fieldNoteColor is used to determine the color.
      */
     private void updateFieldNote() {
         for (int i = 0; i < length; i++) {
@@ -1157,8 +1153,7 @@ public class SudokuGUI {
     }
 
     /**
-     * Determines the width to the next editable field in the specified
-     * direction of the specified field.
+     * Determines the width to the next editable field in the specified direction of the specified field.
      *
      * @param iCoord    The iCoord of the current field
      * @param jCoord    The jCoord of the current field
@@ -1224,11 +1219,10 @@ public class SudokuGUI {
             return;
         }
 
-        for (int distance = 1; distance < middle; distance++) { // increase the
-            // radius
-            for (Direction d : Direction.values()) { // search in a circle
-                // starting top, going
-                // clockwise
+        // increase the radius
+        for (int distance = 1; distance < middle; distance++) {
+            // search in a circle starting top, going clockwise
+            for (Direction d : Direction.values()) {
                 if (jumpWidth(middle, middle, d) == distance) {
                     moveFocus(middle, middle, d, distance);
                     return;
@@ -1296,7 +1290,7 @@ public class SudokuGUI {
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem
-                            .getAudioInputStream(clip.getClass().getResourceAsStream("/utilities/success.wav"));
+                            .getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -1315,7 +1309,7 @@ public class SudokuGUI {
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem
-                            .getAudioInputStream(clip.getClass().getResourceAsStream("/utilities/success.wav"));
+                            .getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {

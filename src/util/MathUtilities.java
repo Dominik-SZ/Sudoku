@@ -1,4 +1,4 @@
-package utilities;
+package util;
 
 public class MathUtilities {
 	/** Calculates the greatest common divisor of the inserted numbers by using the Euklid algorithm.

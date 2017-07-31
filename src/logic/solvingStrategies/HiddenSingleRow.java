@@ -2,7 +2,7 @@ package logic.solvingStrategies;
 
 import logic.Sudoku;
 import logic.SudokuSolver;
-import utilities.Coordinate;
+import util.Coordinate;
 
 import java.util.HashSet;
 import java.util.LinkedList;

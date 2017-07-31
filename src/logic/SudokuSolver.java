@@ -5,7 +5,7 @@ import java.util.*;
 import logic.exceptions.NoBackupsException;
 import logic.exceptions.PossibilityIntegrityViolatedException;
 import logic.solvingStrategies.*;
-import utilities.MathUtilities;
+import util.MathUtilities;
 
 import static logic.exceptions.PossibilityIntegrityViolatedException.wrap;
 
@@ -94,15 +94,15 @@ public class SudokuSolver {
     /**
      * Tries to solve the Sudoku like a player and returns if it was successful doing so.
      *
-     * @return  If solving the Sudoku succeeded
+     * @return If solving the Sudoku succeeded
      */
-    boolean solve() {
+    boolean solve() throws PossibilityIntegrityViolatedException {
         boolean successful = true;
-        while(successful && !isFinished()) {
+        while (successful && !isFinished()) {
             successful = trySolving();
         }
 
-        if(successful) {
+        if (successful) {
             // saving the Solution array before erasing
             for (int i = 0; i < length; i++) {
                 for (int j = 0; j < length; j++) {
@@ -139,8 +139,12 @@ public class SudokuSolver {
         System.out.println("randomFill successfully performed");
         System.out.println(sudoku.toString());
 
-        while (trySolving()) {
-            System.out.println("trySolving iteration");
+        try {
+            while (trySolving()) {
+                System.out.println("trySolving iteration");
+            }
+        } catch (PossibilityIntegrityViolatedException e) {
+            e.printStackTrace();
         }
 
         int trySolvingAssumeCycles = 0;
@@ -173,8 +177,12 @@ public class SudokuSolver {
             // trySolving loop
             // use the trySolving method as long as it succeeds
             while (true) {
-                if(!trySolving()) {
-                    break;
+                try {
+                    if (!trySolving()) {
+                        break;
+                    }
+                } catch (PossibilityIntegrityViolatedException ex) {
+                    ex.printStackTrace();
                 }
             }
 
@@ -214,24 +222,14 @@ public class SudokuSolver {
      * trying to solve the Sudoku). The fields filled by this method may be
      * deleted afterwards.
      */
-    private boolean trySolving() {
-        Collection<SolvingStrategy> strategies = Arrays.asList(
-                new RowIntersection(sudoku),
-                new ColumnIntersection(sudoku),
-                new BlockIntersection(sudoku),
-                new HiddenSingleRow(sudoku, this),
-                new HiddenSingleColumn(sudoku, this),
-                new HiddenSingleBlock(sudoku, this)
-        );
+    private boolean trySolving() throws PossibilityIntegrityViolatedException {
+        Collection<SolvingStrategy> strategies = Arrays.asList(new RowIntersection(sudoku), new ColumnIntersection(sudoku), new BlockIntersection(sudoku), new HiddenSingleRow(sudoku, this), new HiddenSingleColumn(sudoku, this), new HiddenSingleBlock(sudoku, this));
 
         try {
-            return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty())
-                                                .map(wrap(SolvingStrategy::apply))
-                                                .reduce(Boolean::logicalOr).orElse(false);
+            return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty()).map(wrap(SolvingStrategy::apply)).reduce(Boolean::logicalOr).orElse(false);
         } catch (PossibilityIntegrityViolatedException e) {
-            e.printStackTrace();
+            throw new PossibilityIntegrityViolatedException();
         }
-        return false;
     }
 
     /**
@@ -247,7 +245,7 @@ public class SudokuSolver {
      * @throws PossibilityIntegrityViolatedException If possibility integrity is not assured
      */
     private void assume(int coord) throws NoBackupsException, PossibilityIntegrityViolatedException {
-        if(!sudoku.isPossibilityInteger()) {
+        if (!sudoku.isPossibilityInteger()) {
             throw new PossibilityIntegrityViolatedException();
         }
 
