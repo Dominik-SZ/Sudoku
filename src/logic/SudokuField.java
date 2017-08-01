@@ -8,11 +8,12 @@ public class SudokuField {
 
     /** the maximum value of this field */
     private final int maxValue;
+    private int startValue;
+    private int solutionValue;
     private int currentValue;
     private HashSet<Integer> possibilities;
 
-    private int startValue;
-    private int solutionValue;
+
 
 	/**
 	 * Creates a new SudokuField with 0s as value for the currentValue, startValue and solutionValue as well as a
@@ -29,7 +30,7 @@ public class SudokuField {
 		resetPossibilities();
 	}
 
-    //-------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Fills the possibilities HashMap of the field with all numbers from

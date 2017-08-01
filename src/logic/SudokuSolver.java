@@ -193,10 +193,9 @@ public class SudokuSolver {
     }
 
     /**
-     * Inserts "amount" values randomly on fields of the solverBoard filled with 0
-     * considering the gamerules (making sure that every number appears at most
-     * once in every row, column and block).
-     * This method maintains possibility integrity
+     * Inserts "amount" values randomly on fields of the solverBoard filled with 0 considering the game rules (making
+     * sure that every number appears at most once in every row, column and block). This method maintains possibility
+     * integrity.
      */
     private void randomFill(int amount) {
         for (int k = 0; k < amount; k++) {
@@ -217,10 +216,9 @@ public class SudokuSolver {
     }
 
     /**
-     * Tries to solve the given Sudoku like a player and returns true if at
-     * least one value got changed (indicating that it should be continued
-     * trying to solve the Sudoku). The fields filled by this method may be
-     * deleted afterwards.
+     * Tries to solve the given Sudoku like a player and returns true if at least one value got changed (indicating
+     * that it should be continued trying to solve the Sudoku). The fields filled by this method may be deleted
+     * afterwards.
      */
     private boolean trySolving() throws PossibilityIntegrityViolatedException {
         Collection<SolvingStrategy> strategies = Arrays.asList(new RowIntersection(sudoku), new ColumnIntersection(sudoku), new BlockIntersection(sudoku), new HiddenSingleRow(sudoku, this), new HiddenSingleColumn(sudoku, this), new HiddenSingleBlock(sudoku, this));

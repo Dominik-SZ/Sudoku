@@ -692,7 +692,7 @@ public class SudokuGUI {
                 + "nachgeschlagen werden kann.");
         solutionButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         solutionButton.addActionListener(e -> {
-            SolutionWindow solutionWindow = new SolutionWindow(sudoku.getStartValue(), fieldStandardColor);
+            SolutionWindow solutionWindow = new SolutionWindow(sudoku.getBoard(), fieldStandardColor);
             solutionWindow.setVisible(true);
         });
         bottomPanel.add(solutionButton);

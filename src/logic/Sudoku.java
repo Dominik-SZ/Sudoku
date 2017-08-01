@@ -519,113 +519,8 @@ public class Sudoku {
         return board[iCoord][jCoord].getPossibilities();
     }
 
-    //-------------------------------------------------------------------------
-
-    // Methods necessary for communication with other classes
-    // Getter-Methods:
-
-    /**
-     * A getter method to get the value of the specified field of the Sudoku
-     *
-     * @param iCoord The i Coordinate of the demanded field
-     * @param jCoord The j Coordinate of the demanded field
-     * @return The value of the demanded field
-     */
-    public int getStartValue(int iCoord, int jCoord) {
-        if (iCoord < length && iCoord >= 0 && jCoord < length && jCoord >= 0) {
-            return this.board[iCoord][jCoord].getStartValue();
-        } else {
-            throw new IllegalArgumentException("iCoord " + iCoord + ", jCoord " + jCoord);
-        }
-    }
-
-    /**
-     * A getter method to get the value of the specified field of the Sudoku
-     *
-     * @param coord The coordinate of the field whose value is demanded
-     * @return The demanded value
-     */
-    public int getStartValue(int coord) throws IllegalArgumentException {
-        if (coord >= 0 && coord < length * length) {
-            return this.board[coord / length][coord % length].getStartValue();
-        } else {
-            throw new IllegalArgumentException("coord " + coord);
-        }
-    }
-
-
-    public int getSolutionValue(int coord) {
-        return board[coord / length][coord % length].getSolutionValue();
-    }
-
-    public int getSolutionValue(int iCoord, int jCoord) {
-        return board[iCoord][jCoord].getSolutionValue();
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getBlockLength() {
-        return blockLength;
-    }
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public SudokuField[][] getStartValue() {
-        return this.board;
-    }
-
-    public int getCurrentValue(int i, int j) {
-        return this.board[i][j].getCurrentValue();
-    }
-
-    public boolean isPossibilityInteger() {
-        return possibilityIntegrity;
-    }
-
+    //------------------------------------------------------------------------------------------------------------------
     // Setter-Methods
-
-    /**
-     * Inserts an Integer at the specified Coordinate in values[][]
-     *
-     * @param value The inserted Value
-     * @param coord Coordinate
-     */
-    public void setStartValue(int value, int coord) throws IllegalArgumentException {
-        if (coord < length * length && coord >= 0 && value <= length && value >= 0) {
-            board[coord / length][coord % length].setStartValue(value);
-        } else {
-            throw new IllegalArgumentException("value " + value + " at coord " + coord);
-        }
-    }
-
-    /**
-     * Sets a new start value at the specified coordinates of the Sudoku board
-     *
-     * @param value  The value to be set
-     * @param iCoord The i coordinate at which to insert
-     * @param jCoord The j coordinate at which to insert
-     */
-    void setStartValue(int value, int iCoord, int jCoord) {
-        board[iCoord][jCoord].setStartValue(value);
-    }
-
-    /**
-     * Sets an Integer at the specified Coordinate in boardSolved[][]
-     *
-     * @param value The set Value
-     * @param coord The 1D coordinate at which to set the specified value
-     */
-    public void setSolutionValue(int value, int coord) throws IllegalArgumentException {
-        if (coord < length * length && coord >= 0 && value <= length && value >= 0) {
-            board[coord / length][coord % length].setSolutionValue(value);
-        } else {
-            throw new IllegalArgumentException("value " + value + " at coord " + coord);
-        }
-    }
 
     /**
      * Sets the inserted value at the specified coordinates as currentValue in the board. Note that this method is very
@@ -635,36 +530,51 @@ public class Sudoku {
      * @param iCoord The i coordinate at which to set the specified value
      * @param jCoord The j coordinate at which to set the specified value
      */
-    void setCurrentValue(int value, int iCoord, int jCoord) {
+    void setCurrentValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+        if (value < 0 || length < value) {
+            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+        }
+        if (iCoord < 0 || iCoord >= length) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || jCoord >= length) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
+
         board[iCoord][jCoord].setCurrentValue(value);
         possibilityIntegrity = false;
     }
 
     /**
-     * Sets a new solution value at the specified coordinates of the Sudoku board
-     *
-     * @param value  The value to be set
-     * @param iCoord The i coordinate at which to insert
-     * @param jCoord The j coordinate at which to insert
-     */
-    void setSolutionValue(int value, int iCoord, int jCoord) {
-        this.board[iCoord][jCoord].setSolutionValue(value);
-    }
-
-    /**
      * Sets a new value in the currentState of this Sudoku and removes the affected possibilities. Note that this method
-     * only keeps possibility- integrity, if the previous entry was 0.
+     * only keeps possibility integrity, if the previous entry was 0 or was already the same as the new one.
      *
      * @param value  The new value to be inserted
      * @param iCoord The i coordinate on which to insert
      * @param jCoord The j coordinate on which to insert
      */
-    public void insertCurrentValue(int value, int iCoord, int jCoord) {
+    public void insertCurrentValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+        if (value < 0 || length < value) {
+            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+        }
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
 
+        // check if the value is already inserted at this position
+        if (board[iCoord][jCoord].getCurrentValue() == value) {
+            return;
+        }
+
+        // check if the value at this position was 0 up to now
         if (board[iCoord][jCoord].getCurrentValue() != 0) {
             possibilityIntegrity = false;
         }
 
+        // actually set the value
         board[iCoord][jCoord].setCurrentValue(value);
 
         // remove the possibilities from the row
@@ -689,12 +599,18 @@ public class Sudoku {
 
     /**
      * Removes the current value on the inserted coordinate (sets it to 0) and updates the possibilities on all affected
-     * fields. This method keeps possibility integrity.
+     * fields. This method maintains possibility integrity.
      *
      * @param iCoord The i coordinate of the value to be removed
      * @param jCoord The j coordinate of the value to be removed
      */
-    public void removeCurrentValue(int iCoord, int jCoord) {
+    public void removeCurrentValue(int iCoord, int jCoord) throws IllegalArgumentException {
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
 
         // case of the value already being 0
         if (board[iCoord][jCoord].getCurrentValue() == 0) {
@@ -734,6 +650,214 @@ public class Sudoku {
             }
         }
 
+    }
+
+    /**
+     * Sets the start value at the inserted 1D coordinate to the inserted value. The 2D coordinates are computed as
+     * follows by doing so: i = coord / length j = coord % length
+     *
+     * @param value The new start value
+     * @param coord The coordinate at which to set the new start value
+     */
+    public void setStartValue(int value, int coord) throws IllegalArgumentException {
+        if (value < 0 || length < value) {
+            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+        }
+        if (coord < 0 || length * length <= coord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + coord);
+        }
+
+        board[coord / length][coord % length].setStartValue(value);
+    }
+
+    /**
+     * Sets a new start value at the specified coordinates of the Sudoku board
+     *
+     * @param value  The value to be set
+     * @param iCoord The i coordinate at which to insert
+     * @param jCoord The j coordinate at which to insert
+     */
+    void setStartValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+        if (value < 0 || length < value) {
+            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+        }
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
+
+        board[iCoord][jCoord].setStartValue(value);
+    }
+
+    /**
+     * Sets the solution value at the inserted 1D coordinate to the inserted value. The 2D coordinates are computed as
+     * follows by doing so: i = coord / length j = coord % length
+     *
+     * @param value The new solution value
+     * @param coord The coordinate at which to set the new solution value
+     */
+    public void setSolutionValue(int value, int coord) throws IllegalArgumentException {
+        if (value < 1 || length < value) {
+            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+        }
+        if (coord < 0 || length * length <= coord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + coord);
+        }
+
+        board[coord / length][coord % length].setSolutionValue(value);
+    }
+
+    /**
+     * Sets a new solution value at the specified coordinates of the Sudoku board
+     *
+     * @param value  The value to be set
+     * @param iCoord The i coordinate at which to insert
+     * @param jCoord The j coordinate at which to insert
+     */
+    void setSolutionValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+        if (value < 1 || length < value) {
+            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+        }
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
+
+        board[iCoord][jCoord].setSolutionValue(value);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Getter-Methods:
+
+    /**
+     * Returns the current value of the specified field of this Sudoku.
+     *
+     * @param iCoord The i coordinate of the field whose current value is demanded
+     * @param jCoord The j coordinate of the field whose current value is demanded
+     * @return The demanded current value
+     */
+    public int getCurrentValue(int iCoord, int jCoord) throws IllegalArgumentException {
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
+
+        return this.board[iCoord][jCoord].getCurrentValue();
+    }
+
+    /**
+     * Returns the value of the specified field of the Sudoku.
+     *
+     * @param iCoord The i Coordinate of the demanded field
+     * @param jCoord The j Coordinate of the demanded field
+     * @return The value of the demanded field
+     */
+    public int getStartValue(int iCoord, int jCoord) throws IllegalArgumentException {
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
+
+        return this.board[iCoord][jCoord].getStartValue();
+    }
+
+    /**
+     * Returns the start value of the specified field of this Sudoku.
+     *
+     * @param coord The coordinate of the field whose start value is demanded
+     * @return The demanded start value
+     */
+    public int getStartValue(int coord) throws IllegalArgumentException {
+        if (coord < 0 || length * length <= coord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + coord);
+        }
+
+        return this.board[coord / length][coord % length].getStartValue();
+    }
+
+    /**
+     * Returns the solution value of the specified field of this Sudoku.
+     *
+     * @param coord The coordinate of the field whose solution value is demanded
+     * @return The demanded solution value
+     */
+    public int getSolutionValue(int coord) throws IllegalArgumentException {
+        if (coord < 0 || length * length <= coord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + coord);
+        }
+
+        return board[coord / length][coord % length].getSolutionValue();
+    }
+
+    /**
+     * Returns the solution value of the specified field of this Sudoku.
+     *
+     * @param iCoord The i coordinate of the field whose solution value is demanded
+     * @param jCoord The j coordinate of the field whose solution value is demanded
+     * @return The demanded solution value
+     */
+    public int getSolutionValue(int iCoord, int jCoord) throws IllegalArgumentException {
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        }
+
+        return board[iCoord][jCoord].getSolutionValue();
+    }
+
+    /**
+     * Returns the length of this sudoku (standard 9).
+     *
+     * @return The length of this sudoku
+     */
+    public int getLength() {
+        return length;
+    }
+
+    /**
+     * Returns the block length of this sudoku, which is the square root if its length (standard 3).
+     *
+     * @return The block length of this sudoku
+     */
+    public int getBlockLength() {
+        return blockLength;
+    }
+
+    /**
+     * Returns the difficulty of this sudoku.
+     *
+     * @return The difficulty of this sudoku
+     */
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    /**
+     * Returns the board containing the sudoku fields of this sudoku.
+     *
+     * @return The board of this sudoku
+     */
+    public SudokuField[][] getBoard() {
+        return this.board;
+    }
+
+    /**
+     * Returns if the possibilities saved in this board are assured to be correct.
+     *
+     * @return If the possibilities saved in this sudoku are guaranteed to be correct
+     */
+    public boolean isPossibilityInteger() {
+        return possibilityIntegrity;
     }
 
 }
