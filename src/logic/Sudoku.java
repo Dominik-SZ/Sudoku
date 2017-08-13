@@ -319,9 +319,9 @@ public class Sudoku {
     }
 
     /**
-     * Clears the board of the Sudoku completely. All current-, start- and solution values are hereby set to 0 and
-     * the possibilities are reset. If you only need to reset the current values and possibilities, consider using
-     * clear() instead.
+     * Clears the board of the Sudoku completely. All current-, start- and solution values are hereby set to 0 and the
+     * possibilities are reset. If you only need to reset the current values and possibilities, consider using clear()
+     * instead.
      */
     void clearCompletely() {
         for (int i = 0; i < length; i++) {
@@ -546,9 +546,9 @@ public class Sudoku {
      * Sets the inserted value at the specified coordinates as currentValue in the board. Note that this method is very
      * quick but breaks possibility integrity. Consider using insertValue or removeValue instead.
      *
-     * @param value  The value to be set
-     * @param i The i coordinate at which to set the specified value
-     * @param j The j coordinate at which to set the specified value
+     * @param value The value to be set
+     * @param i     The i coordinate at which to set the specified value
+     * @param j     The j coordinate at which to set the specified value
      */
     void setCurrentValue(int value, int i, int j) throws IllegalArgumentException {
         if (value < 0 || length < value) {
@@ -567,9 +567,9 @@ public class Sudoku {
     }
 
     /**
-     * Sets a new value as a current value of this Sudoku at the specified coordinates and removes the affected
-     * possibilities. Note that this method only keeps possibility integrity, if the previous entry was 0 or was
-     * already the same as the new one.
+     * Sets a new value as a current value of this Sudoku at the specified coordinates, removes all possibilities from
+     * it and removes the affected possibilities. Note that this method only keeps possibility integrity, if the
+     * previous entry was 0 or was already the same as the new one.
      *
      * @param value  The new value to be inserted
      * @param iCoord The i coordinate on which to insert
@@ -642,23 +642,30 @@ public class Sudoku {
             return;
         }
 
+        // save the old value for later use in this method
+        int old = board[iCoord][jCoord].getCurrentValue();
+
+        // remove the old value
         board[iCoord][jCoord].setCurrentValue(0);
+
+        // update the own possibilities
+        for(int k = 1; k <= length; k++) {
+            if(isAllowed(k, iCoord, jCoord)) {
+                board[iCoord][jCoord].getPossibilities().add(k);
+            }
+        }
 
         // update the possibilities of the row
         for (int j = 0; j < length; j++) {
-            for (int k = 0; k < length; k++) {
-                if (isAllowed(k, iCoord, j)) {
-                    board[iCoord][j].getPossibilities().add(k);
-                }
+            if (isAllowed(old, iCoord, j)) {
+                board[iCoord][j].getPossibilities().add(old);
             }
         }
 
         // update the possibilities of the column
         for (int i = 0; i < length; i++) {
-            for (int k = 0; k < length; k++) {
-                if (isAllowed(k, i, jCoord)) {
-                    board[i][jCoord].getPossibilities().add(k);
-                }
+            if (isAllowed(old, i, jCoord)) {
+                board[i][jCoord].getPossibilities().add(old);
             }
         }
 
@@ -667,10 +674,8 @@ public class Sudoku {
         int jStartValue = blockLength * (jCoord / blockLength);
         for (int i = iStartValue; i < iStartValue + blockLength; i++) {
             for (int j = jStartValue; j < jStartValue + blockLength; j++) {
-                for (int k = 0; k < length; k++) {
-                    if (isAllowed(k, i, j)) {
-                        board[i][j].getPossibilities().add(k);
-                    }
+                if (isAllowed(old, i, j)) {
+                    board[i][j].getPossibilities().add(old);
                 }
             }
         }
