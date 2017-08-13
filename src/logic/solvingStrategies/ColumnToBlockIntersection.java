@@ -62,7 +62,7 @@ public class ColumnToBlockIntersection implements SolvingStrategy{
 					}
 
 					if(sameBlock) {
-						int iStart = iBlockNumber + blockLength;
+						int iStart = iBlockNumber * blockLength;
 						int jStart  =jBlockNumber * blockLength;
 
 						// remove the possibilities in the columns left of the occurred column in the same block

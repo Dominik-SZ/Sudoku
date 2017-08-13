@@ -54,7 +54,7 @@ public class BlockToRowAndColumnIntersection implements SolvingStrategy {
 
                     try {
                         // check if all occurrences are in the same row
-                        int firstI = occurrences.get(1).i;
+                        int firstI = occurrences.getFirst().i;
                         boolean sameRow = true;
                         for (Coordinate coord : occurrences) {
                             if (coord.i != firstI) {
@@ -76,7 +76,7 @@ public class BlockToRowAndColumnIntersection implements SolvingStrategy {
 
 
                         // check if all occurrences are in the same column
-                        int firstJ = occurrences.get(1).j;
+                        int firstJ = occurrences.getFirst().j;
                         boolean sameColumn = true;
                         for (Coordinate coord : occurrences) {
                             if (coord.j != firstJ) {

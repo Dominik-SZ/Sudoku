@@ -555,10 +555,10 @@ public class Sudoku {
             throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
         }
         if (i < 0 || i >= length) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + i);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + i);
         }
         if (j < 0 || j >= length) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + j);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + j);
         }
 
         board[i][j].setCurrentValue(value);
@@ -580,10 +580,10 @@ public class Sudoku {
             throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
         }
         if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
         if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
         // check if the value is already inserted at this position
@@ -631,10 +631,10 @@ public class Sudoku {
      */
     public void removeCurrentValue(int iCoord, int jCoord) throws IllegalArgumentException {
         if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
         if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
         // case of the value already being 0
@@ -712,10 +712,10 @@ public class Sudoku {
             throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
         }
         if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
         if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
         board[iCoord][jCoord].setStartValue(value);
@@ -751,10 +751,10 @@ public class Sudoku {
             throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
         }
         if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
         if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
         board[iCoord][jCoord].setSolutionValue(value);
@@ -772,10 +772,10 @@ public class Sudoku {
      */
     public int getCurrentValue(int iCoord, int jCoord) throws IllegalArgumentException {
         if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
         if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
         return this.board[iCoord][jCoord].getCurrentValue();
@@ -790,10 +790,10 @@ public class Sudoku {
      */
     public int getStartValue(int iCoord, int jCoord) throws IllegalArgumentException {
         if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
         if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
         return this.board[iCoord][jCoord].getStartValue();
@@ -836,10 +836,10 @@ public class Sudoku {
      */
     public int getSolutionValue(int iCoord, int jCoord) throws IllegalArgumentException {
         if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
         if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
         return board[iCoord][jCoord].getSolutionValue();
@@ -849,12 +849,19 @@ public class Sudoku {
      * Returns the possibilities of the sudoku field at the chosen coordinates. These are the numbers which are not yet
      * inserted in the same row, column or block like the chosen coordinate.
      *
-     * @param i The i coordinate of the chosen field
-     * @param j The j coordinate of the chosen field
+     * @param iCoord The i coordinate of the chosen field
+     * @param jCoord The j coordinate of the chosen field
      * @return The possibilities remaining on this field
      */
-    public HashSet<Integer> getPossibilities(int i, int j) {
-        return board[i][j].getPossibilities();
+    public HashSet<Integer> getPossibilities(int iCoord, int jCoord) {
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
+        }
+
+        return board[iCoord][jCoord].getPossibilities();
     }
 
     /**

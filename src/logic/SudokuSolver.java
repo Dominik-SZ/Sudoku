@@ -263,7 +263,6 @@ public class SudokuSolver {
      */
     private boolean trySolving() throws PIVException {
         boolean changedSomething = false;
-        System.err.println("strategies size: " + strategies.size());
         for(SolvingStrategy strategy: strategies) {
             changedSomething = strategy.apply();
         }

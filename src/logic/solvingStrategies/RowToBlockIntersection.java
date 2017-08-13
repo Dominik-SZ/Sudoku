@@ -64,7 +64,7 @@ public class RowToBlockIntersection implements SolvingStrategy {
                     }
 
                     if (sameBlock) {
-                        int iStart = iBlockNumber + blockLength;
+                        int iStart = iBlockNumber * blockLength;
                         int jStart = jBlockNumber * blockLength;
 
                         // remove the possibilities in the rows on top of the occurred row in the same block
