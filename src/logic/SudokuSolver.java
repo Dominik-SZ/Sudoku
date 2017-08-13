@@ -23,17 +23,20 @@ public class SudokuSolver {
     /**
      * the backups to stepBack() to, if an assumption proofs to be wrong
      */
-    private Stack<BackupPoint> backups = new Stack<>();
+    private Stack<BackupPoint> backups;
     /**
      * the distance in fields between two assumptions
      */
     private int stepWidth;
+
+    private ArrayList<SolvingStrategy> strategies;
 
     // ------------------------------------------------------------------------
 
     SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
+        int difficulty = sudoku.getDifficulty();
         // generate a stepWidth, which has no common divisor with the Sudoku
         // length greater than 1
         stepWidth = (int) (length * 1.3);
@@ -43,6 +46,43 @@ public class SudokuSolver {
 
         backups = new Stack<>();
         backups.push(new BackupPoint(-1, new LinkedList<>()));
+
+        // initialize the strategies
+        // TODO: look for a possibility to check for the difficulty of the strategy before instantiating it
+        strategies = new ArrayList<>(10);
+
+        // intersection strategies (restrictive methods)
+        SolvingStrategy strategy = new RowToBlockIntersection(sudoku);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+        strategy = new ColumnToBlockIntersection(sudoku);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+        strategy = new BlockToRowAndColumnIntersection(sudoku);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+
+        // hidden single strategies (interpreting methods)
+        strategy = new HiddenSingleRow(sudoku, this);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+        strategy = new HiddenSingleColumn(sudoku, this);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+        strategy = new HiddenSingleBlock(sudoku, this);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+
+        // OnlyOnePossibilityOnField standard method (interpreting method)
+        strategy = new OnlyOnePossibilityOnField(sudoku, this);
+        strategies.add(strategy);   // is always used
+
     }
 
     // ------------------------------------------------------------------------
@@ -215,18 +255,19 @@ public class SudokuSolver {
     }
 
     /**
-     * Tries to solve the given Sudoku like a player and returns true if at least one value got changed (indicating
-     * that it should be continued trying to solve the Sudoku). The fields filled by this method may be deleted
-     * afterwards.
+     * Tries to solve the given Sudoku like a player and returns true if at least one current value or possibility got
+     * changed (indicating that it should be continued trying to solve the Sudoku). The fields filled by this method
+     * may become deleted afterwards.
+     *
+     * @return If some progress could been made to solve the sudoku
      */
     private boolean trySolving() throws PIVException {
-        Collection<SolvingStrategy> strategies = Arrays.asList(new RowToBlockIntersection(sudoku), new ColumnToBlockIntersection(sudoku), new BlockToRowAndColumnIntersection(sudoku), new HiddenSingleRow(sudoku, this), new HiddenSingleColumn(sudoku, this), new HiddenSingleBlock(sudoku, this));
-
-        try {
-            return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty()).map(wrap(SolvingStrategy::apply)).reduce(Boolean::logicalOr).orElse(false);
-        } catch (PIVException e) {
-            throw new PIVException();
+        boolean changedSomething = false;
+        System.err.println("strategies size: " + strategies.size());
+        for(SolvingStrategy strategy: strategies) {
+            changedSomething = strategy.apply();
         }
+        return changedSomething;
     }
 
     /**
@@ -311,7 +352,8 @@ public class SudokuSolver {
 
         // test another possible assumption on this field
         else {
-            sudoku.insertCurrentValue(latestBackup.popRandomPossibility(), i, j);
+            sudoku.setCurrentValue(latestBackup.popRandomPossibility(), i, j);
+            sudoku.calculatePossibilities();
             // System.out.println("DEBUG: stepBack(): keep node Coord:
             // "+latestBackup.getChangedCoord() + " now with value:
             // "+getCurrentValue(latestBackup.getChangedCoord()));
@@ -355,13 +397,12 @@ public class SudokuSolver {
     // Secondary Methods to fill the Sudoku
 
     /**
-     * checks if there is no allowed possibility remaining to fill one of the
-     * empty fields.
+     * checks if there is no allowed possibility remaining to fill one of the empty fields.
      */
     private boolean isLocked() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                if (sudoku.getPossibilities(i, j).size() == 0) {
+                if (sudoku.getCurrentValue(i, j) == 0 && sudoku.getPossibilities(i, j).size() == 0) {
                     System.out.println("isLocked: no remaining possibilities found at i=" + i + " and j=" + j);
                     return true;
                 }

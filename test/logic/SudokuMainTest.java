@@ -10,7 +10,6 @@ public class SudokuMainTest {
         Sudoku sudoku = SudokuMain.buildSudoku(9,1);
         assertTrue(sudoku.isFilled());
         sudoku.clearCompletely();
-        /*
         sudoku = SudokuMain.buildSudoku(9,2);
         assertTrue(sudoku.isFilled());
         sudoku = SudokuMain.buildSudoku(9,3);
@@ -29,7 +28,6 @@ public class SudokuMainTest {
         assertTrue(sudoku.isFilled());
         sudoku = SudokuMain.buildSudoku(9,10);
         assertTrue(sudoku.isFilled());
-        */
     }
 
 }

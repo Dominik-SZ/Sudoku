@@ -9,11 +9,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
- * Checks if a possibility for a column is impossible to be placed on all
- * but one field. If such a value and field is found, the value gets placed
- * on this field and true is returned. If no field and value are found,
- * false is returned.
- * This is an interpreting method.
+ * Checks if a possibility for a column is impossible to be placed on all but one field. If such a value and field is
+ * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
+ * This is an interpreting method meaning that it does not manipulate the possibilities but interprets them to find
+ * new values.
  */
 public class HiddenSingleColumn implements SolvingStrategy{
 	private Sudoku sudoku;

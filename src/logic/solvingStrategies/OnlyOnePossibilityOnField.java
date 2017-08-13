@@ -5,16 +5,17 @@ import logic.SudokuSolver;
 import logic.exceptions.PIVException;
 
 /**
- * Iterates the whole possibility array and searches for fields with only
- * one possibility remaining. If such a field is found, the only remaining
- * value is inserted via insertValue().
+ * Iterates all fields and their possibilities searches for fields with only one possibility remaining. If such a
+ * field is found, the only remaining possibility is inserted as current value.
+ * This is an interpreting method meaning that it does not manipulate the possibilities of the fields but finds new
+ * values to set.
  */
 public class OnlyOnePossibilityOnField implements SolvingStrategy {
 	private Sudoku sudoku;
 	private SudokuSolver solver;
 	private int length;
 
-	OnlyOnePossibilityOnField (Sudoku sudoku, SudokuSolver solver) {
+	public OnlyOnePossibilityOnField (Sudoku sudoku, SudokuSolver solver) {
 		this.sudoku = sudoku;
 		this.solver = solver;
 		this.length = sudoku.getLength();

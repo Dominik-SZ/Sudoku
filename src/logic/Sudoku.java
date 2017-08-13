@@ -547,27 +547,29 @@ public class Sudoku {
      * quick but breaks possibility integrity. Consider using insertValue or removeValue instead.
      *
      * @param value  The value to be set
-     * @param iCoord The i coordinate at which to set the specified value
-     * @param jCoord The j coordinate at which to set the specified value
+     * @param i The i coordinate at which to set the specified value
+     * @param j The j coordinate at which to set the specified value
      */
-    void setCurrentValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+    void setCurrentValue(int value, int i, int j) throws IllegalArgumentException {
         if (value < 0 || length < value) {
             throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
         }
-        if (iCoord < 0 || iCoord >= length) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + iCoord);
+        if (i < 0 || i >= length) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + i);
         }
-        if (jCoord < 0 || jCoord >= length) {
-            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + jCoord);
+        if (j < 0 || j >= length) {
+            throw new IllegalArgumentException("Inserted coordinate out of bounds: " + j);
         }
 
-        board[iCoord][jCoord].setCurrentValue(value);
+        board[i][j].setCurrentValue(value);
+        board[i][j].getPossibilities().clear();
         possibilityIntegrity = false;
     }
 
     /**
-     * Sets a new value in the currentState of this Sudoku and removes the affected possibilities. Note that this method
-     * only keeps possibility integrity, if the previous entry was 0 or was already the same as the new one.
+     * Sets a new value as a current value of this Sudoku at the specified coordinates and removes the affected
+     * possibilities. Note that this method only keeps possibility integrity, if the previous entry was 0 or was
+     * already the same as the new one.
      *
      * @param value  The new value to be inserted
      * @param iCoord The i coordinate on which to insert
@@ -596,6 +598,9 @@ public class Sudoku {
 
         // actually set the value
         board[iCoord][jCoord].setCurrentValue(value);
+
+        // remove all possibilities from this field
+        board[iCoord][jCoord].getPossibilities().clear();
 
         // remove the possibilities from the row
         for (int j = 0; j < length; j++) {
