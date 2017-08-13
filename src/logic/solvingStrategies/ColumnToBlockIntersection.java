@@ -2,57 +2,54 @@ package logic.solvingStrategies;
 
 
 import logic.Sudoku;
-import logic.exceptions.PossibilityIntegrityViolatedException;
+import logic.exceptions.PIVException;
 import util.Coordinate;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
- * Checks if all possibilities of a row for a specific number are in the
- * same block. If they are, this number is removed from the possibilities
- * of the rest of the fields in this block.
- * This is a restrictive method.
+ * Checks if all possibilities of a column for a specific number are in the same block. If they are, this number is
+ * removed from the possibilities of the rest of the fields in this block.
+ * This is a restrictive method meaning it only removes possibilities instead of finding new values.
  */
-public class RowIntersection implements SolvingStrategy{
+public class ColumnToBlockIntersection implements SolvingStrategy{
 	private Sudoku sudoku;
 	private int length;
 	private int blockLength;
 
-	public RowIntersection(Sudoku sudoku) {
+	public ColumnToBlockIntersection(Sudoku sudoku) {
 		this.sudoku = sudoku;
 		this.length = sudoku.getLength();
 		this.blockLength = sudoku.getBlockLength();
 	}
 
-
 	@Override
-	public boolean apply() throws PossibilityIntegrityViolatedException {
-
+	public boolean apply() throws PIVException {
 		if(!sudoku.isPossibilityInteger()) {
-            throw new PossibilityIntegrityViolatedException();
-		}
+		    throw new PIVException();
+        }
 
 		boolean changed = false;
 		LinkedList<Coordinate> occurrences = new LinkedList<>();
 
-		// iterate the rows
-		for(int iRow = 0; iRow < length; iRow++) {
+		// iterate all columns
+		for(int jColumn = 0; jColumn < length; jColumn++) {
 
 			// iterate all possible numbers
 			for(int k = 1; k <= length; k++) {
 
-				// save all occurrences of this number in this row
+				// save all occurrences of this number in this column
 				occurrences.clear();
-				for(int j = 0; j < length; j++) {
-					if(sudoku.getCurrentValue(iRow, j) == 0 && sudoku.getPossibilities(iRow, j).contains(k)){
-						occurrences.add(new Coordinate(iRow, j));
+				for(int i = 0; i < length; i++) {
+					if(sudoku.getCurrentValue(i, jColumn) == 0 && sudoku.getPossibilities(i, jColumn).contains(k)){
+						occurrences.add(new Coordinate(i, jColumn));
 					}
 				}
 
 				try {
 					// check if all occurrences are in the same block
-					int iOccurrence = occurrences.getFirst().i;
+					int jOccurrence = occurrences.getFirst().j;
 					int iBlockNumber = occurrences.getFirst().i / blockLength;
 					int jBlockNumber = occurrences.getFirst().j / blockLength;
 					boolean sameBlock = true;
@@ -68,18 +65,18 @@ public class RowIntersection implements SolvingStrategy{
 						int iStart = iBlockNumber + blockLength;
 						int jStart  =jBlockNumber * blockLength;
 
-						// remove the possibilities in the rows on top of the occurred row in the same block
-						for(int i = iStart; i < iOccurrence; i++) {
-							for(int j = jStart; j < jStart + blockLength; j++) {
+						// remove the possibilities in the columns left of the occurred column in the same block
+						for(int i = iStart; i < iStart + blockLength; i++) {
+							for(int j = jStart; j < jOccurrence; j++) {
 								if(sudoku.getPossibilities(i, j).contains(k)){
 									changed = true;
 									sudoku.getPossibilities(i, j).remove(k);
 								}
 							}
 						}
-						// remove the possibilities in the rows below the occurred row in the same block
-						for(int i = iOccurrence + 1; i < iStart + blockLength; i++) {
-							for(int j = jStart; j < jStart + blockLength; j++) {
+						// remove the possibilities in the columns right of the occurred column in the same block
+						for(int i = iStart + 1; i < iStart + blockLength; i++) {
+							for(int j = jOccurrence; j < jStart + blockLength; j++) {
 								if(sudoku.getPossibilities(i, j).contains(k)){
 									changed = true;
 									sudoku.getPossibilities(i, j).remove(k);
@@ -93,7 +90,9 @@ public class RowIntersection implements SolvingStrategy{
 					// do nothing. Skip this number
 				}
 
+
 			}
+
 		}
 		return changed;
 	}

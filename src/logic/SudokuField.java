@@ -1,7 +1,6 @@
 package logic;
 
 
-import java.util.Collection;
 import java.util.HashSet;
 
 public class SudokuField {
@@ -50,7 +49,7 @@ public class SudokuField {
         this.currentValue = currentValue;
     }
 
-    Collection<Integer> getPossibilities() {
+    HashSet<Integer> getPossibilities() {
         return this.possibilities;
     }
 

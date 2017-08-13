@@ -1,10 +1,10 @@
 package logic.solvingStrategies;
 
-import logic.exceptions.PossibilityIntegrityViolatedException;
+import logic.exceptions.PIVException;
 
 public interface SolvingStrategy {
 
-	boolean apply() throws PossibilityIntegrityViolatedException;
+	boolean apply() throws PIVException;
 	int getDifficulty();
 
 }

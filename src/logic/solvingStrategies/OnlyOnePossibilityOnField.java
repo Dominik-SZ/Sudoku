@@ -2,7 +2,7 @@ package logic.solvingStrategies;
 
 import logic.Sudoku;
 import logic.SudokuSolver;
-import logic.exceptions.PossibilityIntegrityViolatedException;
+import logic.exceptions.PIVException;
 
 /**
  * Iterates the whole possibility array and searches for fields with only
@@ -21,10 +21,10 @@ public class OnlyOnePossibilityOnField implements SolvingStrategy {
 	}
 
 	@Override
-	public boolean apply() throws PossibilityIntegrityViolatedException {
+	public boolean apply() throws PIVException {
 
 		if(!sudoku.isPossibilityInteger()) {
-			throw new PossibilityIntegrityViolatedException();
+			throw new PIVException();
 		}
 		boolean answer = false;
 		for (int i = 0; i < length; i++) {

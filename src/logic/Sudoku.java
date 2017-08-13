@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import logic.exceptions.PossibilityIntegrityViolatedException;
+import logic.exceptions.PIVException;
 import util.Coordinate;
 import util.MathUtilities;
 import util.GameStatus;
@@ -44,6 +44,10 @@ public class Sudoku {
      */
     private boolean possibilityIntegrity;
 
+    /**
+     * if this sudoku has been filled meaning it is ready to be played
+     */
+    private boolean isFilled;
     // -------------------------------------------------------------------------
 
     // Constructors
@@ -81,6 +85,7 @@ public class Sudoku {
             }
         }
         possibilityIntegrity = true;
+        isFilled = false;
     }
 
     /**
@@ -213,12 +218,13 @@ public class Sudoku {
      */
     void fill() {
         new SudokuSolver(this).fill();
+        isFilled = true;
     }
 
     public boolean solve() {
         try {
             return new SudokuSolver(this).solve();
-        } catch (PossibilityIntegrityViolatedException ex) {
+        } catch (PIVException ex) {
             ex.printStackTrace();
             return false;
         }
@@ -249,9 +255,9 @@ public class Sudoku {
      * @param jCoord The j coordinate of the position to check
      * @return If the value is allowed to be inserted there
      */
-    boolean isAllowedQuick(int value, int iCoord, int jCoord) throws PossibilityIntegrityViolatedException {
+    boolean isAllowedQuick(int value, int iCoord, int jCoord) throws PIVException {
         if (!possibilityIntegrity) {
-            throw new PossibilityIntegrityViolatedException();
+            throw new PIVException();
         }
         return board[iCoord][jCoord].getPossibilities().contains(value);
     }
@@ -299,12 +305,30 @@ public class Sudoku {
 
     /**
      * Clears the board of the Sudoku. All currentValues are hereby set to 0 and the possibilities reset. Afterwards
-     * possibility integrity is assured
+     * possibility integrity is assured. If you want to reset the sudoku completely, consider using clearCompletely()
+     * instead.
      */
     void clear() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 board[i][j].setCurrentValue(0);
+                board[i][j].resetPossibilities();
+            }
+        }
+        possibilityIntegrity = true;
+    }
+
+    /**
+     * Clears the board of the Sudoku completely. All current-, start- and solution values are hereby set to 0 and
+     * the possibilities are reset. If you only need to reset the current values and possibilities, consider using
+     * clear() instead.
+     */
+    void clearCompletely() {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                board[i][j].setCurrentValue(0);
+                board[i][j].setStartValue(0);
+                board[i][j].setSolutionValue(0);
                 board[i][j].resetPossibilities();
             }
         }
@@ -432,26 +456,26 @@ public class Sudoku {
      */
     private boolean isFilledAlternatively() {
 
-        HashSet<Integer> occurences = new HashSet<>();
+        HashSet<Integer> occurrences = new HashSet<>();
         // check the rows
         for (int i = 0; i < length; i++) {
-            occurences.clear();
+            occurrences.clear();
             for (int j = 0; j < length; j++) {
-                if (occurences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
+                if (occurrences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
                     return false;
                 }
-                occurences.add(board[i][j].getCurrentValue());
+                occurrences.add(board[i][j].getCurrentValue());
             }
         }
 
         // check the columns
         for (int j = 0; j < length; j++) {
-            occurences.clear();
+            occurrences.clear();
             for (int i = 0; i < length; i++) {
-                if (occurences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
+                if (occurrences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
                     return false;
                 }
-                occurences.add(board[i][j].getCurrentValue());
+                occurrences.add(board[i][j].getCurrentValue());
             }
         }
 
@@ -459,16 +483,16 @@ public class Sudoku {
         for (int iBlock = 0; iBlock < blockLength; iBlock++) {
             for (int jBlock = 0; jBlock < blockLength; jBlock++) {
 
-                occurences.clear();
+                occurrences.clear();
                 // iterate the current block
                 int iStartValue = iBlock * blockLength;
                 int jStartValue = jBlock * blockLength;
                 for (int i = iStartValue; i < iStartValue + blockLength; i++) {
                     for (int j = jStartValue; j < jStartValue + blockLength; j++) {
-                        if (occurences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
+                        if (occurrences.contains(board[i][j].getCurrentValue()) || board[i][j].getCurrentValue() == 0) {
                             return false;
                         }
-                        occurences.add(board[i][j].getCurrentValue());
+                        occurrences.add(board[i][j].getCurrentValue());
                     }
                 }
 
@@ -513,10 +537,6 @@ public class Sudoku {
             }
         }
         possibilityIntegrity = true;
-    }
-
-    public Collection<Integer> getPossibilities(int iCoord, int jCoord) {
-        return board[iCoord][jCoord].getPossibilities();
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -816,6 +836,18 @@ public class Sudoku {
     }
 
     /**
+     * Returns the possibilities of the sudoku field at the chosen coordinates. These are the numbers which are not yet
+     * inserted in the same row, column or block like the chosen coordinate.
+     *
+     * @param i The i coordinate of the chosen field
+     * @param j The j coordinate of the chosen field
+     * @return The possibilities remaining on this field
+     */
+    public HashSet<Integer> getPossibilities(int i, int j) {
+        return board[i][j].getPossibilities();
+    }
+
+    /**
      * Returns the length of this sudoku (standard 9).
      *
      * @return The length of this sudoku
@@ -858,6 +890,10 @@ public class Sudoku {
      */
     public boolean isPossibilityInteger() {
         return possibilityIntegrity;
+    }
+
+    boolean isFilled() {
+        return isFilled;
     }
 
 }

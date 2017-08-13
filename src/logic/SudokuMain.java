@@ -45,7 +45,8 @@ public class SudokuMain {
 
         // the user starts a new Sudoku
         if (optionsArray[2] == 0) {
-            run(optionsArray[0], optionsArray[1]);
+            Sudoku sudoku = buildSudoku(optionsArray[0], optionsArray[1]);
+            buildSwingGUI(sudoku);
         }
         // the user inserts an own Sudoku
         if(optionsArray[2] == 1) {
@@ -54,12 +55,26 @@ public class SudokuMain {
         }
     }
 
-    private static void run(int length, int difficulty) {
-
+    /**
+     * Creates a new sudoku object, which becomes filled.
+     *
+     * @param length    The length of the new sudoku
+     * @param difficulty    The difficulty of the new sudoku
+     * @return The sudoku built
+     */
+    static Sudoku buildSudoku(int length, int difficulty) {
         System.out.println("generate new Sudoku");
         Sudoku sudoku = new Sudoku(length, difficulty);
         sudoku.fill();
+        return sudoku;
+    }
 
+    /**
+     * Builds a SwingGUI to the inserted filled sudoku object.
+     *
+     * @param sudoku    The sudoku to display in the new GUI
+     */
+    private static void buildSwingGUI(Sudoku sudoku) {
         SudokuGUI window = new SudokuGUI(sudoku);
         window.setVisible(true);
     }

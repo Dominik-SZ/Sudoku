@@ -3,11 +3,11 @@ package logic;
 import java.util.*;
 
 import logic.exceptions.NoBackupsException;
-import logic.exceptions.PossibilityIntegrityViolatedException;
+import logic.exceptions.PIVException;
 import logic.solvingStrategies.*;
 import util.MathUtilities;
 
-import static logic.exceptions.PossibilityIntegrityViolatedException.wrap;
+import static logic.exceptions.PIVException.wrap;
 
 
 public class SudokuSolver {
@@ -96,7 +96,7 @@ public class SudokuSolver {
      *
      * @return If solving the Sudoku succeeded
      */
-    boolean solve() throws PossibilityIntegrityViolatedException {
+    boolean solve() throws PIVException {
         boolean successful = true;
         while (successful && !isFinished()) {
             successful = trySolving();
@@ -121,11 +121,10 @@ public class SudokuSolver {
     //------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Helping method which tries to fill the Sudoku completely, but gives up if
-     * it exceeds the allowed amount of trials. It returns whether it was
-     * successful.
+     * Helping method which tries to fill the Sudoku completely, but gives up if it exceeds the allowed amount of
+     * trials (length² / 3). It returns whether it was successful.
      *
-     * @return If the the method was successful in filling the sudoku (startValues and solutionValues and currentValues)
+     * @return If the the method was successful in filling the sudoku (startValues, solutionValues and currentValues)
      */
     private boolean fillTrial() {
 
@@ -143,7 +142,7 @@ public class SudokuSolver {
             while (trySolving()) {
                 System.out.println("trySolving iteration");
             }
-        } catch (PossibilityIntegrityViolatedException e) {
+        } catch (PIVException e) {
             e.printStackTrace();
         }
 
@@ -170,7 +169,7 @@ public class SudokuSolver {
                 backups.push(new BackupPoint(-1, new LinkedList<>())); // Backup for the first tsFills
                 sudoku.clear();
                 return false;
-            } catch (PossibilityIntegrityViolatedException e) {
+            } catch (PIVException e) {
                 e.printStackTrace();
             }
 
@@ -181,7 +180,7 @@ public class SudokuSolver {
                     if (!trySolving()) {
                         break;
                     }
-                } catch (PossibilityIntegrityViolatedException ex) {
+                } catch (PIVException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -209,7 +208,7 @@ public class SudokuSolver {
                 } else {
                     k--;
                 }
-            } catch (PossibilityIntegrityViolatedException ex) {
+            } catch (PIVException ex) {
                 ex.printStackTrace();
             }
         }
@@ -220,31 +219,29 @@ public class SudokuSolver {
      * that it should be continued trying to solve the Sudoku). The fields filled by this method may be deleted
      * afterwards.
      */
-    private boolean trySolving() throws PossibilityIntegrityViolatedException {
-        Collection<SolvingStrategy> strategies = Arrays.asList(new RowIntersection(sudoku), new ColumnIntersection(sudoku), new BlockIntersection(sudoku), new HiddenSingleRow(sudoku, this), new HiddenSingleColumn(sudoku, this), new HiddenSingleBlock(sudoku, this));
+    private boolean trySolving() throws PIVException {
+        Collection<SolvingStrategy> strategies = Arrays.asList(new RowToBlockIntersection(sudoku), new ColumnToBlockIntersection(sudoku), new BlockToRowAndColumnIntersection(sudoku), new HiddenSingleRow(sudoku, this), new HiddenSingleColumn(sudoku, this), new HiddenSingleBlock(sudoku, this));
 
         try {
             return strategies.stream().filter(strategy -> strategy.getDifficulty() <= sudoku.getDifficulty()).map(wrap(SolvingStrategy::apply)).reduce(Boolean::logicalOr).orElse(false);
-        } catch (PossibilityIntegrityViolatedException e) {
-            throw new PossibilityIntegrityViolatedException();
+        } catch (PIVException e) {
+            throw new PIVException();
         }
     }
 
     /**
-     * If there is no value to be found by trying to solve the Sudoku like a
-     * player, there is an assumption to be made. It is very well possible that
-     * this assumption is wrong, which is why a backup is made to be returned
-     * to, if that is the case. This method attempts an assumption after the
-     * last one by iterating systematically in steps of the size stepWidth
-     * through the Sudoku. If the Sudoku is found to be locked, the stepBack
-     * method is called.
+     * If there is no value to be found by trying to solve the Sudoku like a player, there is an assumption to be
+     * made. It is very well possible that this assumption is wrong, which is why a backup is made to be returned
+     * to, if that is the case. This method attempts an assumption after the last one by iterating systematically in
+     * steps of the size stepWidth through the Sudoku. If the Sudoku is found to be locked, the stepBack method is
+     * called.
      *
      * @param coord The 1D coordinate of the last assumption
-     * @throws PossibilityIntegrityViolatedException If possibility integrity is not assured
+     * @throws PIVException If possibility integrity is not assured
      */
-    private void assume(int coord) throws NoBackupsException, PossibilityIntegrityViolatedException {
+    private void assume(int coord) throws NoBackupsException, PIVException {
         if (!sudoku.isPossibilityInteger()) {
-            throw new PossibilityIntegrityViolatedException();
+            throw new PIVException();
         }
 
         coord = coord + stepWidth; // iterate to the next field
@@ -307,7 +304,7 @@ public class SudokuSolver {
             sudoku.removeCurrentValue(i, j);
             try {
                 assume(coord);
-            } catch (PossibilityIntegrityViolatedException ex) {
+            } catch (PIVException ex) {
                 ex.printStackTrace();
             }
         }
