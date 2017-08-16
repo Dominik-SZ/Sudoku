@@ -1,7 +1,6 @@
 package logic.solvingStrategies;
 
 import logic.Sudoku;
-import logic.exceptions.PIVException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -149,7 +148,7 @@ public class XWingTest {
     }
 
     @Test
-    public void columnBases() throws PIVException {
+    public void columnBases() throws Exception {
         // field 10 (used but not affected by the strategy)
         HashSet<Integer> expected10 = new HashSet<>(2);
         expected10.add(1);

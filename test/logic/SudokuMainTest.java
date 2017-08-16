@@ -77,6 +77,7 @@ public class SudokuMainTest {
 
     @Test
     public void fillAmount() {
+        // how many sudokus are generated and used to determine the average per random fill amount
         final int TEST_AMOUNT = 25;
         final int RANDOM_FILL_CAP = 25;
         double[] averageFieldsFilled = new double[RANDOM_FILL_CAP + 1];
@@ -98,10 +99,17 @@ public class SudokuMainTest {
 
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder(500);
-        builder.append("\t\t\t\taverage fields filled\t\taverage time needed" + lineSeparator);
+        builder.append("\t\t\t\taverage fields filled\t\taverage time needed");
+        builder.append(lineSeparator);
         for(int i = 0; i < averageFieldsFilled.length; i++) {
-            builder.append("RandomFills: " + i + "\t\t\t" + averageFieldsFilled[i] + "\t\t\t\t\t\t" +
-                                   averageTimeNeeded[i]+" ms"+ lineSeparator);
+            builder.append("RandomFills: ");
+            builder.append(i);
+            builder.append("\t\t\t");
+            builder.append(averageFieldsFilled[i]);
+            builder.append("\t\t\t\t\t\t");
+            builder.append(averageTimeNeeded[i]);
+            builder.append(" ms");
+            builder.append(lineSeparator);
         }
         System.out.println(builder);
     }

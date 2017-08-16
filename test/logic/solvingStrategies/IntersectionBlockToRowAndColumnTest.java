@@ -1,7 +1,6 @@
 package logic.solvingStrategies;
 
 import logic.Sudoku;
-import logic.exceptions.PIVException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

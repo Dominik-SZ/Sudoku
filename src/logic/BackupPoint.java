@@ -47,16 +47,14 @@ class BackupPoint {
 	/**
 	 * Pushes the inserted coordinate to the tSFills stack.
 	 * 
-	 * @param coord
-	 *            the one dimensional coordinate, which is supposed to be saved
+	 * @param coord the one dimensional coordinate, which is supposed to be saved
 	 */
 	void pushTSFills(int coord) {
 		this.tSFills.push(coord);
 	}
 
 	/**
-	 * Returns a random entry of the possibility list and removes it from the
-	 * list
+	 * Returns a random entry of the possibility list and removes it from the list
 	 */
 	int popRandomPossibility() {
 		return possibilities.get((int) (Math.random() * possibilities.size()));

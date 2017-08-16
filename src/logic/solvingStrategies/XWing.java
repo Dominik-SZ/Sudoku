@@ -3,7 +3,6 @@ package logic.solvingStrategies;
 import logic.Sudoku;
 import logic.exceptions.PIVException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -29,8 +28,8 @@ public class XWing implements SolvingStrategy {
         }
 
         boolean didSomething = false;
-        boolean foundIn1 = false;
-        boolean foundIn2 = false;
+        boolean foundIn1;
+        boolean foundIn2;
         HashSet<Integer> occurrences = new HashSet<>(length);
 
         //--------------------------------------------------------------------------------------------------------------

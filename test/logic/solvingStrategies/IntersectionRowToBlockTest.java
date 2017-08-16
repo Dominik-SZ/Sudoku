@@ -1,7 +1,6 @@
 package logic.solvingStrategies;
 
 import logic.Sudoku;
-import logic.exceptions.PIVException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class IntersectionRowToBlockTest {
     }
 
     @Test
-    public void beforeStrategy() throws PIVException {
+    public void beforeStrategy() throws Exception {
         // field 21 (affected by the strategy)
         HashSet<Integer> expectedOld21 = new HashSet<>(2);
         expectedOld21.add(4);
