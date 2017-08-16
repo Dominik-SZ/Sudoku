@@ -1,6 +1,7 @@
 package logic.solvingStrategies;
 
 import logic.Sudoku;
+import logic.exceptions.PIVException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,10 +10,10 @@ import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
 
 
-public class ColumnToBlockIntersectionTest {
+public class IntersectionColumnToBlockTest {
 
     private Sudoku sudoku;
-    private ColumnToBlockIntersection strategy;
+    private IntersectionColumnToBlock strategy;
 
     @Before
     public void setUp() throws Exception {
@@ -29,72 +30,89 @@ public class ColumnToBlockIntersectionTest {
         };
 
         sudoku = new Sudoku(values);
-        strategy = new ColumnToBlockIntersection(sudoku);
+        strategy = new IntersectionColumnToBlock(sudoku);
     }
 
 
     @Test
-    public void apply() throws Exception {
-        // field 03
-        HashSet<Integer> foundOld03 = sudoku.getPossibilities(0, 3);
+    public void beforeStrategy() throws PIVException {
+        // field 03 (not affected by the strategy)
         HashSet<Integer> expectedOld03 = new HashSet<>(3);
         expectedOld03.add(3);
         expectedOld03.add(4);
         expectedOld03.add(5);
+        HashSet<Integer> foundOld03 = sudoku.getPossibilities(0, 3);
         assertEquals(expectedOld03, foundOld03);
 
-        // field 04
-        HashSet<Integer> foundOld04 = sudoku.getPossibilities(0, 4);
+        // field 04 (not affected by the strategy)
         HashSet<Integer> expectedOld04 = new HashSet<>(3);
         expectedOld04.add(4);
         expectedOld04.add(5);
         expectedOld04.add(9);
+        HashSet<Integer> foundOld04 = sudoku.getPossibilities(0, 4);
         assertEquals(expectedOld04, foundOld04);
 
-        // field 15
-        HashSet<Integer> foundOld15 = sudoku.getPossibilities(1, 5);
+        // field 15 (affected by the strategy)
         HashSet<Integer> expectedOld15 = new HashSet<>(2);
         expectedOld15.add(4);
         expectedOld15.add(7);
+        HashSet<Integer> foundOld15 = sudoku.getPossibilities(1, 5);
         assertEquals(expectedOld15, foundOld15);
 
-        // field 25
-        HashSet<Integer> foundOld25 = sudoku.getPossibilities(2, 5);
+        // field 25 (affected by the strategy)
         HashSet<Integer> expectedOld25 = new HashSet<>(2);
         expectedOld25.add(4);
         expectedOld25.add(6);
+        HashSet<Integer> foundOld25 = sudoku.getPossibilities(2, 5);
         assertEquals(expectedOld25, foundOld25);
 
+        // field 12 (outside of the block)
+        HashSet<Integer> expectedOld12 = new HashSet<>(2);
+        expectedOld12.add(3);
+        expectedOld12.add(4);
+        HashSet<Integer> foundOld12 = sudoku.getPossibilities(1, 2);
+        assertEquals(expectedOld12, foundOld12);
+    }
+
+    @Test
+    public void afterStrategy() throws PIVException{
         // apply the strategy
         strategy.apply();
 
-        // field 03
-        HashSet<Integer> foundNew03 = sudoku.getPossibilities(0,3);
+        // field 03 (not affected by the strategy)
         HashSet<Integer> expectedNew03 = new HashSet<>(2);
         expectedNew03.add(3);
         expectedNew03.add(5);
+        HashSet<Integer> foundNew03 = sudoku.getPossibilities(0,3);
         assertEquals(expectedNew03, foundNew03);
 
-        // field 04
-        HashSet<Integer> foundNew04 = sudoku.getPossibilities(0,4);
+        // field 04 (not affected by the strategy)
         HashSet<Integer> expectedNew04 = new HashSet<>(2);
         expectedNew04.add(5);
         expectedNew04.add(9);
+        HashSet<Integer> foundNew04 = sudoku.getPossibilities(0,4);
         assertEquals(expectedNew04, foundNew04);
 
-        // field 15
-        HashSet<Integer> foundNew15 = sudoku.getPossibilities(1,5);
+        // field 15 (affected by the strategy)
         HashSet<Integer> expectedNew15 = new HashSet<>(2);
         expectedNew15.add(4);
         expectedNew15.add(7);
+        HashSet<Integer> foundNew15 = sudoku.getPossibilities(1,5);
         assertEquals(expectedNew15, foundNew15);
 
-        // field 25
-        HashSet<Integer> foundNew25 = sudoku.getPossibilities(2,5);
+        // field 25 (affected by the strategy)
         HashSet<Integer> expectedNew25 = new HashSet<>(2);
         expectedNew25.add(4);
         expectedNew25.add(6);
+        HashSet<Integer> foundNew25 = sudoku.getPossibilities(2,5);
         assertEquals(expectedNew25, foundNew25);
+
+        // field 12 (outside of the block)
+        HashSet<Integer> expectedNew12 = new HashSet<>(2);
+        expectedNew12.add(3);
+        expectedNew12.add(4);
+        HashSet<Integer> foundNew12 = sudoku.getPossibilities(1,2);
+        assertEquals(expectedNew12, foundNew12);
     }
 
 }

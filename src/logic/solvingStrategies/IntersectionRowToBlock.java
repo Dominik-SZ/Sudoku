@@ -13,12 +13,12 @@ import java.util.NoSuchElementException;
  * from the possibilities of the rest of this blocks fields.
  * This is a restrictive method meaning that it only removes possibilities and does not insert new values.
  */
-public class RowToBlockIntersection implements SolvingStrategy {
+public class IntersectionRowToBlock implements SolvingStrategy {
     private Sudoku sudoku;
     private int length;
     private int blockLength;
 
-    public RowToBlockIntersection(Sudoku sudoku) {
+    public IntersectionRowToBlock(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
         this.blockLength = sudoku.getBlockLength();

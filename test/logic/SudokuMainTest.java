@@ -83,15 +83,16 @@ public class SudokuMainTest {
 
     @Test
     public void fillAmount() {
-        final int TESTS = 20;
-        int totalAmount = 0;
+        final int TEST_AMOUNT = 20;
+        double totalFills = 0;
 
-        for(int i = 1; i <= TESTS; i++) {
+        for(int i = 1; i <= TEST_AMOUNT; i++) {
             Sudoku sudoku = SudokuMain.buildSudoku(9, 10);
-            totalAmount += sudoku.count();
+            totalFills += sudoku.count();
         }
-        double average = totalAmount /TESTS;
-        System.out.println(average + " fields filled on average with difficulty 10 and length 9");
+        double average = totalFills /TEST_AMOUNT;
+        System.out.println(average + " fields filled on average by " + TEST_AMOUNT + " tests with difficulty 10 and " +
+                                   "length 9");
     }
 
 }

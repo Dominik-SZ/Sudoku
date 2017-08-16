@@ -7,8 +7,6 @@ import logic.exceptions.PIVException;
 import logic.solvingStrategies.*;
 import util.MathUtilities;
 
-import static logic.exceptions.PIVException.wrap;
-
 
 public class SudokuSolver {
     /**
@@ -64,15 +62,15 @@ public class SudokuSolver {
         // restrictive methods:
         //--------------------------------------------------------------------------------------------------------------
         // intersection strategies
-        SolvingStrategy strategy = new RowToBlockIntersection(sudoku);
+        SolvingStrategy strategy = new IntersectionRowToBlock(sudoku);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
         }
-        strategy = new ColumnToBlockIntersection(sudoku);
+        strategy = new IntersectionColumnToBlock(sudoku);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
         }
-        strategy = new BlockToRowAndColumnIntersection(sudoku);
+        strategy = new IntersectionBlockToRowAndColumn(sudoku);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
         }

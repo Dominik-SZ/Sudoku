@@ -12,12 +12,12 @@ import java.util.NoSuchElementException;
  * this possibility is removed in all other fields in this row or column outside the block. This is a restrictive
  * method.
  */
-public class BlockToRowAndColumnIntersection implements SolvingStrategy {
+public class IntersectionBlockToRowAndColumn implements SolvingStrategy {
     private Sudoku sudoku;
     private int length;
     private int blockLength;
 
-    public BlockToRowAndColumnIntersection(Sudoku sudoku) {
+    public IntersectionBlockToRowAndColumn(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
         this.blockLength = sudoku.getBlockLength();

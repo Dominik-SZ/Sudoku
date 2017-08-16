@@ -89,8 +89,8 @@ public class Sudoku {
     }
 
     /**
-     * Create a new Sudoku with the inserted values as startValues and currentValues. To try to generate solutionValues
-     * use solve(). This can be used to insert Sudokus out of riddle magazines or similar sources.
+     * Create a new Sudoku with the inserted values as start values and current values. To try to generate
+     * solutionValues use solve(). This can be used to insert Sudokus out of riddle magazines or similar sources.
      *
      * @param startBoard The inserted startValues
      */
