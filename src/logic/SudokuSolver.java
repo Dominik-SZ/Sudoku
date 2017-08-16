@@ -34,8 +34,7 @@ public class SudokuSolver {
     SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
-        // generate a stepWidth, which has no common divisor with the Sudoku
-        // length greater than 1
+        // generate a stepWidth, which has no common divisor with the Sudoku length greater than 1
         stepWidth = (int) (length * 1.3);
         while (MathUtilities.greatestCommonDivisor(stepWidth, length) != 1) {
             stepWidth++;
@@ -103,11 +102,11 @@ public class SudokuSolver {
      * solvable. It also prints the solution and the Sudoku to the system.out,
      * as well as some additional info.
      */
-    void fill() {
+    void fill(int randomFills) {
         System.out.println("start filling");
         int fillTrials = 1;
         // try to fill the Sudoku completely until it succeeds
-        while (!fillTrial()) {
+        while (!fillTrial(randomFills)) {
             fillTrials++; // count how many trials were necessary
         }
 
@@ -172,18 +171,18 @@ public class SudokuSolver {
 
     /**
      * Helping method which tries to fill the Sudoku completely, but gives up if it exceeds the allowed amount of
-     * trials (length² / 3). It returns whether it was successful.
+     * trials (length² / 2). It returns whether it was successful.
      *
      * @return If the the method was successful in filling the sudoku (startValues, solutionValues and currentValues)
      */
-    private boolean fillTrial() {
+    private boolean fillTrial(int randomFills) {
 
         System.out.println("start fill trial");
         do {
             sudoku.clear();
             System.out.println("start random fill");
             // fill about a quarter of the fields without direct conflicts
-            randomFill(length * length / 6);
+            randomFill(randomFills);
         } while (isLocked());
         System.out.println("randomFill successfully performed");
         System.out.println(sudoku.toString());

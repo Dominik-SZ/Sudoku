@@ -15,9 +15,10 @@ import util.MathUtilities;
 import util.GameStatus;
 
 /**
- * Instances of this class calculate a solved Sudoku field (boardSolved) and a Sudoku board where some fields are
- * erased, so a player can try solving it (board). It is possible to create those instances with different lengths and
- * difficulties. To actually fill the Sudoku stumps, use the fill() method.
+ * Instances of this class calculate a solved Sudoku field (solution values) and a Sudoku board where some fields are
+ * erased, so a player can try solving it (start values). It is possible to create those instances with different
+ * lengths and difficulties. To actually fill the Sudoku stumps, use the fill() method or if you created it from an
+ * external source (new Sudoku(int [][]), you can complete this object by using solve().
  *
  * @author Dominik
  */
@@ -214,10 +215,22 @@ public class Sudoku {
 
     /**
      * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The current values of the board
-     * are initialized to the start values. This method maintains possibility integrity.
+     * are initialized to the start values. Uses the standard value of (length² / 5) for the amount of randomFills.
+     * This method maintains possibility integrity.
      */
     void fill() {
-        new SudokuSolver(this).fill();
+        fill(length * length /5);
+    }
+
+    /**
+     * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The current values of the board
+     * are initialized to the start values. It uses the specified amount of randomFills.
+     * This method maintains possibility integrity.
+     *
+     * @param randomFills   The amount of fields filled randomly at the beginning of the fill algorithm
+     */
+    void fill(int randomFills) {
+        new SudokuSolver(this).fill(randomFills);
         filled = true;
     }
 
@@ -616,120 +629,6 @@ public class Sudoku {
             }
         }
     }
-
-    //    /**
-    //     * Sets the inserted value at the specified coordinates as currentValue in the board. Note that this method is very
-    //     * quick but breaks possibility integrity. Consider using insertValue(), removeValue() or replaceValue() instead.
-    //     *
-    //     * @param value The value to be set
-    //     * @param i     The i coordinate at which to set the specified value
-    //     * @param j     The j coordinate at which to set the specified value
-    //     */
-    //    void setCurrentValue(int value, int i, int j) throws IllegalArgumentException {
-    //        if (value < 0 || length < value) {
-    //            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
-    //        }
-    //        if (i < 0 || i >= length) {
-    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + i);
-    //        }
-    //        if (j < 0 || j >= length) {
-    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + j);
-    //        }
-    //
-    //        board[i][j].setCurrentValue(value);
-    //        board[i][j].getPossibilities().clear();
-    //        possibilityIntegrity = false;
-    //    }
-    //
-    //    /**
-    //     * Sets a new value as a current value of this Sudoku at the specified coordinates, removes all possibilities from
-    //     * it and removes the affected possibilities. Note that this method only keeps possibility integrity, if the
-    //     * previous entry was 0 or already the same as the new one.
-    //     *
-    //     * @param value  The new value to be inserted
-    //     * @param iCoord The i coordinate on which to insert
-    //     * @param jCoord The j coordinate on which to insert
-    //     */
-    //    public void insertCurrentValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
-    //        if (value < 0 || length < value) {
-    //            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
-    //        }
-    //        if (iCoord < 0 || length <= iCoord) {
-    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
-    //        }
-    //        if (jCoord < 0 || length <= jCoord) {
-    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
-    //        }
-    //
-    //        // check if the value is already inserted at this position
-    //        if (board[iCoord][jCoord].getCurrentValue() == value) {
-    //            return;
-    //        }
-    //
-    //        // check if the value at this position was 0 up to now
-    //        if (board[iCoord][jCoord].getCurrentValue() != 0) {
-    //            possibilityIntegrity = false;
-    //        }
-    //
-    //        // actually set the value
-    //        board[iCoord][jCoord].setCurrentValue(value);
-    //        disallowPossibilities(value, iCoord, jCoord);
-    //    }
-    //
-    //    /**
-    //     * Removes the current value on the inserted coordinate (sets it to 0) and updates the possibilities on all affected
-    //     * fields. This method maintains possibility integrity.
-    //     *
-    //     * @param iCoord The i coordinate of the value to be removed
-    //     * @param jCoord The j coordinate of the value to be removed
-    //     */
-    //    public void removeCurrentValue(int iCoord, int jCoord) throws IllegalArgumentException {
-    //        if (iCoord < 0 || length <= iCoord) {
-    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
-    //        }
-    //        if (jCoord < 0 || length <= jCoord) {
-    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
-    //        }
-    //
-    //        // case of the value already being 0
-    //        if (board[iCoord][jCoord].getCurrentValue() == 0) {
-    //            return;
-    //        }
-    //
-    //        int oldValue = board[iCoord][jCoord].getCurrentValue();
-    //
-    //        // remove the old value
-    //        board[iCoord][jCoord].setCurrentValue(0);
-    //        reallowPossibilities(oldValue, iCoord, jCoord);
-    //    }
-    //
-    //    /**
-    //     * Replaces the current value on the field, whose coordinates are inserted to the new value, which is inserted while
-    //     * maintaining possibility integrity. This method does not have greatest performance, so consider using -
-    //     * removeCurrentValue() if you only need to remove (set to 0) a current value - insertCurrentValue() if you know the
-    //     * field is empty (current value == 0) and want to set a new current value - setCurrentValue() if you want to set a
-    //     * new current value very fast without maintaining possibility integrity This method maintains possibility
-    //     * integrity.
-    //     *
-    //     * @param newValue The new value to replace its predecessor
-    //     * @param iCoord   The i coordinate at which to replace the current value
-    //     * @param jCoord   The j coordinate at which to replace the current value
-    //     */
-    //    void replaceCurrentValue(int newValue, int iCoord, int jCoord) {
-    //        if (newValue < 0 || length < newValue) {
-    //            throw new IllegalArgumentException("Inserted start value out of bounds: " + newValue);
-    //        }
-    //        if (iCoord < 0 || length <= iCoord) {
-    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
-    //        }
-    //        if (jCoord < 0 || length <= jCoord) {
-    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
-    //        }
-    //
-    //        reallowPossibilities(board[iCoord][jCoord].getCurrentValue(), iCoord, jCoord);
-    //        board[iCoord][jCoord].setCurrentValue(newValue);
-    //        disallowPossibilities(newValue, iCoord, jCoord);
-    //    }
 
     /**
      * Allows all possibilities, which are no longer prohibited by the specified value at the specified coordinates. The
