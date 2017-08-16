@@ -47,8 +47,7 @@ public class HiddenSingleColumn implements SolvingStrategy{
 				for (int i = 0; i < length; i++) { // iterating the column
 					// only search in the empty fields
 					if (sudoku.getCurrentValue(i, j) == 0 && sudoku.isAllowed(k, i, j)) {
-						// add all possible coordinates of this column for this
-						// number
+						// add all possible coordinates of this column for this number
 						allowedFieldsForThisNumber.add(new Coordinate(i, j));
 					}
 				}

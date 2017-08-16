@@ -13,6 +13,7 @@ import java.util.LinkedList;
  * Checks if a possibility for a block is impossible to be placed on all but one field. If such a value and field is
  * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
  * This is an interpreting method meaning that it actually looks for new values to insert.
+ * TODO: batrick plox (", which it actually does).
  */
 public class HiddenSingleBlock implements SolvingStrategy {
     private Sudoku sudoku;
@@ -44,8 +45,7 @@ public class HiddenSingleBlock implements SolvingStrategy {
                 }
                 for (int i = iBlock; i < iBlock + blockLength; i++) {
                     for (int j = jBlock; j < jBlock + blockLength; j++) {
-                        // remove already inserted values in this block from the
-                        // set
+                        // remove already inserted values in this block from the set
                         possi.remove(sudoku.getCurrentValue(i, j));
                     } // now it contains only possibilities for this block
                 }

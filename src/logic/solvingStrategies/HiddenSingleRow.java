@@ -9,11 +9,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
- * Checks if a possibility for a row is impossible to be placed on all but
- * one field. If such a value and field is found, the value gets placed on
- * this field and true is returned. If no field and value are found, false
- * is returned.
- * This is an interpreting method.
+ * Checks if a possibility for a row is impossible to be placed on all but one field. If such a value and field is
+ * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
+ * This is an interpreting method meaning that it actually looks for new values to insert.
  */
 public class HiddenSingleRow implements SolvingStrategy {
 
@@ -49,8 +47,7 @@ public class HiddenSingleRow implements SolvingStrategy {
 				for (int j = 0; j < length; j++) { // iterating the row
 					// only search in the empty fields
 					if (sudoku.getCurrentValue(i, j) == 0 && sudoku.isAllowed(k, i, j)) {
-						// add all possible coordinates of this row for this
-						// number
+						// add all possible coordinates of this row for this number
 						allowedFieldsForThisNumber.add(new Coordinate(i, j));
 					}
 				}
