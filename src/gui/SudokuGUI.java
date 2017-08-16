@@ -718,7 +718,7 @@ public class SudokuGUI {
                 }
 
                 showPossibilitiesButton.setSelected(false);
-                sudoku.resetCurrentState();
+                sudoku.resetCurrentValues();
                 updateRightPanel();
                 outline(-1);
                 startTime = System.nanoTime();

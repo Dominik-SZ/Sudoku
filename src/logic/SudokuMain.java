@@ -7,15 +7,12 @@ import gui.SudokuGUI;
 public class SudokuMain {
 
     /**
-     * Starts a prompt to the user which length and difficulty is desired. The
-     * standard values in those checkboxes can be committed by putting them in
-     * the args parameter like this: Main.main(new String[]{lengthString,
-     * difficultyString});. Otherwise the standard values are 9 and 5.
-     * Afterwards a Sudoku Object is generated with the parameters inserted by
-     * the user and immediately filled. Now a SudokuGUI Object is generated and
-     * displayed to allow for the user to play it. In this User Interface are a
-     * lot more features available for the user like printing the Sudoku or
-     * saving it.
+     * Starts a prompt to the user which length and difficulty is desired. The standard values in those checkboxes
+     * can be committed by putting them in the args parameter like this: Main.main(new String[]{lengthString,
+     * difficultyString});. Otherwise the standard values are 9 and 5. Afterwards a Sudoku Object is generated with
+     * the parameters inserted by the user and immediately filled. Now a SudokuGUI Object is generated and
+     * displayed to allow for the user to play it. In this User Interface are a lot more features available for the
+     * user like printing the Sudoku or saving it.
      *
      * @param args  Desired length and difficulty
      */
@@ -63,7 +60,7 @@ public class SudokuMain {
      * @return The sudoku built
      */
     static Sudoku buildSudoku(int length, int difficulty) {
-        System.out.println("generate new Sudoku");
+        System.out.println("generate new Sudoku with length: " + length + " and difficulty: " + difficulty);
         Sudoku sudoku = new Sudoku(length, difficulty);
         sudoku.fill();
         return sudoku;

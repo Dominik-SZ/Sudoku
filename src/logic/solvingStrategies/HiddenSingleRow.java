@@ -2,6 +2,7 @@ package logic.solvingStrategies;
 
 import logic.Sudoku;
 import logic.SudokuSolver;
+import logic.exceptions.PIVException;
 import util.Coordinate;
 
 import java.util.HashSet;

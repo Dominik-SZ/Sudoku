@@ -47,7 +47,7 @@ public class Sudoku {
     /**
      * if this sudoku has been filled meaning it is ready to be played
      */
-    private boolean isFilled;
+    private boolean filled;
     // -------------------------------------------------------------------------
 
     // Constructors
@@ -85,7 +85,7 @@ public class Sudoku {
             }
         }
         possibilityIntegrity = true;
-        isFilled = false;
+        filled = false;
     }
 
     /**
@@ -218,7 +218,7 @@ public class Sudoku {
      */
     void fill() {
         new SudokuSolver(this).fill();
-        isFilled = true;
+        filled = true;
     }
 
     public boolean solve() {
@@ -320,8 +320,8 @@ public class Sudoku {
 
     /**
      * Clears the board of the Sudoku completely. All current-, start- and solution values are hereby set to 0 and the
-     * possibilities are reset. If you only need to reset the current values and possibilities, consider using clear()
-     * instead.
+     * possibilities are reset. Afterwards it is no longer considered as "filled".
+     * If you only need to reset the current values and possibilities, consider using clear() instead.
      */
     void clearCompletely() {
         for (int i = 0; i < length; i++) {
@@ -333,10 +333,11 @@ public class Sudoku {
             }
         }
         possibilityIntegrity = true;
+        filled = false;
     }
 
     /**
-     * Returns all coordinates blocked by the inserted one.
+     * Returns all coordinates blocked by the inserted one. Those are the coordinates of the same row, column and block.
      *
      * @param initial the initial coordinate
      * @return a collection of all blocked coordinates
@@ -383,12 +384,19 @@ public class Sudoku {
         return filled;
     }
 
+    /**
+     * Checks all fields of this sudoku if their current value is not 0 and does not match the respective solution
+     * value. All fields fulfilling this condition are returned.
+     *
+     * @return  The coordinates of all non empty fields diverging from their solution value
+     */
     public Collection<Coordinate> getMistakes() {
         LinkedList<Coordinate> mistakes = new LinkedList<>();
 
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                if (board[i][j].getCurrentValue() != board[i][j].getSolutionValue() && board[i][j].getCurrentValue() != 0) {
+                if (board[i][j].getCurrentValue() != 0 && board[i][j].getCurrentValue() != board[i][j]
+                        .getSolutionValue()) {
                     mistakes.add(new Coordinate(i, j));
                 }
             }
@@ -416,7 +424,7 @@ public class Sudoku {
     }
 
     /**
-     * Checks if the Sudoku is completely filled, meaning no ""s are found and returns the answer.
+     * Checks if the Sudoku is completely filled, meaning no 0s are found as current values and returns the answer.
      *
      * @return Whether the field is completely filled
      */
@@ -432,8 +440,8 @@ public class Sudoku {
     }
 
     /**
-     * Checks if the Sudoku is completely filled correctly and returns the answer. The currentState is checked to be
-     * more precise.
+     * Checks if the Sudoku is completely filled correctly and returns the answer. The current values are checked by
+     * doing so.
      *
      * @return Whether the Sudoku is finished correctly by the player
      */
@@ -503,9 +511,9 @@ public class Sudoku {
     }
 
     /**
-     * Sets the currentState to the state of the startBoard and updates the possibilities afterwards.
+     * Sets the current values of all fields to their respective start values and updates the possibilities afterwards.
      */
-    public void resetCurrentState() {
+    public void resetCurrentValues() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 board[i][j].setCurrentValue(board[i][j].getStartValue());
@@ -516,8 +524,10 @@ public class Sudoku {
 
     /**
      * Calculates the current possibility for all empty fields of the board based of the currently inserted
-     * currentValues of the board. Previously inserted possibilities are overwritten. Afterwards possibility integrity
+     * current values of the board. Previously inserted possibilities are overwritten. Afterwards possibility integrity
      * is assured.
+     * Note that this method does not use any solving strategy to restrict the possibilities. Progress made in
+     * restricting the possibilities using solving strategies is lost afterwards.
      */
     public void calculatePossibilities() {
         // iterate the whole board
@@ -544,7 +554,7 @@ public class Sudoku {
 
     /**
      * Sets the inserted value at the specified coordinates as currentValue in the board. Note that this method is very
-     * quick but breaks possibility integrity. Consider using insertValue or removeValue instead.
+     * quick but breaks possibility integrity. Consider using insertValue(), removeValue() or replaceValue() instead.
      *
      * @param value The value to be set
      * @param i     The i coordinate at which to set the specified value
@@ -569,7 +579,7 @@ public class Sudoku {
     /**
      * Sets a new value as a current value of this Sudoku at the specified coordinates, removes all possibilities from
      * it and removes the affected possibilities. Note that this method only keeps possibility integrity, if the
-     * previous entry was 0 or was already the same as the new one.
+     * previous entry was 0 or already the same as the new one.
      *
      * @param value  The new value to be inserted
      * @param iCoord The i coordinate on which to insert
@@ -593,33 +603,19 @@ public class Sudoku {
 
         // check if the value at this position was 0 up to now
         if (board[iCoord][jCoord].getCurrentValue() != 0) {
+            System.err.println("Sudoku.insertValue() called on a non empty field: i coordinate = " + iCoord + " j" +
+                                           " Coordinate = " + jCoord + ": " + board[iCoord][jCoord].getCurrentValue());
+            try {
+                Thread.sleep(9000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             possibilityIntegrity = false;
         }
 
         // actually set the value
         board[iCoord][jCoord].setCurrentValue(value);
-
-        // remove all possibilities from this field
-        board[iCoord][jCoord].getPossibilities().clear();
-
-        // remove the possibilities from the row
-        for (int j = 0; j < length; j++) {
-            board[iCoord][j].getPossibilities().remove(value);
-        }
-
-        // remove the possibilities from the column
-        for (int i = 0; i < length; i++) {
-            board[i][jCoord].getPossibilities().remove(value);
-        }
-
-        // remove the possibilities from the block
-        int iStartValue = blockLength * (iCoord / blockLength);
-        int jStartValue = blockLength * (jCoord / blockLength);
-        for (int i = iStartValue; i < iStartValue + blockLength; i++) {
-            for (int j = jStartValue; j < jStartValue + blockLength; j++) {
-                board[i][j].getPossibilities().remove(value);
-            }
-        }
+        disallowPossibilities(value, iCoord, jCoord);
     }
 
     /**
@@ -642,44 +638,121 @@ public class Sudoku {
             return;
         }
 
-        // save the old value for later use in this method
-        int old = board[iCoord][jCoord].getCurrentValue();
+        int oldValue = board[iCoord][jCoord].getCurrentValue();
 
         // remove the old value
         board[iCoord][jCoord].setCurrentValue(0);
+        reallowPossibilities(oldValue, iCoord, jCoord);
+    }
 
-        // update the own possibilities
+    /**
+     * Replaces the current value on the field, whose coordinates are inserted to the new value, which is inserted
+     * while maintaining possibility integrity. This method does not have greatest performance, so consider using
+     * - removeCurrentValue() if you only need to remove (set to 0) a current value
+     * - insertCurrentValue() if you know the field is empty (current value == 0) and want to set a new current value
+     * - setCurrentValue() if you want to set a new current value very fast without maintaining possibility integrity
+     * This method maintains possibility integrity.
+     *
+     * @param newValue  The new value to replace its predecessor
+     * @param iCoord    The i coordinate at which to replace the current value
+     * @param jCoord    The j coordinate at which to replace the current value
+     */
+    void replaceCurrentValue(int newValue, int iCoord, int jCoord) {
+        if (newValue < 0 || length < newValue) {
+            throw new IllegalArgumentException("Inserted start value out of bounds: " + newValue);
+        }
+        if (iCoord < 0 || length <= iCoord) {
+            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
+        }
+        if (jCoord < 0 || length <= jCoord) {
+            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
+        }
+
+        reallowPossibilities(board[iCoord][jCoord].getCurrentValue(), iCoord, jCoord);
+        board[iCoord][jCoord].setCurrentValue(newValue);
+        disallowPossibilities(newValue, iCoord, jCoord);
+    }
+
+    /**
+     * Allows all possibilities, which are no longer prohibited by the specified value at the specified coordinates.
+     * The own possibilities become completely recalculated, while all fields in the same row, column and block check
+     * if the deleted value is a legit possibility for themselves.
+     * This method regains possibility integrity after deleting (setting to 0) the specified value at the specified
+     * coordinates.
+     *
+     * @param deletedValue The deleted value
+     * @param iCoord    The i coordinate of the deleted value
+     * @param jCoord    The j coordinate of the deleted value
+     */
+    private void reallowPossibilities(int deletedValue, int iCoord, int jCoord) {
+
+        // recalculate the own possibilities
         for(int k = 1; k <= length; k++) {
             if(isAllowed(k, iCoord, jCoord)) {
                 board[iCoord][jCoord].getPossibilities().add(k);
             }
         }
 
-        // update the possibilities of the row
+        // expand the possibilities of the row
         for (int j = 0; j < length; j++) {
-            if (isAllowed(old, iCoord, j)) {
-                board[iCoord][j].getPossibilities().add(old);
+            if (isAllowed(deletedValue, iCoord, j)) {
+                board[iCoord][j].getPossibilities().add(deletedValue);
             }
         }
 
-        // update the possibilities of the column
+        // expand the possibilities of the column
         for (int i = 0; i < length; i++) {
-            if (isAllowed(old, i, jCoord)) {
-                board[i][jCoord].getPossibilities().add(old);
+            if (isAllowed(deletedValue, i, jCoord)) {
+                board[i][jCoord].getPossibilities().add(deletedValue);
             }
         }
 
-        // update the possibilities of the block
+        // expand the possibilities of the block
         int iStartValue = blockLength * (iCoord / blockLength);
         int jStartValue = blockLength * (jCoord / blockLength);
         for (int i = iStartValue; i < iStartValue + blockLength; i++) {
             for (int j = jStartValue; j < jStartValue + blockLength; j++) {
-                if (isAllowed(old, i, j)) {
-                    board[i][j].getPossibilities().add(old);
+                if (isAllowed(deletedValue, i, j)) {
+                    board[i][j].getPossibilities().add(deletedValue);
                 }
             }
         }
 
+    }
+
+    /**
+     * Disallow all possibilities, which are prohibited by inserting the specified value into the field at the
+     * specified coordinates (setting its current value). Affected Possibilities are the ones of this field (they
+     * become cleared), the ones of the same row, the same column and the same block (These loose the possibility of
+     * the inserted value, if they had it).
+     *
+     * @param value The inserted value
+     * @param iCoord    The i coordinate where the value got placed
+     * @param jCoord    The j coordinate where the value got placed
+     */
+    private void disallowPossibilities(int value, int iCoord, int jCoord) {
+
+        // remove all possibilities from this field
+        board[iCoord][jCoord].getPossibilities().clear();
+
+        // remove the possibilities from the row
+        for (int j = 0; j < length; j++) {
+            board[iCoord][j].getPossibilities().remove(value);
+        }
+
+        // remove the possibilities from the column
+        for (int i = 0; i < length; i++) {
+            board[i][jCoord].getPossibilities().remove(value);
+        }
+
+        // remove the possibilities from the block
+        int iStartValue = blockLength * (iCoord / blockLength);
+        int jStartValue = blockLength * (jCoord / blockLength);
+        for (int i = iStartValue; i < iStartValue + blockLength; i++) {
+            for (int j = jStartValue; j < jStartValue + blockLength; j++) {
+                board[i][j].getPossibilities().remove(value);
+            }
+        }
     }
 
     /**
@@ -910,7 +983,7 @@ public class Sudoku {
     }
 
     boolean isFilled() {
-        return isFilled;
+        return filled;
     }
 
 }

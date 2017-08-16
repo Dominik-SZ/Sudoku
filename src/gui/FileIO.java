@@ -137,7 +137,7 @@ public class FileIO {
 	 *            The absolute path from where to load
 	 * @return if the loading process was successful
 	 */
-	public static boolean load(String path) {
+	static boolean load(String path) {
 		BufferedReader reader;
 		String[] thisLineArray;
 		try {
@@ -206,12 +206,13 @@ public class FileIO {
 						int currentValue = 0;
 						try {
 							currentValue = Integer.parseInt(window.getBoardGraphic(i, j).getText());
-						} catch (NumberFormatException ex) {
+						} catch (NumberFormatException ignored) {
 						}
 						sudoku.insertCurrentValue(currentValue, i, j);
 					}
 				}
 			}
+			sudoku.calculatePossibilities();
 
 			// (line 10) load the current outline
 			thisLineArray = reader.readLine().split(";");

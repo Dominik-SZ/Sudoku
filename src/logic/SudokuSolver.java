@@ -47,11 +47,23 @@ public class SudokuSolver {
         backups = new Stack<>();
         backups.push(new BackupPoint(-1, new LinkedList<>()));
 
-        // initialize the strategies
+        initializeStrategies();
+    }
+
+    /**
+     * Initializes the strategies in the solvingStrategies list. Restrictive Methods are called first, Interpreting
+     * methods second.
+     * Inside of this partitioning the methods with better performance are used earlier then the complicated ones.
+     **/
+    private void initializeStrategies() {
+        int difficulty = sudoku.getDifficulty();
+
         // TODO: look for a possibility to check for the difficulty of the strategy before instantiating it
         strategies = new ArrayList<>(10);
 
-        // intersection strategies (restrictive methods)
+        // restrictive methods:
+        //--------------------------------------------------------------------------------------------------------------
+        // intersection strategies
         SolvingStrategy strategy = new RowToBlockIntersection(sudoku);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
@@ -65,7 +77,13 @@ public class SudokuSolver {
             strategies.add(strategy);
         }
 
-        // hidden single strategies (interpreting methods)
+        // interpreting methods:
+        //--------------------------------------------------------------------------------------------------------------
+        // OnlyOnePossibilityOnField standard method
+        strategy = new OnlyOnePossibilityOnField(sudoku, this);
+        strategies.add(strategy);   // is always used
+
+        // hidden single strategies
         strategy = new HiddenSingleRow(sudoku, this);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
@@ -78,11 +96,6 @@ public class SudokuSolver {
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
         }
-
-        // OnlyOnePossibilityOnField standard method (interpreting method)
-        strategy = new OnlyOnePossibilityOnField(sudoku, this);
-        strategies.add(strategy);   // is always used
-
     }
 
     // ------------------------------------------------------------------------
@@ -173,7 +186,7 @@ public class SudokuSolver {
             sudoku.clear();
             System.out.println("start random fill");
             // fill about a quarter of the fields without direct conflicts
-            randomFill(length * length / 4);
+            randomFill(length * length / 6);
         } while (isLocked());
         System.out.println("randomFill successfully performed");
         System.out.println(sudoku.toString());
@@ -187,7 +200,7 @@ public class SudokuSolver {
         }
 
         int trySolvingAssumeCycles = 0;
-        int cap = length * length / 3;
+        int cap = length * length / 2;
         while (!isFinished()) {
 
             // restart the fill method if it seems like there is no solution to find
@@ -215,14 +228,12 @@ public class SudokuSolver {
 
             // trySolving loop
             // use the trySolving method as long as it succeeds
-            while (true) {
-                try {
-                    if (!trySolving()) {
-                        break;
-                    }
-                } catch (PIVException ex) {
-                    ex.printStackTrace();
+            try {
+                while (trySolving()) {
+                    System.out.println("trySolving iteration");
                 }
+            } catch (PIVException e) {
+                e.printStackTrace();
             }
 
             trySolvingAssumeCycles++;
@@ -276,7 +287,7 @@ public class SudokuSolver {
      * steps of the size stepWidth through the Sudoku. If the Sudoku is found to be locked, the stepBack method is
      * called.
      *
-     * @param coord The 1D coordinate of the last assumption
+     * @param coord The 1D coordinate of the last assumption (i = coord / length, j = coord % length)
      * @throws PIVException If possibility integrity is not assured
      */
     private void assume(int coord) throws NoBackupsException, PIVException {
@@ -318,9 +329,8 @@ public class SudokuSolver {
     }
 
     /**
-     * Undoes the last assumption and chooses the next one. If there are still
-     * possibilities on this field remaining, one of those is chosen, while if
-     * there are none, the assume method is called at this point.
+     * Undoes the last assumption and chooses the next one. If there are still possibilities on this field remaining,
+     * one of these is chosen, while if there are none, the assume method is called at this point.
      */
     private void stepBack() throws NoBackupsException {
         if (backups.size() == 1) {
@@ -351,8 +361,7 @@ public class SudokuSolver {
 
         // test another possible assumption on this field
         else {
-            sudoku.setCurrentValue(latestBackup.popRandomPossibility(), i, j);
-            sudoku.calculatePossibilities();
+            sudoku.replaceCurrentValue(latestBackup.popRandomPossibility(), i, j);
             // System.out.println("DEBUG: stepBack(): keep node Coord:
             // "+latestBackup.getChangedCoord() + " now with value:
             // "+getCurrentValue(latestBackup.getChangedCoord()));
@@ -361,11 +370,9 @@ public class SudokuSolver {
     }
 
     /**
-     * Erases the permitted fields of the Sudoku solverBoard, which are those, filled
-     * in by the trySolving method. Not permitted are the fields of the
-     * randomFill method and the assumed ones. The higher the difficulty, the
-     * more fields are erased.
-     * Afterwards the possibilities are updated.
+     * Erases the permitted fields of the Sudoku solverBoard, which are those, filled in by the trySolving method.
+     * Not permitted are the fields of the randomFill method and the assumed ones. The higher the difficulty, the
+     * more fields are erased. Afterwards the possibilities are updated.
      */
     private void erase() {
         // delete all trySolving entries of the backups and push them into one
