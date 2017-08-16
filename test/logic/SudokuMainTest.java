@@ -77,8 +77,8 @@ public class SudokuMainTest {
 
     @Test
     public void fillAmount() {
-        final int TEST_AMOUNT = 20;
-        final int RANDOM_FILL_CAP = 30;
+        final int TEST_AMOUNT = 25;
+        final int RANDOM_FILL_CAP = 25;
         double[] averageFieldsFilled = new double[RANDOM_FILL_CAP + 1];
         long[] averageTimeNeeded = new long[RANDOM_FILL_CAP + 1];
 
@@ -87,13 +87,13 @@ public class SudokuMainTest {
             long startTime = System.nanoTime();
 
             for(int t = 1; t <= TEST_AMOUNT; t++) {
-                Sudoku sudoku = SudokuMain.buildSudoku(9, 10);
+                Sudoku sudoku = new Sudoku(9, 10);
+                sudoku.fill(rf);
                 totalFills += sudoku.count();
             }
 
             averageTimeNeeded[rf] = (System.nanoTime() - startTime) / TEST_AMOUNT / 1000000;
             averageFieldsFilled[rf] = totalFills /TEST_AMOUNT;
-
         }
 
         String lineSeparator = System.getProperty("line.separator");

@@ -26,7 +26,9 @@ public class SudokuSolver {
      * the distance in fields between two assumptions
      */
     private int stepWidth;
-
+    /**
+     * the strategies used to solve this Sudoku
+     */
     private ArrayList<SolvingStrategy> strategies;
 
     // ------------------------------------------------------------------------
@@ -69,6 +71,12 @@ public class SudokuSolver {
             strategies.add(strategy);
         }
         strategy = new IntersectionBlockToRowAndColumn(sudoku);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+
+        // fishes
+        strategy = new XWing(sudoku);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
         }
@@ -180,16 +188,16 @@ public class SudokuSolver {
         System.out.println("start fill trial");
         do {
             sudoku.clear();
-            System.out.println("start random fill");
-            // fill about a quarter of the fields without direct conflicts
+            // fill randomFills fields randomly without direct conflicts
             randomFill(randomFills);
         } while (isLocked());
         System.out.println("randomFill successfully performed");
-        System.out.println(sudoku.toString());
+        // System.out.println(sudoku.toString());
 
         try {
             while (trySolving()) {
-                System.out.println("trySolving iteration");
+                // debug:
+                // System.out.println("trySolving iteration");
             }
         } catch (PIVException e) {
             e.printStackTrace();
@@ -210,7 +218,8 @@ public class SudokuSolver {
 
             // make an assumption
             try {
-                System.out.println("assume");
+                // debug:
+                // System.out.println("assume");
                 assume(backups.peek().getChangedCoord());
             } catch (NoBackupsException ex) {
                 System.out.println("no backups exception");
@@ -226,14 +235,16 @@ public class SudokuSolver {
             // use the trySolving method as long as it succeeds
             try {
                 while (trySolving()) {
-                    System.out.println("trySolving iteration");
+                    // debug:
+                    // System.out.println("trySolving iteration");
                 }
             } catch (PIVException e) {
                 e.printStackTrace();
             }
 
             trySolvingAssumeCycles++;
-            System.out.println("amount of trySolving, assume cycles: " + trySolvingAssumeCycles);
+            // debug:
+            // System.out.println("amount of trySolving, assume cycles: " + trySolvingAssumeCycles);
         }
         return true; // Sudoku is finished
     }

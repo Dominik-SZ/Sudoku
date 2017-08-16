@@ -2,20 +2,20 @@ package logic.solvingStrategies;
 
 import logic.Sudoku;
 import logic.exceptions.PIVException;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashSet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class IntersectionBlockToRowAndColumnTest {
 
-    private Sudoku sudoku;
-    private IntersectionBlockToRowAndColumn strategy;
+    private static Sudoku sudoku;
+    private static IntersectionBlockToRowAndColumn strategy;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         int [][] values = {
                 {3, 4, 0, 0, 0, 6, 0, 7, 0},
                 {0, 8, 0, 0, 0, 0, 9, 3, 0},
@@ -34,7 +34,7 @@ public class IntersectionBlockToRowAndColumnTest {
     }
 
     @Test
-    public void beforeStrategy() throws Exception {
+    public void apply() throws Exception {
         // field 62 (affected by the strategy)
         HashSet<Integer> expectedOld62 = new HashSet<>(7);
         expectedOld62.add(1);
@@ -92,11 +92,7 @@ public class IntersectionBlockToRowAndColumnTest {
         expectedOld53.add(8);
         HashSet<Integer> foundOld53 = sudoku.getPossibilities(5,3);
         assertEquals(expectedOld53, foundOld53);
-    }
 
-    @Test
-    public void afterStrategy() throws PIVException {
-        // apply the strategy
         strategy.apply();
 
         // field 62 (affected by the strategy)
@@ -157,4 +153,5 @@ public class IntersectionBlockToRowAndColumnTest {
         HashSet<Integer> foundNew53 = sudoku.getPossibilities(5,3);
         assertEquals(expectedNew53, foundNew53);
     }
+
 }

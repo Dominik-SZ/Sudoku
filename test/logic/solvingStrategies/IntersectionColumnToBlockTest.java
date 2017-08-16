@@ -2,7 +2,7 @@ package logic.solvingStrategies;
 
 import logic.Sudoku;
 import logic.exceptions.PIVException;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -12,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 
 public class IntersectionColumnToBlockTest {
 
-    private Sudoku sudoku;
-    private IntersectionColumnToBlock strategy;
+    private static Sudoku sudoku;
+    private static IntersectionColumnToBlock strategy;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUp() throws Exception {
         int[][] values = {
                 {7, 6, 2, 0, 0, 8, 0, 0, 1},
                 {9, 8, 0, 0, 0, 0, 0, 0, 6},
@@ -35,7 +35,7 @@ public class IntersectionColumnToBlockTest {
 
 
     @Test
-    public void beforeStrategy() throws PIVException {
+    public void apply() throws PIVException {
         // field 03 (not affected by the strategy)
         HashSet<Integer> expectedOld03 = new HashSet<>(3);
         expectedOld03.add(3);
@@ -72,11 +72,7 @@ public class IntersectionColumnToBlockTest {
         expectedOld12.add(4);
         HashSet<Integer> foundOld12 = sudoku.getPossibilities(1, 2);
         assertEquals(expectedOld12, foundOld12);
-    }
 
-    @Test
-    public void afterStrategy() throws PIVException{
-        // apply the strategy
         strategy.apply();
 
         // field 03 (not affected by the strategy)

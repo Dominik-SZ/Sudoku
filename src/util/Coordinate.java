@@ -30,4 +30,9 @@ public class Coordinate {
 		
 		return Objects.hash(i, j);
 	}
+
+	@Override
+    public String toString() {
+	    return "i coordinate: " + i + "\tj coordinate: " + j;
+    }
 }

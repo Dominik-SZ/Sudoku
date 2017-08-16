@@ -875,8 +875,9 @@ public class Sudoku {
     }
 
     /**
-     * Returns the possibilities of the sudoku field at the chosen coordinates. These are the numbers which are not yet
-     * inserted in the same row, column or block like the chosen coordinate.
+     * Returns the possibilities of the Sudoku field at the chosen coordinates. These are the numbers which are not yet
+     * inserted in the same row, column or block like the chosen coordinate or even less, if restrictive solving
+     * strategies have been executed on this Sudoku.
      *
      * @param iCoord The i coordinate of the chosen field
      * @param jCoord The j coordinate of the chosen field
