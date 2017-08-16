@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.HashSet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class RowToBlockIntersectionTest {
@@ -28,17 +28,23 @@ public class RowToBlockIntersectionTest {
                 {0, 0, 0, 0, 3, 9, 6, 4, 1}
         };
         sudoku = new Sudoku(values);
-        sudoku.calculatePossibilities();
         strategy = new RowToBlockIntersection(sudoku);
     }
 
     @Test
     public void test() throws Exception {
-        HashSet<Integer> old21 = sudoku.getPossibilities(2,1);
-        strategy.apply();
-        HashSet<Integer> new21 = sudoku.getPossibilities(2,1);
+        HashSet<Integer> foundOld21 = sudoku.getPossibilities(2,1);
+        HashSet<Integer> expectedOld21 = new HashSet<>(2);
+        expectedOld21.add(4);
+        expectedOld21.add(7);
+        assertEquals(foundOld21, expectedOld21);
 
-        assertEquals(old21, new21);
+        strategy.apply();
+
+        HashSet<Integer> foundNew21 = sudoku.getPossibilities(2,1);
+        HashSet<Integer> expectedNew21 = new HashSet<>(1);
+        expectedNew21.add(4);
+        assertEquals(foundNew21, expectedNew21);
     }
 
 
