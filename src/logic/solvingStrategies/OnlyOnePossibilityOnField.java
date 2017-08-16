@@ -33,7 +33,7 @@ public class OnlyOnePossibilityOnField implements SolvingStrategy {
 				if (sudoku.getCurrentValue(i, j) == 0 && sudoku.getPossibilities(i, j).size() == 1) {
 					int onlyPossibility = (int) sudoku.getPossibilities(i, j).toArray()[0];
 					solver.pushTrySolvingBackup(i, j);
-					sudoku.insertCurrentValue(onlyPossibility, i, j);
+					sudoku.setCurrentValue(onlyPossibility, i, j, true);
 					answer = true;
 				}
 			}

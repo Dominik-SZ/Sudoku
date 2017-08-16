@@ -56,7 +56,7 @@ public class HiddenSingleColumn implements SolvingStrategy{
 					// set the found value
 					Coordinate coord = allowedFieldsForThisNumber.getFirst();
 					solver.pushTrySolvingBackup(coord.i, coord.j);
-					sudoku.insertCurrentValue(k, coord.i, coord.j);
+					sudoku.setCurrentValue(k, coord.i, coord.j, true);
 					answer = true;
 				}
 			}

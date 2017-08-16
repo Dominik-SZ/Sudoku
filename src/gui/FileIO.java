@@ -208,7 +208,7 @@ public class FileIO {
 							currentValue = Integer.parseInt(window.getBoardGraphic(i, j).getText());
 						} catch (NumberFormatException ignored) {
 						}
-						sudoku.insertCurrentValue(currentValue, i, j);
+						sudoku.setCurrentValue(currentValue, i, j, true);
 					}
 				}
 			}

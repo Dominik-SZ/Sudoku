@@ -34,7 +34,6 @@ public class SudokuSolver {
     SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
-        int difficulty = sudoku.getDifficulty();
         // generate a stepWidth, which has no common divisor with the Sudoku
         // length greater than 1
         stepWidth = (int) (length * 1.3);
@@ -253,7 +252,7 @@ public class SudokuSolver {
 
             try {
                 if (sudoku.getCurrentValue(iCoord, jCoord) == 0 && sudoku.isAllowedQuick(value, iCoord, jCoord)) {
-                    sudoku.insertCurrentValue(value, iCoord, jCoord);
+                    sudoku.setCurrentValue(value, iCoord, jCoord, true);
                 } else {
                     k--;
                 }
@@ -314,7 +313,7 @@ public class SudokuSolver {
                 } else {
                     // choose a random possible assumption on this field
                     int index = (int) (Math.random() * possi.size());
-                    sudoku.insertCurrentValue(possi.get(index), i, j);
+                    sudoku.setCurrentValue(possi.get(index), i, j, true);
                     possi.remove(index);
                     // System.out.println(" DEBUG: new assumption at:
                     // i-Coord: "+i +
@@ -340,7 +339,7 @@ public class SudokuSolver {
         // Remove all values which have been made based on the assumption
         while (!tSFills.isEmpty()) {
             int coord = tSFills.pop();
-            sudoku.removeCurrentValue(coord / length, coord % length);
+            sudoku.setCurrentValue(0, coord / length, coord % length, true);
         }
 
         int coord = latestBackup.getChangedCoord();
@@ -349,7 +348,7 @@ public class SudokuSolver {
         // no possible assumptions for this field remaining => change field
         if (latestBackup.getPossibilities().isEmpty()) {
             //            System.out.println("DEBUG: stepBack(): change field from i = " + i + " j = " + j);
-            sudoku.removeCurrentValue(i, j);
+            sudoku.setCurrentValue(0, i, j, true);
             try {
                 assume(coord);
             } catch (PIVException ex) {
@@ -359,7 +358,7 @@ public class SudokuSolver {
 
         // test another possible assumption on this field
         else {
-            sudoku.replaceCurrentValue(latestBackup.popRandomPossibility(), i, j);
+            sudoku.setCurrentValue(latestBackup.popRandomPossibility(), i, j, true);
             // System.out.println("DEBUG: stepBack(): keep node Coord:
             // "+latestBackup.getChangedCoord() + " now with value:
             // "+getCurrentValue(latestBackup.getChangedCoord()));
@@ -389,7 +388,7 @@ public class SudokuSolver {
         while (totalTSFills.size() > (int) ((0.5 - 0.0555555555555555 * (sudoku.getDifficulty() - 1)) * deletable)) {
             // get a random value of the stack
             int actualCoord = totalTSFills.remove((int) (Math.random() * totalTSFills.size()));
-            sudoku.setCurrentValue(0, actualCoord / length, actualCoord % length);
+            sudoku.setCurrentValue(0, actualCoord / length, actualCoord % length, false);
             entriesDeleted++;
         }
         sudoku.calculatePossibilities();

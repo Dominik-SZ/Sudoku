@@ -213,14 +213,20 @@ public class Sudoku {
     // -------------------------------------------------------------------------
 
     /**
-     * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The currentValues of the board
-     * are initialized to the startValues. This method maintains possibility integrity.
+     * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The current values of the board
+     * are initialized to the start values. This method maintains possibility integrity.
      */
     void fill() {
         new SudokuSolver(this).fill();
         filled = true;
     }
 
+    /**
+     * Tries to solve the Sudoku like a player using the solving strategies available and returns if it was successful
+     * in doing so.
+     *
+     * @return If the solving process was successful
+     */
     public boolean solve() {
         try {
             return new SudokuSolver(this).solve();
@@ -231,7 +237,7 @@ public class Sudoku {
     }
 
     /**
-     * Counts the amount of filled fields (not containing 0).
+     * Counts the amount of filled fields (current value != 0).
      */
     public int count() {
         int count = 0;
@@ -551,124 +557,179 @@ public class Sudoku {
     // Setter-Methods
 
     /**
-     * Sets the inserted value at the specified coordinates as currentValue in the board. Note that this method is very
-     * quick but breaks possibility integrity. Consider using insertValue(), removeValue() or replaceValue() instead.
+     * Sets the specified value as the current value of the field at the specified coordinates. This is done in five
+     * different ways optimizing performance depending on the needs of the input: The following operations are listed in
+     * descending order regarding performance:
      *
-     * @param value The value to be set
-     * @param i     The i coordinate at which to set the specified value
-     * @param j     The j coordinate at which to set the specified value
+     * 1. insert a value, that is already set at this position.
+     * 2. insert a value without caring about possibility integrity (maintainPI = false). Note that possibility
+     * integrity is broken by doing this.
+     * 3. setting a value on an empty field (current value == 0) while maintaining possibility integrity
+     * 4. setting 0 as value onto a filled (current value != 0) field while maintaining possibility integrity
+     * 5. replacing an existing current value with a new one (both != 0) while maintaining possibility integrity
+     *
+     * @param value The new current value to set
+     * @param iCoord    The i coordinate at which to set the new current value
+     * @param jCoord    The j coordinate at which to set the new current value
+     * @param maintainPI    If possibility integrity should be maintained (affects performance)
      */
-    void setCurrentValue(int value, int i, int j) throws IllegalArgumentException {
+    public void setCurrentValue(int value, int iCoord, int jCoord, boolean maintainPI) {
         if (value < 0 || length < value) {
             throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
         }
-        if (i < 0 || i >= length) {
-            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + i);
-        }
-        if (j < 0 || j >= length) {
-            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + j);
-        }
-
-        board[i][j].setCurrentValue(value);
-        board[i][j].getPossibilities().clear();
-        possibilityIntegrity = false;
-    }
-
-    /**
-     * Sets a new value as a current value of this Sudoku at the specified coordinates, removes all possibilities from
-     * it and removes the affected possibilities. Note that this method only keeps possibility integrity, if the
-     * previous entry was 0 or already the same as the new one.
-     *
-     * @param value  The new value to be inserted
-     * @param iCoord The i coordinate on which to insert
-     * @param jCoord The j coordinate on which to insert
-     */
-    public void insertCurrentValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
-        if (value < 0 || length < value) {
-            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
-        }
-        if (iCoord < 0 || length <= iCoord) {
+        if (iCoord < 0 || iCoord >= length) {
             throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
         }
-        if (jCoord < 0 || length <= jCoord) {
+        if (jCoord < 0 || jCoord >= length) {
             throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
         }
 
-        // check if the value is already inserted at this position
+        // check if the value is already inserted at this position => nothing to do
         if (board[iCoord][jCoord].getCurrentValue() == value) {
             return;
         }
 
-        // check if the value at this position was 0 up to now
-        if (board[iCoord][jCoord].getCurrentValue() != 0) {
-            System.err.println("Sudoku.insertValue() called on a non empty field: i coordinate = " + iCoord + " j" + " Coordinate = " + jCoord + ": " + board[iCoord][jCoord].getCurrentValue());
-            try {
-                Thread.sleep(9000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        // maintaining possibility integrity is not necessary
+        if (!maintainPI) {
+            board[iCoord][jCoord].setCurrentValue(value);
+            board[iCoord][jCoord].getPossibilities().clear();
             possibilityIntegrity = false;
         }
 
-        // actually set the value
-        board[iCoord][jCoord].setCurrentValue(value);
-        disallowPossibilities(value, iCoord, jCoord);
+        // maintaining possibility integrity is desired
+        else {
+            // just set a value
+            if (board[iCoord][jCoord].getCurrentValue() == 0) {
+                board[iCoord][jCoord].setCurrentValue(value);
+                disallowPossibilities(value, iCoord, jCoord);
+            }
+            // just remove a value
+            else if (value == 0) {
+                reallowPossibilities(board[iCoord][jCoord].getCurrentValue(), iCoord, jCoord);
+                board[iCoord][jCoord].setCurrentValue(0);
+            }
+            // replace an existing value
+            else {
+                reallowPossibilities(board[iCoord][jCoord].getCurrentValue(), iCoord, jCoord);
+                board[iCoord][jCoord].setCurrentValue(value);
+                disallowPossibilities(value, iCoord, jCoord);
+            }
+        }
     }
 
-    /**
-     * Removes the current value on the inserted coordinate (sets it to 0) and updates the possibilities on all affected
-     * fields. This method maintains possibility integrity.
-     *
-     * @param iCoord The i coordinate of the value to be removed
-     * @param jCoord The j coordinate of the value to be removed
-     */
-    public void removeCurrentValue(int iCoord, int jCoord) throws IllegalArgumentException {
-        if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
-        }
-        if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
-        }
-
-        // case of the value already being 0
-        if (board[iCoord][jCoord].getCurrentValue() == 0) {
-            return;
-        }
-
-        int oldValue = board[iCoord][jCoord].getCurrentValue();
-
-        // remove the old value
-        board[iCoord][jCoord].setCurrentValue(0);
-        reallowPossibilities(oldValue, iCoord, jCoord);
-    }
-
-    /**
-     * Replaces the current value on the field, whose coordinates are inserted to the new value, which is inserted while
-     * maintaining possibility integrity. This method does not have greatest performance, so consider using -
-     * removeCurrentValue() if you only need to remove (set to 0) a current value - insertCurrentValue() if you know the
-     * field is empty (current value == 0) and want to set a new current value - setCurrentValue() if you want to set a
-     * new current value very fast without maintaining possibility integrity This method maintains possibility
-     * integrity.
-     *
-     * @param newValue The new value to replace its predecessor
-     * @param iCoord   The i coordinate at which to replace the current value
-     * @param jCoord   The j coordinate at which to replace the current value
-     */
-    void replaceCurrentValue(int newValue, int iCoord, int jCoord) {
-        if (newValue < 0 || length < newValue) {
-            throw new IllegalArgumentException("Inserted start value out of bounds: " + newValue);
-        }
-        if (iCoord < 0 || length <= iCoord) {
-            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
-        }
-        if (jCoord < 0 || length <= jCoord) {
-            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
-        }
-
-        reallowPossibilities(board[iCoord][jCoord].getCurrentValue(), iCoord, jCoord);
-        board[iCoord][jCoord].setCurrentValue(newValue);
-        disallowPossibilities(newValue, iCoord, jCoord);
-    }
+    //    /**
+    //     * Sets the inserted value at the specified coordinates as currentValue in the board. Note that this method is very
+    //     * quick but breaks possibility integrity. Consider using insertValue(), removeValue() or replaceValue() instead.
+    //     *
+    //     * @param value The value to be set
+    //     * @param i     The i coordinate at which to set the specified value
+    //     * @param j     The j coordinate at which to set the specified value
+    //     */
+    //    void setCurrentValue(int value, int i, int j) throws IllegalArgumentException {
+    //        if (value < 0 || length < value) {
+    //            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+    //        }
+    //        if (i < 0 || i >= length) {
+    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + i);
+    //        }
+    //        if (j < 0 || j >= length) {
+    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + j);
+    //        }
+    //
+    //        board[i][j].setCurrentValue(value);
+    //        board[i][j].getPossibilities().clear();
+    //        possibilityIntegrity = false;
+    //    }
+    //
+    //    /**
+    //     * Sets a new value as a current value of this Sudoku at the specified coordinates, removes all possibilities from
+    //     * it and removes the affected possibilities. Note that this method only keeps possibility integrity, if the
+    //     * previous entry was 0 or already the same as the new one.
+    //     *
+    //     * @param value  The new value to be inserted
+    //     * @param iCoord The i coordinate on which to insert
+    //     * @param jCoord The j coordinate on which to insert
+    //     */
+    //    public void insertCurrentValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+    //        if (value < 0 || length < value) {
+    //            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+    //        }
+    //        if (iCoord < 0 || length <= iCoord) {
+    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
+    //        }
+    //        if (jCoord < 0 || length <= jCoord) {
+    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
+    //        }
+    //
+    //        // check if the value is already inserted at this position
+    //        if (board[iCoord][jCoord].getCurrentValue() == value) {
+    //            return;
+    //        }
+    //
+    //        // check if the value at this position was 0 up to now
+    //        if (board[iCoord][jCoord].getCurrentValue() != 0) {
+    //            possibilityIntegrity = false;
+    //        }
+    //
+    //        // actually set the value
+    //        board[iCoord][jCoord].setCurrentValue(value);
+    //        disallowPossibilities(value, iCoord, jCoord);
+    //    }
+    //
+    //    /**
+    //     * Removes the current value on the inserted coordinate (sets it to 0) and updates the possibilities on all affected
+    //     * fields. This method maintains possibility integrity.
+    //     *
+    //     * @param iCoord The i coordinate of the value to be removed
+    //     * @param jCoord The j coordinate of the value to be removed
+    //     */
+    //    public void removeCurrentValue(int iCoord, int jCoord) throws IllegalArgumentException {
+    //        if (iCoord < 0 || length <= iCoord) {
+    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
+    //        }
+    //        if (jCoord < 0 || length <= jCoord) {
+    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
+    //        }
+    //
+    //        // case of the value already being 0
+    //        if (board[iCoord][jCoord].getCurrentValue() == 0) {
+    //            return;
+    //        }
+    //
+    //        int oldValue = board[iCoord][jCoord].getCurrentValue();
+    //
+    //        // remove the old value
+    //        board[iCoord][jCoord].setCurrentValue(0);
+    //        reallowPossibilities(oldValue, iCoord, jCoord);
+    //    }
+    //
+    //    /**
+    //     * Replaces the current value on the field, whose coordinates are inserted to the new value, which is inserted while
+    //     * maintaining possibility integrity. This method does not have greatest performance, so consider using -
+    //     * removeCurrentValue() if you only need to remove (set to 0) a current value - insertCurrentValue() if you know the
+    //     * field is empty (current value == 0) and want to set a new current value - setCurrentValue() if you want to set a
+    //     * new current value very fast without maintaining possibility integrity This method maintains possibility
+    //     * integrity.
+    //     *
+    //     * @param newValue The new value to replace its predecessor
+    //     * @param iCoord   The i coordinate at which to replace the current value
+    //     * @param jCoord   The j coordinate at which to replace the current value
+    //     */
+    //    void replaceCurrentValue(int newValue, int iCoord, int jCoord) {
+    //        if (newValue < 0 || length < newValue) {
+    //            throw new IllegalArgumentException("Inserted start value out of bounds: " + newValue);
+    //        }
+    //        if (iCoord < 0 || length <= iCoord) {
+    //            throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);
+    //        }
+    //        if (jCoord < 0 || length <= jCoord) {
+    //            throw new IllegalArgumentException("Inserted j coordinate out of bounds: " + jCoord);
+    //        }
+    //
+    //        reallowPossibilities(board[iCoord][jCoord].getCurrentValue(), iCoord, jCoord);
+    //        board[iCoord][jCoord].setCurrentValue(newValue);
+    //        disallowPossibilities(newValue, iCoord, jCoord);
+    //    }
 
     /**
      * Allows all possibilities, which are no longer prohibited by the specified value at the specified coordinates. The
