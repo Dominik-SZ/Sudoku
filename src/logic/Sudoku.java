@@ -581,6 +581,9 @@ public class Sudoku {
      * 4. setting 0 as value onto a filled (current value != 0) field while maintaining possibility integrity
      * 5. replacing an existing current value with a new one (both != 0) while maintaining possibility integrity
      *
+     * By using this method with maintainPI = true, possibilities in the same row, column and block are updated in a
+     * way that progress in restricting those possibilities with restrictive solving strategies may become lost.
+     *
      * @param value The new current value to set
      * @param iCoord    The i coordinate at which to set the new current value
      * @param jCoord    The j coordinate at which to set the new current value

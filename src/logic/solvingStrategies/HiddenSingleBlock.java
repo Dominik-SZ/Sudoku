@@ -80,4 +80,9 @@ public class HiddenSingleBlock implements SolvingStrategy {
     public int getDifficulty() {
         return 3;
     }
+
+    @Override
+    public boolean isRestrictive() {
+        return false;
+    }
 }

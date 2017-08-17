@@ -66,4 +66,9 @@ public class HiddenSingleColumn implements SolvingStrategy{
 	public int getDifficulty() {
 		return 3;
 	}
+
+	@Override
+	public boolean isRestrictive() {
+		return false;
+	}
 }

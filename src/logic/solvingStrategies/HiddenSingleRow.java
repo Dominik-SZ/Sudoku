@@ -67,4 +67,9 @@ public class HiddenSingleRow implements SolvingStrategy {
 		return 3;
 	}
 
+	@Override
+	public boolean isRestrictive() {
+		return false;
+	}
+
 }

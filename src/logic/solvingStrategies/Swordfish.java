@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- * Fish strategy Checks if there are three base rows/columns which contain the possibility for a number in exactly three
- * column/row indices. If that is the case, the three columns/rows covering the three possibilities, get all of their
- * occurrences of the current number except for the base row/column indices removed.
+ * Fish strategy. Checks if there are three base rows/columns which contain the possibility for a number in exactly
+ * three column/row indices. If that is the case, the three columns/rows covering the three possibilities, get all of
+ * their occurrences of the current number except for the base row/column indices removed.
  */
 public class Swordfish implements SolvingStrategy {
 
@@ -151,5 +151,10 @@ public class Swordfish implements SolvingStrategy {
     @Override
     public int getDifficulty() {
         return 8;
+    }
+
+    @Override
+    public boolean isRestrictive() {
+        return true;
     }
 }

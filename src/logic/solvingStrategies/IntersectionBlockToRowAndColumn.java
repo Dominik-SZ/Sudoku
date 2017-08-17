@@ -115,4 +115,9 @@ public class IntersectionBlockToRowAndColumn implements SolvingStrategy {
     public int getDifficulty() {
         return 6;
     }
+
+    @Override
+    public boolean isRestrictive() {
+        return true;
+    }
 }

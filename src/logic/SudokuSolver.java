@@ -57,7 +57,7 @@ public class SudokuSolver {
         int difficulty = sudoku.getDifficulty();
 
         // TODO: look for a possibility to check for the difficulty of the strategy before instantiating it
-        strategies = new ArrayList<>(10);
+        strategies = new ArrayList<>(14);
 
         // restrictive methods:
         //--------------------------------------------------------------------------------------------------------------
@@ -81,6 +81,10 @@ public class SudokuSolver {
             strategies.add(strategy);
         }
         strategy = new Swordfish(sudoku);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
+        strategy = new Jellyfish(sudoku);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
         }

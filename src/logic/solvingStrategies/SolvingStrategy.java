@@ -9,5 +9,6 @@ public interface SolvingStrategy {
 
 	boolean apply() throws PIVException;
 	int getDifficulty();
+	boolean isRestrictive();
 
 }

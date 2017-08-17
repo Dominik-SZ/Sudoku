@@ -46,4 +46,8 @@ public class OnlyOnePossibilityOnField implements SolvingStrategy {
 		return(1);
 	}
 
+	@Override
+	public boolean isRestrictive() {
+		return false;
+	}
 }

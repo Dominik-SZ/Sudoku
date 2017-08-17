@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- * Fish strategy
+ * Fish strategy.
  * Checks if there are two base rows/columns which contain the possibility for a number in exactly two column/row
  * indices. If that is the case, the two columns/rows covering the two possibilities, get all of their occurrences of
  * the current number except for the base row/column indices removed.
@@ -128,5 +128,10 @@ public class XWing implements SolvingStrategy {
     @Override
     public int getDifficulty() {
         return 7;
+    }
+
+    @Override
+    public boolean isRestrictive() {
+        return true;
     }
 }
