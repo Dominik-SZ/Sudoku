@@ -80,6 +80,10 @@ public class SudokuSolver {
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
         }
+        strategy = new Swordfish(sudoku);
+        if(strategy.getDifficulty() <= difficulty) {
+            strategies.add(strategy);
+        }
 
         // interpreting methods:
         //--------------------------------------------------------------------------------------------------------------
@@ -251,8 +255,8 @@ public class SudokuSolver {
 
     /**
      * Inserts "amount" values randomly on fields of the solverBoard filled with 0 considering the game rules (making
-     * sure that every number appears at most once in every row, column and block). This method maintains possibility
-     * integrity.
+     * sure that every number appears at most once in every row, column and block).
+     * This method maintains possibility integrity.
      */
     private void randomFill(int amount) {
         for (int k = 0; k < amount; k++) {
@@ -276,6 +280,7 @@ public class SudokuSolver {
      * Tries to solve the given Sudoku like a player and returns true if at least one current value or possibility got
      * changed (indicating that it should be continued trying to solve the Sudoku). The fields filled by this method
      * may become deleted afterwards.
+     * This method maintains possibility integrity.
      *
      * @return If some progress could been made to solve the sudoku
      */

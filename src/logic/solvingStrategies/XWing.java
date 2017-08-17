@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
+ * Fish strategy
  * Checks if there are two base rows/columns which contain the possibility for a number in exactly two column/row
  * indices. If that is the case, the two columns/rows covering the two possibilities, get all of their occurrences of
  * the current number except for the base row/column indices removed.
@@ -42,7 +43,7 @@ public class XWing implements SolvingStrategy {
                     foundIn1 = false;
                     foundIn2 = false;
                     occurrences.clear();
-                    // save the column indices of the occurrences of this number
+                    // save the column indices of the occurrences of this number in the base rows
                     for (int j = 0; j < length; j++) {
                         if (sudoku.getPossibilities(baseRow1, j).contains(k)) {
                             occurrences.add(j);
@@ -87,7 +88,7 @@ public class XWing implements SolvingStrategy {
                     foundIn1 = false;
                     foundIn2 = false;
                     occurrences.clear();
-                    // save the row indices of the occurrences of this number
+                    // save the row indices of the occurrences of this number in the base columns
                     for (int i = 0; i < length; i++) {
                         if (sudoku.getPossibilities(i, baseColumn1).contains(k)) {
                             occurrences.add(i);
