@@ -226,7 +226,8 @@ public class SudokuGUI {
         }
 
         mainFrame.setLayout(new BorderLayout());
-        mainFrame.setMinimumSize(new Dimension(37 * length + 470, 37 * length + 260));
+        mainFrame.setMinimumSize(new Dimension(37 * length + 230, 37 * length + 260));
+        mainFrame.setPreferredSize(new Dimension(45 * length, 45 * length + 30));
         mainFrame.setMaximumSize(new Dimension((int) screenSize.getWidth(), (int) screenSize.getHeight() - 43));
         mainFrame.setPreferredSize(new Dimension(length * 70 + 470, length * 70 + 260));
         int startWidth = (int) Math.min(mainFrame.getPreferredSize().getWidth(), mainFrame.getMaximumSize().getWidth());
@@ -235,20 +236,20 @@ public class SudokuGUI {
         mainFrame.setSize(new Dimension(startWidth, startHeight));
 
         buildCenterPanel(false);
-        buildLeftPanel();
+        centerPanel.setBackground(Color.DARK_GRAY);
 
-        // build the topPanel
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-        paintable.add(topPanel);
-        mainFrame.add(topPanel, BorderLayout.NORTH);
-        topPanel.add(Box.createHorizontalStrut(10));
+        // build the bottomPanel
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+        paintable.add(bottomPanel);
+        mainFrame.add(bottomPanel, BorderLayout.SOUTH);
+        bottomPanel.add(Box.createHorizontalStrut(10));
         JButton activateButton = new JButton("aktivieren");
         activateButton.addActionListener(e -> activate());
-        topPanel.add(activateButton, BorderLayout.NORTH);
-        topPanel.add(Box.createHorizontalStrut(10));
+        bottomPanel.add(activateButton, BorderLayout.NORTH);
+        bottomPanel.add(Box.createHorizontalStrut(10));
         feedback = new JLabel("");
-        topPanel.add(feedback, BorderLayout.NORTH);
+        bottomPanel.add(feedback, BorderLayout.NORTH);
         paintable.add(feedback);
 
         updateForeground();
@@ -939,8 +940,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Generates the centerPanel of the mainFrame and the boardGraphic of the
-     * Window, which contains the SudokuFields on which the game is played.
+     * Generates the centerPanel of the mainFrame and the boardGraphic of the Window, which contains the SudokuFields
+     * on which the game is played.
      *
      * @param functionality If the generated GraphicalSudokuFields get functionality
      */
@@ -963,9 +964,9 @@ public class SudokuGUI {
                     // giving each block its fields
                     GraphicalSudokuField field;
                     if(functionality) {
-                        field = new GraphicalSudokuField(i, j, this);
+                        field = new GraphicalSudokuFieldFullyFunctional(i, j, this);
                     } else {
-                        field = new GraphicalSudokuField(standardFont, i, j);
+                        field = new GraphicalSudokuFieldCustomInput(i, j, this);
                     }
                     field.setBorder(standardBorder);
 
@@ -1572,6 +1573,7 @@ public class SudokuGUI {
             case 8:
                 return new Color(102, 255, 102);
             default:
+                // try to generate "endless" new colors not too similar to already chosen ones
                 boolean accepted = false;
                 Color newColor = Color.RED; // the outcome should never be red
                 while (!accepted) {

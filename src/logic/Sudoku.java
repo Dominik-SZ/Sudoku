@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 import logic.exceptions.PIVException;
+import logic.solvingStrategies.PerformedOperation;
+import logic.solvingStrategies.SolvingStrategy;
 import util.Coordinate;
 import util.MathUtilities;
 import util.GameStatus;
@@ -229,9 +228,9 @@ public class Sudoku {
      *
      * @param randomFills   The amount of fields filled randomly at the beginning of the fill algorithm
      */
-    void fill(int randomFills) {
-        new SudokuSolver(this).fill(randomFills);
+    ArrayList<SolvingStrategy> fill(int randomFills) {
         filled = true;
+        return new SudokuSolver(this).fill(randomFills);
     }
 
     /**
@@ -242,7 +241,12 @@ public class Sudoku {
      */
     public boolean solve() {
         try {
-            return new SudokuSolver(this).solve();
+            if(new SudokuSolver(this).solve()) {
+                filled = true;
+                return true;
+            } else {
+                return false;
+            }
         } catch (PIVException ex) {
             ex.printStackTrace();
             return false;
@@ -405,7 +409,7 @@ public class Sudoku {
 
     /**
      * Checks all fields of this sudoku if their current value is not 0 and does not match the respective solution
-     * value. All fields fulfilling this condition are returned.
+     * value. All fields fulfilling these conditions are returned.
      *
      * @return The coordinates of all non empty fields diverging from their solution value
      */

@@ -5,6 +5,7 @@ import logic.Sudoku;
 import logic.SudokuSolver;
 import util.Coordinate;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -12,25 +13,27 @@ import java.util.LinkedList;
  * Checks if a possibility for a block is impossible to be placed on all but one field. If such a value and field is
  * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
  * This is an interpreting method meaning that it actually looks for new values to insert.
- * TODO: batrick plox (", which it actually does).
+ * TODO: batrick plox (", which it actually does").
  */
 public class HiddenSingleBlock implements SolvingStrategy {
     private Sudoku sudoku;
     private SudokuSolver solver;
     private int length;
     private int blockLength;
+    private LinkedList<PerformedOperation> performedOperations;
 
     public HiddenSingleBlock(Sudoku sudoku, SudokuSolver solver) {
         this.sudoku = sudoku;
         this.solver = solver;
         this.length = sudoku.getLength();
         this.blockLength = sudoku.getBlockLength();
+        this.performedOperations = new LinkedList<>();
     }
 
     @Override
     public boolean apply() {
         HashSet<Integer> possi = new HashSet<>();
-        boolean answer = false;
+        boolean didSomething = false;
 
         // iterating the rows blockwise
         for (int iBlock = 0; iBlock < length; iBlock = iBlock + blockLength) {
@@ -68,12 +71,13 @@ public class HiddenSingleBlock implements SolvingStrategy {
                         Coordinate coord = allowedFieldsForThisNumber.getFirst();
                         solver.pushTrySolvingBackup(coord.i, coord.j);
                         sudoku.setCurrentValue(k, coord.i, coord.j, true);
-                        answer = true;
+                        performedOperations.add(new PerformedOperation(k, coord.i, coord.j));
+                        didSomething = true;
                     }
                 }
             }
         }
-        return answer; // false if no value has been found
+        return didSomething; // false if no value has been found
     }
 
     @Override
@@ -84,5 +88,10 @@ public class HiddenSingleBlock implements SolvingStrategy {
     @Override
     public boolean isRestrictive() {
         return false;
+    }
+
+    @Override
+    public LinkedList<PerformedOperation> getPerformedOperations() {
+        return performedOperations;
     }
 }

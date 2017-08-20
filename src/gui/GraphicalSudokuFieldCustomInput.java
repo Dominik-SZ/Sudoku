@@ -1,0 +1,46 @@
+package gui;
+
+import util.Direction;
+import util.Keyboard;
+
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+class GraphicalSudokuFieldCustomInput extends GraphicalSudokuField {
+
+    /**
+     * Creates a graphical sudoku field without any additional functionality except for focus switching. This can be
+     * used to insert custom Sudokus.
+     *
+     * @param iCoord The i coordinate at which this field is placed
+     * @param jCoord The j coordinate at which this field is placed
+     * @param parent    The parent gui of this field
+     */
+    GraphicalSudokuFieldCustomInput(int iCoord, int jCoord, SudokuGUI parent) {
+        super(parent.getStandardFont(), iCoord, jCoord);
+        setFont(parent.getStandardFont());
+        setHorizontalAlignment(JTextField.CENTER);
+
+        addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent ev) {
+                parent.getKeyboard().setTyped(ev.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ev) {
+
+                // move focus stuff
+                parent.getKeyboard().released(ev.getKeyCode());
+                if (parent.getKeyboard().nonePressed()) {
+                    Direction direction = parent.getKeyboard().getDirection();
+                    parent.setKeyboard(new Keyboard());
+                    int jumpWidth = parent.jumpWidth(iCoord, jCoord, direction);
+                    parent.moveFocus(iCoord, jCoord, direction, jumpWidth);
+                }
+            }
+        });
+    }
+}

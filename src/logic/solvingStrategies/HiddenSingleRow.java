@@ -17,17 +17,19 @@ public class HiddenSingleRow implements SolvingStrategy {
 	private Sudoku sudoku;
 	private SudokuSolver solver;
 	private int length;
+	private LinkedList<PerformedOperation> performedOperations;
 
 	public HiddenSingleRow(Sudoku sudoku, SudokuSolver solver) {
 		this.sudoku = sudoku;
 		this.solver = solver;
 		this.length = sudoku.getLength();
+		this.performedOperations = new LinkedList<>();
 	}
 
 	@Override
 	public boolean apply() {
 		HashSet<Integer> possi = new HashSet<>();
-		boolean changed = false;
+		boolean didSomething = false;
 		for (int i = 0; i < length; i++) { // iterating the rows
 			possi.clear();
 			for (int k = 1; k <= length; k++) {
@@ -55,11 +57,12 @@ public class HiddenSingleRow implements SolvingStrategy {
 					Coordinate coord = allowedFieldsForThisNumber.getFirst();
 					solver.pushTrySolvingBackup(coord.i, coord.j);
 					sudoku.setCurrentValue(k, coord.i, coord.j, true);
-					changed = true;
+					performedOperations.add(new PerformedOperation(k, coord.i, coord.j));
+					didSomething = true;
 				}
 			}
 		}
-		return changed; // false if no value has been found
+		return didSomething;
 	}
 
 	@Override
@@ -71,5 +74,10 @@ public class HiddenSingleRow implements SolvingStrategy {
 	public boolean isRestrictive() {
 		return false;
 	}
+
+    @Override
+    public LinkedList<PerformedOperation> getPerformedOperations() {
+        return performedOperations;
+    }
 
 }

@@ -5,6 +5,7 @@ import logic.exceptions.PIVException;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Fish strategy.
@@ -16,10 +17,12 @@ public class XWing implements SolvingStrategy {
 
     private Sudoku sudoku;
     private int length;
+    private LinkedList<PerformedOperation> performedOperations;
 
     public XWing(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
+        this.performedOperations = new LinkedList<>();
     }
 
     @Override
@@ -66,9 +69,11 @@ public class XWing implements SolvingStrategy {
                         for (int i = 0; i < length; i++) {
                             if (i != baseRow1 && i != baseRow2) {
                                 if (sudoku.getPossibilities(i, coverColumn1).remove(k)) {
+                                    performedOperations.add(new PerformedOperation(k, i, coverColumn1));
                                     didSomething = true;
                                 }
                                 if (sudoku.getPossibilities(i, coverColumn2).remove(k)) {
+                                    performedOperations.add(new PerformedOperation(k, i, coverColumn2));
                                     didSomething = true;
                                 }
                             }
@@ -110,9 +115,11 @@ public class XWing implements SolvingStrategy {
                         for (int j = 0; j < length; j++) {
                             if (j != baseColumn1 && j != baseColumn2) {
                                 if (sudoku.getPossibilities(coverRow1, j).remove(k)) {
+                                    performedOperations.add(new PerformedOperation(k, coverRow1, j));
                                     didSomething = true;
                                 }
                                 if (sudoku.getPossibilities(coverRow2, j).remove(k)) {
+                                    performedOperations.add(new PerformedOperation(k, coverRow2, j));
                                     didSomething = true;
                                 }
                             }
@@ -133,5 +140,10 @@ public class XWing implements SolvingStrategy {
     @Override
     public boolean isRestrictive() {
         return true;
+    }
+
+    @Override
+    public LinkedList<PerformedOperation> getPerformedOperations() {
+        return performedOperations;
     }
 }

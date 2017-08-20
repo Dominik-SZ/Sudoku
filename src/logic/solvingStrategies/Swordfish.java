@@ -5,6 +5,7 @@ import logic.exceptions.PIVException;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Fish strategy. Checks if there are three base rows/columns which contain the possibility for a number in exactly
@@ -15,10 +16,12 @@ public class Swordfish implements SolvingStrategy {
 
     private Sudoku sudoku;
     private int length;
+    private LinkedList<PerformedOperation> performedOperations;
 
     public Swordfish(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
+        this.performedOperations = new LinkedList<>();
     }
 
     @Override
@@ -73,12 +76,15 @@ public class Swordfish implements SolvingStrategy {
                             for (int i = 0; i < length; i++) {
                                 if (i != baseRow1 && i != baseRow2 && i != baseRow3) {
                                     if (sudoku.getPossibilities(i, coverColumn1).remove(k)) {
+                                        performedOperations.add(new PerformedOperation(k, i, coverColumn1));
                                         didSomething = true;
                                     }
                                     if (sudoku.getPossibilities(i, coverColumn2).remove(k)) {
+                                        performedOperations.add(new PerformedOperation(k, i, coverColumn2));
                                         didSomething = true;
                                     }
                                     if (sudoku.getPossibilities(i, coverColumn3).remove(k)) {
+                                        performedOperations.add(new PerformedOperation(k, i, coverColumn3));
                                         didSomething = true;
                                     }
                                 }
@@ -129,12 +135,15 @@ public class Swordfish implements SolvingStrategy {
                             for (int j = 0; j < length; j++) {
                                 if (j != baseColumn1 && j != baseColumn2 && j != baseColumn3) {
                                     if (sudoku.getPossibilities(coverRow1, j).remove(k)) {
+                                        performedOperations.add(new PerformedOperation(k, coverRow1, j));
                                         didSomething = true;
                                     }
                                     if (sudoku.getPossibilities(coverRow2, j).remove(k)) {
+                                        performedOperations.add(new PerformedOperation(k, coverRow2, j));
                                         didSomething = true;
                                     }
                                     if (sudoku.getPossibilities(coverRow3, j).remove(k)) {
+                                        performedOperations.add(new PerformedOperation(k, coverRow3, j));
                                         didSomething = true;
                                     }
                                 }
@@ -156,5 +165,10 @@ public class Swordfish implements SolvingStrategy {
     @Override
     public boolean isRestrictive() {
         return true;
+    }
+
+    @Override
+    public LinkedList<PerformedOperation> getPerformedOperations() {
+        return performedOperations;
     }
 }

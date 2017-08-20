@@ -17,11 +17,13 @@ public class IntersectionRowToBlock implements SolvingStrategy {
     private Sudoku sudoku;
     private int length;
     private int blockLength;
+    private LinkedList<PerformedOperation> performedOperations;
 
     public IntersectionRowToBlock(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
         this.blockLength = sudoku.getBlockLength();
+        performedOperations = new LinkedList<>();
     }
 
 
@@ -32,7 +34,7 @@ public class IntersectionRowToBlock implements SolvingStrategy {
             throw new PIVException();
         }
 
-        boolean changed = false;
+        boolean didSomething = false;
         LinkedList<Coordinate> occurrences = new LinkedList<>();
 
         // iterate the rows
@@ -70,18 +72,18 @@ public class IntersectionRowToBlock implements SolvingStrategy {
                         // remove the possibilities in the rows on top of the occurred row in the same block
                         for (int i = iStart; i < iOccurrence; i++) {
                             for (int j = jStart; j < jStart + blockLength; j++) {
-                                if (sudoku.getPossibilities(i, j).contains(k)) {
-                                    changed = true;
-                                    sudoku.getPossibilities(i, j).remove(k);
+                                if (sudoku.getPossibilities(i, j).remove(k)) {
+                                    performedOperations.add(new PerformedOperation(k, i, j));
+                                    didSomething = true;
                                 }
                             }
                         }
                         // remove the possibilities in the rows below the occurred row in the same block
                         for (int i = iOccurrence + 1; i < iStart + blockLength; i++) {
                             for (int j = jStart; j < jStart + blockLength; j++) {
-                                if (sudoku.getPossibilities(i, j).contains(k)) {
-                                    changed = true;
-                                    sudoku.getPossibilities(i, j).remove(k);
+                                if (sudoku.getPossibilities(i, j).remove(k)) {
+                                    performedOperations.add(new PerformedOperation(k, i, j));
+                                    didSomething = true;
                                 }
                             }
                         }
@@ -94,7 +96,7 @@ public class IntersectionRowToBlock implements SolvingStrategy {
 
             }
         }
-        return changed;
+        return didSomething;
     }
 
     @Override
@@ -105,5 +107,10 @@ public class IntersectionRowToBlock implements SolvingStrategy {
     @Override
     public boolean isRestrictive() {
         return true;
+    }
+
+    @Override
+    public LinkedList<PerformedOperation> getPerformedOperations() {
+        return performedOperations;
     }
 }

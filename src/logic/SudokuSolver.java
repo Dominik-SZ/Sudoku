@@ -75,7 +75,7 @@ public class SudokuSolver {
             strategies.add(strategy);
         }
 
-        // fishes
+        // fish strategies
         strategy = new XWing(sudoku);
         if(strategy.getDifficulty() <= difficulty) {
             strategies.add(strategy);
@@ -118,7 +118,7 @@ public class SudokuSolver {
      * solvable. It also prints the solution and the Sudoku to the system.out,
      * as well as some additional info.
      */
-    void fill(int randomFills) {
+    ArrayList<SolvingStrategy> fill(int randomFills) {
         System.out.println("start filling");
         int fillTrials = 1;
         // try to fill the Sudoku completely until it succeeds
@@ -154,6 +154,8 @@ public class SudokuSolver {
         }
         System.out.println(sudoku.count() + " of " + length * length + " fields are filled.");
         System.out.println(sudoku.toString(true, false));
+
+        return strategies;
     }
 
     /**
