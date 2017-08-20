@@ -214,19 +214,19 @@ public class Sudoku {
 
     /**
      * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The current values of the board
-     * are initialized to the start values. Uses the standard value of (length² / 5) for the amount of randomFills.
-     * This method maintains possibility integrity.
+     * are initialized to the start values. Uses the standard value of (length² / 5) for the amount of randomFills. This
+     * method maintains possibility integrity.
      */
     void fill() {
-        fill(length * length /5);
+        fill(length * length / 5);
     }
 
     /**
      * Actually fill the Sudoku. This sets startValues and solutionValues in the board. The current values of the board
-     * are initialized to the start values. It uses the specified amount of randomFills.
-     * This method maintains possibility integrity.
+     * are initialized to the start values. It uses the specified amount of randomFills. This method maintains
+     * possibility integrity.
      *
-     * @param randomFills   The amount of fields filled randomly at the beginning of the fill algorithm
+     * @param randomFills The amount of fields filled randomly at the beginning of the fill algorithm
      */
     ArrayList<SolvingStrategy> fill(int randomFills) {
         filled = true;
@@ -234,23 +234,25 @@ public class Sudoku {
     }
 
     /**
-     * Tries to solve the Sudoku like a player using the solving strategies available and returns if it was successful
-     * in doing so.
+     * Tries to solve the Sudoku like a player using the solving strategies available and returns 0 if it was successful
+     * doing so, 1, if it was unsuccessful maybe because its solving algorithm is not strong enough and -1 if the Sudoku
+     * is not solvable, probably because there was an error inserting it. -2 should never be returned and indicates
+     * an error in the program.
      *
      * @return If the solving process was successful
      */
-    public boolean solve() {
+    public int solve() {
+        int answer;
         try {
-            if(new SudokuSolver(this).solve()) {
+            answer = new SudokuSolver(this).solve();
+            if (answer == 0) {
                 filled = true;
-                return true;
-            } else {
-                return false;
             }
         } catch (PIVException ex) {
             ex.printStackTrace();
-            return false;
+            return -2;
         }
+        return answer;
     }
 
     /**
@@ -570,6 +572,21 @@ public class Sudoku {
         possibilityIntegrity = true;
     }
 
+    /**
+     * checks if there is no allowed possibility remaining to fill one of the empty fields.
+     */
+    boolean isLocked() {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (board[i][j].getCurrentValue() == 0 && board[i][j].getPossibilities().size() == 0) {
+                    System.out.println("isLocked: no remaining possibilities found at i=" + i + " and j=" + j);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //------------------------------------------------------------------------------------------------------------------
     // Setter-Methods
 
@@ -577,21 +594,20 @@ public class Sudoku {
      * Sets the specified value as the current value of the field at the specified coordinates. This is done in five
      * different ways optimizing performance depending on the needs of the input: The following operations are listed in
      * descending order regarding performance:
+     * <p>
+     * 1. insert a value, that is already set at this position. 2. insert a value without caring about possibility
+     * integrity (maintainPI = false). Note that possibility integrity is broken by doing this. 3. setting a value on an
+     * empty field (current value == 0) while maintaining possibility integrity 4. setting 0 as value onto a filled
+     * (current value != 0) field while maintaining possibility integrity 5. replacing an existing current value with a
+     * new one (both != 0) while maintaining possibility integrity
+     * <p>
+     * By using this method with maintainPI = true, possibilities in the same row, column and block are updated in a way
+     * that progress in restricting those possibilities with restrictive solving strategies may become lost.
      *
-     * 1. insert a value, that is already set at this position.
-     * 2. insert a value without caring about possibility integrity (maintainPI = false). Note that possibility
-     * integrity is broken by doing this.
-     * 3. setting a value on an empty field (current value == 0) while maintaining possibility integrity
-     * 4. setting 0 as value onto a filled (current value != 0) field while maintaining possibility integrity
-     * 5. replacing an existing current value with a new one (both != 0) while maintaining possibility integrity
-     *
-     * By using this method with maintainPI = true, possibilities in the same row, column and block are updated in a
-     * way that progress in restricting those possibilities with restrictive solving strategies may become lost.
-     *
-     * @param value The new current value to set
-     * @param iCoord    The i coordinate at which to set the new current value
-     * @param jCoord    The j coordinate at which to set the new current value
-     * @param maintainPI    If possibility integrity should be maintained (affects performance)
+     * @param value      The new current value to set
+     * @param iCoord     The i coordinate at which to set the new current value
+     * @param jCoord     The j coordinate at which to set the new current value
+     * @param maintainPI If possibility integrity should be maintained (affects performance)
      */
     public void setCurrentValue(int value, int iCoord, int jCoord, boolean maintainPI) {
         if (value < 0 || length < value) {

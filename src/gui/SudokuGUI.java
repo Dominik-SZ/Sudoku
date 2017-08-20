@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * This Class makes it possible to create a GUI for a calculated Sudoku in which
- * it can be solved. The GUI is based on the Java Swing framework.
+ * This Class makes it possible to create a GUI for a calculated Sudoku in which it can be solved. The GUI is based on
+ * the Java Swing framework.
  *
  * @author Dominik
  */
@@ -131,8 +131,7 @@ public class SudokuGUI {
      */
     private int currentOutline;
     /**
-     * The coordinates of the fields, which are currently highlighted based of
-     * the highlightPossibilityPairs method
+     * The coordinates of the fields, which are currently highlighted based of the highlightPossibilityPairs method
      */
     private LinkedList<Coordinate> possibilityPairsCoordinates;
     /**
@@ -173,8 +172,8 @@ public class SudokuGUI {
     // Constructors
 
     /**
-     * Builds a Swing GUI to insert a Sudoku manually by the player. No helping methods are provided until activate()
-     * is called.
+     * Builds a Swing GUI to insert a Sudoku manually by the player. No helping methods are provided until activate() is
+     * called.
      */
     public SudokuGUI(int length) {
         this.keyboard = new Keyboard();
@@ -231,8 +230,7 @@ public class SudokuGUI {
         mainFrame.setMaximumSize(new Dimension((int) screenSize.getWidth(), (int) screenSize.getHeight() - 43));
         mainFrame.setPreferredSize(new Dimension(length * 70 + 470, length * 70 + 260));
         int startWidth = (int) Math.min(mainFrame.getPreferredSize().getWidth(), mainFrame.getMaximumSize().getWidth());
-        int startHeight = (int) Math.min(mainFrame.getPreferredSize().getHeight(),
-                                         mainFrame.getMaximumSize().getHeight());
+        int startHeight = (int) Math.min(mainFrame.getPreferredSize().getHeight(), mainFrame.getMaximumSize().getHeight());
         mainFrame.setSize(new Dimension(startWidth, startHeight));
 
         buildCenterPanel(false);
@@ -266,7 +264,7 @@ public class SudokuGUI {
      * Builds a Swing GUI for a completely filled Sudoku in which the Sudoku can be solved by a player. All helping
      * tools are enabled.
      *
-     * @param sudoku    The Sudoku which should be played on by this GUI
+     * @param sudoku The Sudoku which should be played on by this GUI
      */
     public SudokuGUI(Sudoku sudoku) {
         this.sudoku = sudoku;
@@ -323,8 +321,7 @@ public class SudokuGUI {
         mainFrame.setMaximumSize(new Dimension((int) screenSize.getWidth(), (int) screenSize.getHeight() - 43));
         mainFrame.setPreferredSize(new Dimension(length * 70 + 470, length * 70 + 260));
         int startWidth = (int) Math.min(mainFrame.getPreferredSize().getWidth(), mainFrame.getMaximumSize().getWidth());
-        int startHeight = (int) Math.min(mainFrame.getPreferredSize().getHeight(),
-                mainFrame.getMaximumSize().getHeight());
+        int startHeight = (int) Math.min(mainFrame.getPreferredSize().getHeight(), mainFrame.getMaximumSize().getHeight());
         mainFrame.setSize(new Dimension(startWidth, startHeight));
 
         // build all the secondary panels
@@ -364,8 +361,7 @@ public class SudokuGUI {
 
         JMenuItem newSudokuItem = new JMenuItem("Neues Sudoku");
         try {
-            BufferedImage newSudokuImage = ImageIO
-                    .read(mainFrame.getClass().getResourceAsStream("/icons/newFileIcon.png"));
+            BufferedImage newSudokuImage = ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/newFileIcon.png"));
             newSudokuItem.setIcon(new ImageIcon(newSudokuImage));
         } catch (IOException ignored) {
         }
@@ -373,10 +369,7 @@ public class SudokuGUI {
         newSudokuItem.setToolTipText("Ersetzt das momentane Sudoku durch ein neues.");
         newSudokuItem.setAccelerator(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK));
         newSudokuItem.addActionListener(e -> {
-            int answer = JOptionPane.showConfirmDialog(null,
-                    "Bist du sicher, dass du mit einem neuen Sudoku starten möchtest? "
-                            + "Das momentane Sudoku wird nicht gespeichert.",
-                    "Neues Sudoku bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            int answer = JOptionPane.showConfirmDialog(null, "Bist du sicher, dass du mit einem neuen Sudoku starten möchtest? " + "Das momentane Sudoku wird nicht gespeichert.", "Neues Sudoku bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
             if (answer == JOptionPane.OK_OPTION) {
                 mainFrame.dispose();
                 String oldLength = length + "";
@@ -478,8 +471,7 @@ public class SudokuGUI {
 
         restPanel.add(Box.createHorizontalGlue()); // a spacer
 
-        JLabel fillInfoLabel = new JLabel(
-                sudoku.count() + " von " + length * length + " Feldern sind zu Beginn befüllt.");
+        JLabel fillInfoLabel = new JLabel(sudoku.count() + " von " + length * length + " Feldern sind zu Beginn befüllt.");
         // fillInfoLabel.setPreferredSize(new Dimension(0, topHeight));
         fillInfoLabel.setFont(labelFont);
         paintable.add(fillInfoLabel);
@@ -602,9 +594,7 @@ public class SudokuGUI {
         countDownwardsButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         countDownwardsButton.setBorder(new EmptyBorder(0, 15, 0, 10));
         countDownwardsButton.setFont(labelFont);
-        countDownwardsButton.setToolTipText(
-                "Entscheidet, ob die rechte Anzeige" + "die Anzahl der eingefügten Zahlen hochzählt oder ob die"
-                        + "noch fehlenden Zahlen angezeigt werden, also runtergezählt wird.");
+        countDownwardsButton.setToolTipText("Entscheidet, ob die rechte Anzeige" + "die Anzahl der eingefügten Zahlen hochzählt oder ob die" + "noch fehlenden Zahlen angezeigt werden, also runtergezählt wird.");
         countDownwardsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         countDownwardsButton.addActionListener(arg0 -> updateRightPanel());
         paintable.add(countDownwardsButton);
@@ -621,8 +611,7 @@ public class SudokuGUI {
 
         // check for mistakes button
         JButton checkForMistakesButton = new JButton("Fehlersuche");
-        checkForMistakesButton.setToolTipText("Sucht nach falsch befüllten "
-                + "Feldern und hinterlegt diese rot. Doppelklick macht dies " + "rückgängig.");
+        checkForMistakesButton.setToolTipText("Sucht nach falsch befüllten " + "Feldern und hinterlegt diese rot. Doppelklick macht dies " + "rückgängig.");
         checkForMistakesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         checkForMistakesButton.addMouseListener(new MouseAdapter() {
 
@@ -649,8 +638,7 @@ public class SudokuGUI {
 
         // show possibilities button
         showPossibilitiesButton = new JRadioButton("Möglichkeiten anzeigen");
-        showPossibilitiesButton.setToolTipText("Zeigt in allen leeren Feldern und Notizfeldern die dortigen "
-                + "Möglichkeiten an, wenn ausgewählt und aktualisiert diese bei neuen Einträgen.");
+        showPossibilitiesButton.setToolTipText("Zeigt in allen leeren Feldern und Notizfeldern die dortigen " + "Möglichkeiten an, wenn ausgewählt und aktualisiert diese bei neuen Einträgen.");
         showPossibilitiesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         showPossibilitiesButton.addMouseListener(new MouseAdapter() {
 
@@ -669,9 +657,7 @@ public class SudokuGUI {
 
         // highlight possibility pairs button
         JButton highlightPossibilityPairsButton = new JButton("Möglichkeitspaare");
-        highlightPossibilityPairsButton
-                .setToolTipText("Hebt eingetragene " + "Möglichkeitspaare, die mindestens 2 mal vorkommen, farblich "
-                        + "hervor. Doppelklick macht dies rückgängig.");
+        highlightPossibilityPairsButton.setToolTipText("Hebt eingetragene " + "Möglichkeitspaare, die mindestens 2 mal vorkommen, farblich " + "hervor. Doppelklick macht dies rückgängig.");
         highlightPossibilityPairsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         highlightPossibilityPairsButton.addMouseListener(new MouseAdapter() {
 
@@ -689,8 +675,7 @@ public class SudokuGUI {
 
         // solution button
         JButton solutionButton = new JButton("Lösung");
-        solutionButton.setToolTipText("öffnet ein kleines zusätzliches Fenster, in dem die Lösung des Sudokus "
-                + "nachgeschlagen werden kann.");
+        solutionButton.setToolTipText("öffnet ein kleines zusätzliches Fenster, in dem die Lösung des Sudokus " + "nachgeschlagen werden kann.");
         solutionButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         solutionButton.addActionListener(e -> {
             SolutionWindow solutionWindow = new SolutionWindow(sudoku.getBoard(), fieldStandardColor);
@@ -703,10 +688,7 @@ public class SudokuGUI {
         resetButton.setToolTipText("Setzt das Sudoku auf den Ausgangszustand zurück.");
         resetButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         resetButton.addActionListener(e -> {
-            int answer = JOptionPane.showConfirmDialog(null,
-                    "Bist du sicher, dass du das Sudoku resetten möchtest? Alle deine Einträge "
-                            + "und Einfärbungen werden entfernt.",
-                    "Reset bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            int answer = JOptionPane.showConfirmDialog(null, "Bist du sicher, dass du das Sudoku resetten möchtest? Alle deine Einträge " + "und Einfärbungen werden entfernt.", "Reset bestätigen", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
             if (answer == JOptionPane.OK_OPTION) {
                 for (int i = 0; i < length; i++) {
                     for (int j = 0; j < length; j++) {
@@ -742,13 +724,11 @@ public class SudokuGUI {
         mainFrame.add(BorderLayout.WEST, leftPanel);
         paintable.add(leftPanel);
 
-        String[] colorStrings = {"schwarz", "dunkelgrau", "grau", "weiß", "pink", "rot", "orange", "gelb", "grün",
-                "dunkelgrün", "blau", "mehr Farben"};
+        String[] colorStrings = {"schwarz", "dunkelgrau", "grau", "weiß", "pink", "rot", "orange", "gelb", "grün", "dunkelgrün", "blau", "mehr Farben"};
 
-        ActionListener boxListener = e-> {
+        ActionListener boxListener = e -> {
 
-            @SuppressWarnings("unchecked")
-            JComboBox<String> selectedBox = (JComboBox<String>) e.getSource();
+            @SuppressWarnings("unchecked") JComboBox<String> selectedBox = (JComboBox<String>) e.getSource();
             int selectedIndex = selectedBox.getSelectedIndex();
 
             Color previousColor = Color.WHITE;
@@ -833,8 +813,7 @@ public class SudokuGUI {
         darkenBox = new JComboBox<>(darkenOptions);
 
         darkenBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        darkenBox.setToolTipText("Entscheidet inwieweit das herausstellen von"
-                + " Zahlen durch die rechten Knöpfe die dadurch blockierten Felder verdunkelt.");
+        darkenBox.setToolTipText("Entscheidet inwieweit das herausstellen von" + " Zahlen durch die rechten Knöpfe die dadurch blockierten Felder verdunkelt.");
         darkenBox.setSelectedIndex(1); // standard choice (partly)
         darkenBox.setEditable(true);
         darkenBox.addActionListener(e -> {
@@ -886,9 +865,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Puts the inserted components into a JPanel, which has a left and right
-     * padding of 10px and a top and bottom padding of 20px. The panel itself is
-     * added to the paintable list and to the left panel.
+     * Puts the inserted components into a JPanel, which has a left and right padding of 10px and a top and bottom
+     * padding of 20px. The panel itself is added to the paintable list and to the left panel.
      *
      * @param describer the describing component attached
      * @param component the component to become nested and added
@@ -940,8 +918,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Generates the centerPanel of the mainFrame and the boardGraphic of the Window, which contains the SudokuFields
-     * on which the game is played.
+     * Generates the centerPanel of the mainFrame and the boardGraphic of the Window, which contains the SudokuFields on
+     * which the game is played.
      *
      * @param functionality If the generated GraphicalSudokuFields get functionality
      */
@@ -963,7 +941,7 @@ public class SudokuGUI {
 
                     // giving each block its fields
                     GraphicalSudokuField field;
-                    if(functionality) {
+                    if (functionality) {
                         field = new GraphicalSudokuFieldFullyFunctional(i, j, this);
                     } else {
                         field = new GraphicalSudokuFieldCustomInput(i, j, this);
@@ -980,9 +958,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Sets the window visible or hides it depending on the input. It also
-     * starts the timer to display how long the player has played and sets the
-     * Focus in a middle field.
+     * Sets the window visible or hides it depending on the input. It also starts the timer to display how long the
+     * player has played and sets the Focus in a middle field.
      */
     public void setVisible(boolean arg) {
 
@@ -993,16 +970,15 @@ public class SudokuGUI {
         }
         mainFrame.setVisible(arg);
         startTime = System.nanoTime();
-        if(timer != null) {
+        if (timer != null) {
             timer.start();
         }
         setFocusInMiddle();
     }
 
     /**
-     * Counts the current amount of the particular numbers inserted in the
-     * Sudoku and updates the display. Originally inserted fields are also
-     * regarded by doing so.
+     * Counts the current amount of the particular numbers inserted in the Sudoku and updates the display. Originally
+     * inserted fields are also regarded by doing so.
      */
     void updateRightPanel() {
         boolean downwards = countDownwardsButton.isSelected();
@@ -1029,8 +1005,7 @@ public class SudokuGUI {
                 currentTextField.setText(String.valueOf(amount));
             }
             // test if the number is inserted too often
-            if (Integer.parseInt(currentTextField.getText().trim()) > length
-                    || Integer.parseInt(currentTextField.getText().trim()) < 0) {
+            if (Integer.parseInt(currentTextField.getText().trim()) > length || Integer.parseInt(currentTextField.getText().trim()) < 0) {
                 currentTextField.setForeground(Color.RED);
             } else {
                 currentTextField.setForeground(Color.BLACK);
@@ -1040,8 +1015,8 @@ public class SudokuGUI {
 
     /**
      * Outlines all displayed Sudoku fields with the inserted number if their input is a final input (they have the
-     * standardFont). All fields of the boardGraphic are checked by doing so. All other outlines are undone and
-     * if the inserted number is already outlined, it is also undone.
+     * standardFont). All fields of the boardGraphic are checked by doing so. All other outlines are undone and if the
+     * inserted number is already outlined, it is also undone.
      *
      * @param newOutline The number whose holding fields shall become outlined
      */
@@ -1060,8 +1035,7 @@ public class SudokuGUI {
                 String text = currentField.getText().trim();
 
                 try {
-                    if (!text.equals("") && !boardGraphic[i][j].getFont().equals(noteFont)
-                            && Integer.parseInt(text) == newOutline && currentOutline != newOutline) {
+                    if (!text.equals("") && !boardGraphic[i][j].getFont().equals(noteFont) && Integer.parseInt(text) == newOutline && currentOutline != newOutline) {
 
                         boardGraphic[i][j].setBorder(outlineBorder);
                         darken(i, j);
@@ -1104,8 +1078,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Updates the foreground color of all components in the "paintable" list. The attribute foregroundColor is used
-     * to determine the color.
+     * Updates the foreground color of all components in the "paintable" list. The attribute foregroundColor is used to
+     * determine the color.
      */
     private void updateForeground() {
         for (Component i : paintable) {
@@ -1114,8 +1088,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Updates the background color of all components in the "paintable" list. The attribute backgroundColor is used
-     * to determine the color.
+     * Updates the background color of all components in the "paintable" list. The attribute backgroundColor is used to
+     * determine the color.
      */
     private void updateBackground() {
         for (Component i : paintable) {
@@ -1124,8 +1098,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Updates the foreground color of all editable Sudoku fields in the boardGraphic with standard font. The
-     * attribute fieldStandardColor is used to determine the color.
+     * Updates the foreground color of all editable Sudoku fields in the boardGraphic with standard font. The attribute
+     * fieldStandardColor is used to determine the color.
      */
     private void updateFieldStandard() {
         for (int i = 0; i < length; i++) {
@@ -1158,10 +1132,8 @@ public class SudokuGUI {
      *
      * @param iCoord    The iCoord of the current field
      * @param jCoord    The jCoord of the current field
-     * @param direction The direction in which to look (0 means top, 1 means top
-     *                  right,...)
-     * @return The distance in fields to the next editable field. 0 if there are
-     * none in this direction.
+     * @param direction The direction in which to look (0 means top, 1 means top right,...)
+     * @return The distance in fields to the next editable field. 0 if there are none in this direction.
      */
     int jumpWidth(int iCoord, int jCoord, Direction direction) {
         int jumpWidth = 0;
@@ -1209,9 +1181,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Tries to set the focus in the middle of the boardGraphic. If that field
-     * is not editable, other editable fields are searched, which are as close
-     * as possible to the middle.
+     * Tries to set the focus in the middle of the boardGraphic. If that field is not editable, other editable fields
+     * are searched, which are as close as possible to the middle.
      */
     private void setFocusInMiddle() {
         int middle = (length - 1) / 2; // try the middle field
@@ -1237,8 +1208,7 @@ public class SudokuGUI {
      *
      * @param iCoord    The iCoord of the field which had the focus until now
      * @param jCoord    The jCoord of the field which had the focus until now
-     * @param direction The direction in which the focus should move. (0 means top, 1
-     *                  means top right,...)
+     * @param direction The direction in which the focus should move. (0 means top, 1 means top right,...)
      * @param jumpWidth The distance in fields how far the focus should move.
      */
     void moveFocus(int iCoord, int jCoord, Direction direction, int jumpWidth) {
@@ -1273,25 +1243,22 @@ public class SudokuGUI {
     }
 
     /**
-     * Opens an appropriate message window, which tells the user the inserted
-     * status.
+     * Opens an appropriate message window, which tells the user the inserted status.
      *
      * @param status The status which will be told to the user
      */
     void showStatus(GameStatus status) {
 
-        switch(status) {
+        switch (status) {
             case INCOMPLETE:
-                JOptionPane.showMessageDialog(null, "Das Sudoku ist noch nicht vollständig befüllt.",
-                                              "Da fehlt noch was!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Das Sudoku ist noch nicht vollständig befüllt.", "Da fehlt noch was!", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case CORRECT:
                 timer.stop();
                 // play the success sound
                 try {
                     Clip clip = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem
-                            .getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -1301,16 +1268,14 @@ public class SudokuGUI {
 
                 // show the success pop up window
                 String time = timerLabel.getText().substring(15, timerLabel.getText().length());
-                JOptionPane.showMessageDialog(null, "Alles richtig! Glückwunsch!!\r\nBenötigte Zeit:"
-                                                      + time, "Gewonnen!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Alles richtig! Glückwunsch!!\r\nBenötigte Zeit:" + time, "Gewonnen!", JOptionPane.INFORMATION_MESSAGE);
                 break;
             case ALTERNATIVELY_FILLED:
                 timer.stop();
                 // play the success sound
                 try {
                     Clip clip = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem
-                            .getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -1320,21 +1285,17 @@ public class SudokuGUI {
 
                 // show the alternatively filled pop up window
                 String time2 = timerLabel.getText().substring(15, timerLabel.getText().length());
-                JOptionPane.showMessageDialog(null, "So gehts auch! Glückwunsch!!\r\nBenötigte Zeit:" + time2,
-                                              "Alternative Lösung gefunden!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "So gehts auch! Glückwunsch!!\r\nBenötigte Zeit:" + time2, "Alternative Lösung gefunden!", JOptionPane.INFORMATION_MESSAGE);
             case INCORRECT:
-                JOptionPane.showMessageDialog(null, "Sudoku ist noch nicht korrekt befüllt.",
-                                              "Stimmt so nicht ganz", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Sudoku ist noch nicht korrekt befüllt.", "Stimmt so nicht ganz", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
 
     /**
-     * Opens a pop up window at the inserted field, in which the user can choose
-     * the background color for this field.
+     * Opens a pop up window at the inserted field, in which the user can choose the background color for this field.
      *
-     * @param field The chosen field where the window is opened and which is
-     *              affected
+     * @param field The chosen field where the window is opened and which is affected
      */
     void showColorChooser(GraphicalSudokuField field) {
         Border oldBorder = field.getBorder(); // save the original border
@@ -1356,8 +1317,7 @@ public class SudokuGUI {
         // invoked if the user closes the dialog with Cancel
         ActionListener cancelListener = arg0 -> field.setBorder(oldBorder);
 
-        JDialog ccDialog = JColorChooser.createDialog(field, "Wähle deine gewünschte Farbe für dieses Feld", true, cc,
-                okListener, cancelListener);
+        JDialog ccDialog = JColorChooser.createDialog(field, "Wähle deine gewünschte Farbe für dieses Feld", true, cc, okListener, cancelListener);
 
         // set the dialog to the right position
         int oldY = ccDialog.getY();
@@ -1398,9 +1358,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Prints the centerPanel of this window as big as possible while being
-     * small enough to fit one page. The user is asked in a dialog window which
-     * printer he/she wants to use.
+     * Prints the centerPanel of this window as big as possible while being small enough to fit one page. The user is
+     * asked in a dialog window which printer he/she wants to use.
      */
     private void print() {
         PrinterJob job = PrinterJob.getPrinterJob();
@@ -1417,10 +1376,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Searches for empty fields or fields with noteFont in the boardGraphic
-     * and displays the specific possibilities for those fields in them. To
-     * ensure those possibilities are right, the possibilities are
-     * recalculated in the sudoku.
+     * Searches for empty fields or fields with noteFont in the boardGraphic and displays the specific possibilities for
+     * those fields in them. To ensure those possibilities are right, the possibilities are recalculated in the sudoku.
      */
     void showPossibilities() {
 
@@ -1429,12 +1386,12 @@ public class SudokuGUI {
             for (int j = 0; j < length; j++) {
 
                 GraphicalSudokuField currentField = boardGraphic[i][j];
-                if(currentField.getFont().equals(noteFont) || currentField.getText().trim().equals("")){
+                if (currentField.getFont().equals(noteFont) || currentField.getText().trim().equals("")) {
                     currentField.setFont(noteFont);
 
                     Collection<Integer> currentPossibilities = sudoku.getPossibilities(i, j);
                     String currentText = "";
-                    for(int pos: currentPossibilities){
+                    for (int pos : currentPossibilities) {
                         currentText = currentText.concat(pos + " ");
                     }
                     currentField.setText(currentText.trim());
@@ -1446,8 +1403,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Removes all possibility entries on this board, which are not excluded by
-     * being painted in a different color than white and not darkened.
+     * Removes all possibility entries on this board, which are not excluded by being painted in a different color than
+     * white and not darkened.
      */
     private void removePossibilities() {
         // iterate all fields
@@ -1470,10 +1427,9 @@ public class SudokuGUI {
     }
 
     /**
-     * Highlights all possibility pairs, which occur at least two times in a
-     * respective color (Padi pls!). Possibility pair means, that the font of
-     * the field is noteFont and the amount of inserted possibilities is exact
-     * 2. The possibilities of a pair do not need to be in the same order.
+     * Highlights all possibility pairs, which occur at least two times in a respective color (Padi pls!). Possibility
+     * pair means, that the font of the field is noteFont and the amount of inserted possibilities is exact 2. The
+     * possibilities of a pair do not need to be in the same order.
      */
     private void highlightPossibilityPairs() {
         clearPossibilityPairHighlighting();
@@ -1544,9 +1500,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Returns different colors, depending on which number is inserted. If the
-     * inserted number is out of the implemented bounds (0-8), a random color is
-     * returned, whose distance is big enough to previous returned colors.
+     * Returns different colors, depending on which number is inserted. If the inserted number is out of the implemented
+     * bounds (0-8), a random color is returned, whose distance is big enough to previous returned colors.
      *
      * @param colorNumber Use different ones for different colors
      * @return The correspondent color
@@ -1587,8 +1542,7 @@ public class SudokuGUI {
                         int rDistance = savedColor.getRed() - r;
                         int gDistance = savedColor.getGreen() - g;
                         int bDistance = savedColor.getBlue() - b;
-                        double totalDistance = Math
-                                .sqrt(rDistance * rDistance + gDistance * gDistance + bDistance * bDistance);
+                        double totalDistance = Math.sqrt(rDistance * rDistance + gDistance * gDistance + bDistance * bDistance);
 
                         if (totalDistance < 200) {
                             accepted = false;
@@ -1628,12 +1582,12 @@ public class SudokuGUI {
     /**
      * Tries to activate the Sudoku inserted by the user and gives Feedback if it was successful.
      */
-    private void activate() {
+    void activate() {
         try {
             int[][] insertedBoard = new int[length][length];
-            for(int i = 0; i < length; i++) {
-                for(int j = 0; j < length; j++) {
-                    if(boardGraphic[i][j].getText().equals("")) {
+            for (int i = 0; i < length; i++) {
+                for (int j = 0; j < length; j++) {
+                    if (boardGraphic[i][j].getText().equals("")) {
                         insertedBoard[i][j] = 0;
                     } else {
                         insertedBoard[i][j] = Integer.parseInt(boardGraphic[i][j].getText().trim());
@@ -1641,9 +1595,25 @@ public class SudokuGUI {
                 }
             }
             this.sudoku = new Sudoku(insertedBoard);
+            if(sudoku.count() < 16) {
+                feedback.setText("So gering befüllte Sudokus können nicht eindeutig gelöst werden.");
+                return;
+            }
 
-            if(!sudoku.solve()) {
-                throw new SolvingFailedException();
+            switch (sudoku.solve()) {
+                case -2:
+                    feedback.setText("Fehler im Programm. Bitte beschwere dich hierüber bei Dominik.");
+                    return;
+                case -1:
+                    feedback.setText("Das Sudoku ist in dieser Form nicht lösbar. Überprüfe bitte deine Eingabe.");
+                    return;
+                case 0:
+                    feedback.setText("Sudoku Eingabe erfolgreich.");
+                    break;
+                case 1:
+                    feedback.setText("Sudoku konnte so nicht gelöst werden. Wenn du denkst das sollte der Fall sein, " +
+                                             "beschwere dich bitte bei Dominik.");
+                    return;
             }
 
             sudoku.solve();
@@ -1652,8 +1622,6 @@ public class SudokuGUI {
             window.setVisible(true);
         } catch (NumberFormatException nfe) {
             feedback.setText("Bitte nur eine Zahl pro Feld eingeben.");
-        } catch (SolvingFailedException sfe) {
-            feedback.setText("Sudoku kann so nicht gelöst werden.");
         }
 
     }
@@ -1662,8 +1630,7 @@ public class SudokuGUI {
     // Getter Methods:
 
     /**
-     * Returns the GraphicalSudokuField at the specified coordinates of the board graphic
-     * of this window.
+     * Returns the GraphicalSudokuField at the specified coordinates of the board graphic of this window.
      */
     GraphicalSudokuField getBoardGraphic(int iCoord, int jCoord) {
         return boardGraphic[iCoord][jCoord];
@@ -1781,8 +1748,7 @@ public class SudokuGUI {
     }
 
     /**
-     * Set the background color of the field of the boardGraphic at the position
-     * k.
+     * Set the background color of the field of the boardGraphic at the position k.
      *
      * @param colorRepresentation The RGS Representation of the color
      * @param k                   The coordinate at which to set the background color
@@ -1808,8 +1774,7 @@ public class SudokuGUI {
     }
 
     /**
-     * Sets the foreground color for all components in the paintable list and
-     * updates them.
+     * Sets the foreground color for all components in the paintable list and updates them.
      *
      * @param index The index in the respective combo box
      */
@@ -1820,8 +1785,7 @@ public class SudokuGUI {
     }
 
     /**
-     * Sets the background color for all components in the paintable list and
-     * updates them.
+     * Sets the background color for all components in the paintable list and updates them.
      *
      * @param index The index in the respective combo box
      */
@@ -1832,8 +1796,7 @@ public class SudokuGUI {
     }
 
     /**
-     * Sets the standard foreground color for all sudoku fields of the
-     * boardGraphic and updates them.
+     * Sets the standard foreground color for all sudoku fields of the boardGraphic and updates them.
      *
      * @param index The index in the respective combo box
      */
@@ -1844,8 +1807,7 @@ public class SudokuGUI {
     }
 
     /**
-     * Sets the note foreground color for all sudoku fields of the boardGraphic
-     * and updates them.
+     * Sets the note foreground color for all sudoku fields of the boardGraphic and updates them.
      *
      * @param index The index in the respective combo box
      */

@@ -27,6 +27,9 @@ class GraphicalSudokuFieldCustomInput extends GraphicalSudokuField {
             @Override
             public void keyPressed(KeyEvent ev) {
                 parent.getKeyboard().setTyped(ev.getKeyCode());
+                if (ev.getKeyCode() == KeyEvent.VK_ENTER) {
+                    parent.activate();
+                }
             }
 
             @Override

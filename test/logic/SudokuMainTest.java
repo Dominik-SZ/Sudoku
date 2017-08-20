@@ -4,6 +4,7 @@ import logic.solvingStrategies.SolvingStrategy;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 
 import static org.junit.Assert.assertTrue;
 
@@ -80,8 +81,8 @@ public class SudokuMainTest {
     @Test
     public void fillAnalysis() {
         // how many sudokus are generated and used to determine the average per random fill amount
-        final int TEST_AMOUNT = 2;
-        final int RANDOM_FILL_AMOUNT = 10;
+        final int TEST_AMOUNT = 20;
+        final int RANDOM_FILL_AMOUNT = 25;
         final int STRATEGY_AMOUNT = 11;
 
         double[] averageFieldsFilled = new double[RANDOM_FILL_AMOUNT];
@@ -123,6 +124,7 @@ public class SudokuMainTest {
 
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder(500);
+        Formatter formatter = new Formatter(builder);
         builder.append("\t\t\t\taverage fields filled\taverage time needed\tIntersectionRowToBlock\t");
         builder.append("IntersectionColumnToBlock\tIntersectionBlockToRowAndColumn\tX-Wing\tSwordfish\t");
         builder.append("Jellyfish\tOnlyOnePossibilityOnField\tHiddenSingleRow\tHiddenSingleColumn\tHiddenSingleBlock");
