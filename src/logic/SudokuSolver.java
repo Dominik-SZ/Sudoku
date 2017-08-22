@@ -45,69 +45,7 @@ public class SudokuSolver {
         backups = new Stack<>();
         backups.push(new BackupPoint(-1, new LinkedList<>()));
 
-        initializeStrategies();
-    }
-
-    /**
-     * Initializes the strategies in the solvingStrategies list. Restrictive Methods are called first, Interpreting
-     * methods second. Inside of this partitioning the methods with better performance are used earlier then the
-     * complicated ones.
-     **/
-    private void initializeStrategies() {
-        int difficulty = sudoku.getDifficulty();
-
-        // TODO: look for a possibility to check for the difficulty of the strategy before instantiating it
-        strategies = new ArrayList<>(14);
-
-        // restrictive methods:
-        //--------------------------------------------------------------------------------------------------------------
-        // intersection strategies
-        SolvingStrategy strategy = new IntersectionRowToBlock(sudoku);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-        strategy = new IntersectionColumnToBlock(sudoku);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-        strategy = new IntersectionBlockToRowAndColumn(sudoku);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-
-        // fish strategies
-        strategy = new XWing(sudoku);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-        strategy = new Swordfish(sudoku);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-        strategy = new Jellyfish(sudoku);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-
-        // interpreting methods:
-        //--------------------------------------------------------------------------------------------------------------
-        // OnlyOnePossibilityOnField standard method
-        strategy = new OnlyOnePossibilityOnField(sudoku, this);
-        strategies.add(strategy);   // is always used
-
-        // hidden single strategies
-        strategy = new HiddenSingleRow(sudoku, this);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-        strategy = new HiddenSingleColumn(sudoku, this);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
-        strategy = new HiddenSingleBlock(sudoku, this);
-        if (strategy.getDifficulty() <= difficulty) {
-            strategies.add(strategy);
-        }
+        strategies = SolvingStrategyFactory.createSolvingStrategyList(sudoku, this);
     }
 
     // ------------------------------------------------------------------------
