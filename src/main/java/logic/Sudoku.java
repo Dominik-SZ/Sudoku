@@ -781,7 +781,7 @@ public class Sudoku {
      */
     public void setSolutionValue(int value, int coord) throws IllegalArgumentException {
         if (value < 1 || length < value) {
-            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+            throw new IllegalArgumentException("Inserted solution value out of bounds: " + value);
         }
         if (coord < 0 || length * length <= coord) {
             throw new IllegalArgumentException("Inserted coordinate out of bounds: " + coord);
@@ -799,7 +799,7 @@ public class Sudoku {
      */
     void setSolutionValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
         if (value < 1 || length < value) {
-            throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
+            throw new IllegalArgumentException("Inserted solution value out of bounds: " + value);
         }
         if (iCoord < 0 || length <= iCoord) {
             throw new IllegalArgumentException("Inserted i coordinate out of bounds: " + iCoord);

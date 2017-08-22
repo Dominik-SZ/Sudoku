@@ -2,6 +2,7 @@ package logic;
 
 import logic.solvingStrategies.SolvingStrategy;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class SudokuMainTest {
     }
 
     @Test
+    @Ignore
     public void build9Sudokus() throws Exception {
         Sudoku sudoku = SudokuMain.buildSudoku(9, 1);
         assertTrue(sudoku.isFilled());

@@ -1,0 +1,14 @@
+- Verwendung von Stack auf Deque umstellen
+- Unterdrücken von Warnungen, die in ferner Zukunft vielleicht noch nötig sind
+- Javadocs formatieren
+- Online Tutorial zitieren
+- File Codierung auf UTF-8 in pom eintragen
+
+showColorChooser
+Zur�cksetzen Knopf Funktionalit�t hinzuf�gen
+
+topPanel
+gr��er machen
+
+Erstellalgorithmus
+effizienter und schwieriger machen
