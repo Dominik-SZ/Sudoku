@@ -215,7 +215,7 @@ class GraphicalSudokuFieldFullyFunctional extends GraphicalSudokuField{
                     }
 
                     // move focus stuff
-                    parent.getKeyboard().released(ev.getKeyCode());
+                    parent.getKeyboard().setReleased(ev.getKeyCode());
                     if (parent.getKeyboard().nonePressed()) {
                         Direction direction = parent.getKeyboard().getDirection();
                         parent.setKeyboard(new Keyboard());

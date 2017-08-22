@@ -236,10 +236,10 @@ public class Sudoku {
     /**
      * Tries to solve the Sudoku like a player using the solving strategies available and returns 0 if it was successful
      * doing so, 1, if it was unsuccessful maybe because its solving algorithm is not strong enough and -1 if the Sudoku
-     * is not solvable, probably because there was an error inserting it. -2 should never be returned and indicates
-     * an error in the program.
+     * is not solvable, probably because there was an error inserting it. -2 should never be returned and indicates an
+     * error in the program.
      *
-     * @return If the solving process was successful
+     * @return How the solving trial went
      */
     public int solve() {
         int answer;
@@ -573,7 +573,7 @@ public class Sudoku {
     }
 
     /**
-     * checks if there is no allowed possibility remaining to fill one of the empty fields.
+     * checks if there is no allowed possibility remaining to fill one of the empty (current value = 0) fields.
      */
     boolean isLocked() {
         for (int i = 0; i < length; i++) {
@@ -595,11 +595,11 @@ public class Sudoku {
      * different ways optimizing performance depending on the needs of the input: The following operations are listed in
      * descending order regarding performance:
      * <p>
-     * 1. insert a value, that is already set at this position. 2. insert a value without caring about possibility
-     * integrity (maintainPI = false). Note that possibility integrity is broken by doing this. 3. setting a value on an
-     * empty field (current value == 0) while maintaining possibility integrity 4. setting 0 as value onto a filled
-     * (current value != 0) field while maintaining possibility integrity 5. replacing an existing current value with a
-     * new one (both != 0) while maintaining possibility integrity
+     * 1. insert a value, that is already set at this position.<br> 2. insert a value without caring about possibility
+     * integrity (maintainPI = false). Note that possibility integrity is broken by doing this.<br> 3. setting a value
+     * on an empty field (current value == 0) while maintaining possibility integrity.<br> 4. setting 0 as value onto a
+     * filled (current value != 0) field while maintaining possibility integrity.<br> 5. replacing an existing current
+     * value with a new one (both != 0) while maintaining possibility integrity.<br>
      * <p>
      * By using this method with maintainPI = true, possibilities in the same row, column and block are updated in a way
      * that progress in restricting those possibilities with restrictive solving strategies may become lost.

@@ -90,7 +90,6 @@ public class SudokuMainTest {
         ArrayList[] averageOperationsAmount = new ArrayList[RANDOM_FILL_AMOUNT];
         Sudoku sudoku = new Sudoku(9, 10);
 
-
         for (int rf = 0; rf < RANDOM_FILL_AMOUNT; rf++) {
             double totalFills = 0;
             long startTime = System.nanoTime();
@@ -124,7 +123,7 @@ public class SudokuMainTest {
 
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder(500);
-        Formatter formatter = new Formatter(builder);
+
         builder.append("\t\t\t\taverage fields filled\taverage time needed\tIntersectionRowToBlock\t");
         builder.append("IntersectionColumnToBlock\tIntersectionBlockToRowAndColumn\tX-Wing\tSwordfish\t");
         builder.append("Jellyfish\tOnlyOnePossibilityOnField\tHiddenSingleRow\tHiddenSingleColumn\tHiddenSingleBlock");
@@ -144,6 +143,9 @@ public class SudokuMainTest {
             builder.append(lineSeparator);
         }
         System.out.println(builder);
+
+        String centerAlignFormat = "| %-15s | %-4d |%n";
+
     }
 
 }

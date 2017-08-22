@@ -1397,7 +1397,6 @@ public class SudokuGUI {
                     currentField.setText(currentText.trim());
                 }
 
-
             }
         }
     }
@@ -1595,7 +1594,7 @@ public class SudokuGUI {
                 }
             }
             this.sudoku = new Sudoku(insertedBoard);
-            if(sudoku.count() < 16) {
+            if (sudoku.count() < 16) {
                 feedback.setText("So gering befüllte Sudokus können nicht eindeutig gelöst werden.");
                 return;
             }
@@ -1605,14 +1604,14 @@ public class SudokuGUI {
                     feedback.setText("Fehler im Programm. Bitte beschwere dich hierüber bei Dominik.");
                     return;
                 case -1:
-                    feedback.setText("Das Sudoku ist in dieser Form nicht lösbar. Überprüfe bitte deine Eingabe.");
+                    feedback.setText("Das Sudoku ist in dieser Form nicht eindeutig lösbar. Überprüfe bitte deine " + "Eingabe.");
                     return;
                 case 0:
                     feedback.setText("Sudoku Eingabe erfolgreich.");
                     break;
                 case 1:
-                    feedback.setText("Sudoku konnte so nicht gelöst werden. Wenn du denkst das sollte der Fall sein, " +
-                                             "beschwere dich bitte bei Dominik.");
+                    feedback.setText("Sudoku konnte so nicht eindeutig gelöst werden. Wenn du denkst das sollte der " +
+                                             "Fall sein, beschwere dich bitte bei Dominik.");
                     return;
             }
 
