@@ -4,6 +4,7 @@ import logic.Sudoku;
 import logic.SudokuSolver;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SolvingStrategyFactory {
 
@@ -12,11 +13,11 @@ public class SolvingStrategyFactory {
      * methods second. Inside of this partitioning the methods with better performance are used earlier then the
      * complicated ones.
      **/
-    public static ArrayList<SolvingStrategy> createSolvingStrategyList(Sudoku sudoku, SudokuSolver solver) {
+    public static List<SolvingStrategy> createSolvingStrategyList(Sudoku sudoku, SudokuSolver solver) {
         int difficulty = sudoku.getDifficulty();
         ArrayList<SolvingStrategy> strategies = new ArrayList<>(11);
 
-        // TODO: look for a possibility to check for the difficulty of the strategy before instantiating it
+        // TODO: change. First add all and then remove the inappropriate ones
 
         // restrictive methods:
         //--------------------------------------------------------------------------------------------------------------
@@ -50,8 +51,8 @@ public class SolvingStrategyFactory {
 
         // interpreting methods:
         //--------------------------------------------------------------------------------------------------------------
-        // OnlyOnePossibilityOnField standard method
-        strategy = new OnlyOnePossibilityOnField(sudoku, solver);
+        // OnlyOnePossibility standard method
+        strategy = new OnlyOnePossibility(sudoku, solver);
         strategies.add(strategy);   // is always used
 
         // hidden single strategies

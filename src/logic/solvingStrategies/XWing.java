@@ -8,18 +8,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Fish strategy.
+ * Fish strategy.<br>
  * Checks if there are two base rows/columns which contain the possibility for a number in exactly two column/row
  * indices. If that is the case, the two columns/rows covering the two possibilities, get all of their occurrences of
  * the current number except for the base row/column indices removed.
  */
-public class XWing implements SolvingStrategy {
+class XWing implements SolvingStrategy {
 
     private Sudoku sudoku;
     private int length;
     private LinkedList<PerformedOperation> performedOperations;
 
-    public XWing(Sudoku sudoku) {
+    XWing(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
         this.performedOperations = new LinkedList<>();

@@ -29,9 +29,14 @@ public class SudokuSolver {
     /**
      * the strategies used to solve this Sudoku
      */
-    private ArrayList<SolvingStrategy> strategies;
+    private List<SolvingStrategy> strategies;
 
-    // ------------------------------------------------------------------------
+    /**
+     * The maximum amount of fill trials until the solver gives up the solving operation
+     */
+    private final int FILL_TRIAL_CAP = 25;
+
+    //------------------------------------------------------------------------------------------------------------------
 
     SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
@@ -48,18 +53,18 @@ public class SudokuSolver {
         strategies = SolvingStrategyFactory.createSolvingStrategyList(sudoku, this);
     }
 
-    // ------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     // Main methods used to fill a Sudoku
 
     /**
      * Main generating method to fill an empty sudoku, making it definitely solvable. It also prints the solution and
      * the Sudoku to the system.out, as well as some additional info.
      */
-    ArrayList<SolvingStrategy> fill(int randomFills) {
+    List<SolvingStrategy> fill(int randomFills) {
         System.out.println("start filling");
         int fillTrials = 1;
         // try to fill the Sudoku completely until it succeeds
-        while (!fillTrial(randomFills)) {
+        while (!fillTrial(randomFills) && fillTrials <= FILL_TRIAL_CAP) {
             fillTrials++; // count how many trials were necessary
         }
 
@@ -397,6 +402,7 @@ public class SudokuSolver {
      * @param iCoord The i coordinate of the inserted value
      * @param jCoord The j coordinate of the inserted value
      */
+    //TODO: nur den Stack übergeben, nicht den ganzen Solver
     public void pushTrySolvingBackup(int iCoord, int jCoord) {
         backups.peek().pushTSFills(iCoord * length + jCoord);
     }

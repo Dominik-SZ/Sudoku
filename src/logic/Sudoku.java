@@ -1,17 +1,16 @@
 package logic;
 
+import logic.exceptions.PIVException;
+import logic.solvingStrategies.SolvingStrategy;
+import util.Coordinate;
+import util.GameStatus;
+import util.MathUtilities;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
-
-import logic.exceptions.PIVException;
-import logic.solvingStrategies.PerformedOperation;
-import logic.solvingStrategies.SolvingStrategy;
-import util.Coordinate;
-import util.MathUtilities;
-import util.GameStatus;
 
 /**
  * Instances of this class calculate a solved Sudoku field (solution values) and a Sudoku board where some fields are
@@ -228,7 +227,7 @@ public class Sudoku {
      *
      * @param randomFills The amount of fields filled randomly at the beginning of the fill algorithm
      */
-    ArrayList<SolvingStrategy> fill(int randomFills) {
+    List<SolvingStrategy> fill(int randomFills) {
         filled = true;
         return new SudokuSolver(this).fill(randomFills);
     }

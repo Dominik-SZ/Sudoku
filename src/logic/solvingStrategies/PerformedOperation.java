@@ -4,7 +4,7 @@ package logic.solvingStrategies;
  * This class can be used to save a performed action: Removing the value or possibility "value_possibility" from the
  * coordinates "i" and "j".
  */
-public class PerformedOperation {
+class PerformedOperation {
 
     private int value_possibility;
     private int i;

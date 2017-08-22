@@ -4,7 +4,7 @@ import logic.solvingStrategies.SolvingStrategy;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Formatter;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -81,8 +81,8 @@ public class SudokuMainTest {
     @Test
     public void fillAnalysis() {
         // how many sudokus are generated and used to determine the average per random fill amount
-        final int TEST_AMOUNT = 20;
-        final int RANDOM_FILL_AMOUNT = 25;
+        final int TEST_AMOUNT = 2;
+        final int RANDOM_FILL_AMOUNT = 5;
         final int STRATEGY_AMOUNT = 11;
 
         double[] averageFieldsFilled = new double[RANDOM_FILL_AMOUNT];
@@ -101,7 +101,7 @@ public class SudokuMainTest {
 
             // tests with fixed random fills
             for (int t = 1; t <= TEST_AMOUNT; t++) {
-                ArrayList<SolvingStrategy> usedStrategies = sudoku.fill(rf);
+                List<SolvingStrategy> usedStrategies = sudoku.fill(rf);
                 totalFills += sudoku.count();
                 for (int i = 0; i < usedStrategies.size(); i++) {
                     operationsAmount.set(i, operationsAmount.get(i) + usedStrategies.get(i).getPerformedOperations()
@@ -123,10 +123,11 @@ public class SudokuMainTest {
 
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder(500);
+        String myFormat = "| %-15s | %-4d |%n";
 
         builder.append("\t\t\t\taverage fields filled\taverage time needed\tIntersectionRowToBlock\t");
         builder.append("IntersectionColumnToBlock\tIntersectionBlockToRowAndColumn\tX-Wing\tSwordfish\t");
-        builder.append("Jellyfish\tOnlyOnePossibilityOnField\tHiddenSingleRow\tHiddenSingleColumn\tHiddenSingleBlock");
+        builder.append("Jellyfish\tOnlyOnePossibility\tHiddenSingleRow\tHiddenSingleColumn\tHiddenSingleBlock");
         builder.append(lineSeparator);
         for (int rf = 0; rf < RANDOM_FILL_AMOUNT; rf++) {
             builder.append("RandomFills: ");
@@ -143,8 +144,6 @@ public class SudokuMainTest {
             builder.append(lineSeparator);
         }
         System.out.println(builder);
-
-        String centerAlignFormat = "| %-15s | %-4d |%n";
 
     }
 

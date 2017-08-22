@@ -15,14 +15,14 @@ import java.util.LinkedList;
  * This is an interpreting method meaning that it actually looks for new values to insert.
  * TODO: batrick plox (", which it actually does").
  */
-public class HiddenSingleBlock implements SolvingStrategy {
+class HiddenSingleBlock implements SolvingStrategy {
     private Sudoku sudoku;
     private SudokuSolver solver;
     private int length;
     private int blockLength;
     private LinkedList<PerformedOperation> performedOperations;
 
-    public HiddenSingleBlock(Sudoku sudoku, SudokuSolver solver) {
+    HiddenSingleBlock(Sudoku sudoku, SudokuSolver solver) {
         this.sudoku = sudoku;
         this.solver = solver;
         this.length = sudoku.getLength();

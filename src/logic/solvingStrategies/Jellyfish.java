@@ -8,17 +8,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Fish strategy. Checks if there are four base rows/columns which contain the possibility for a number in exactly four
- * column/row indices. If that is the case, the four columns/rows covering the four possibilities, get all of their
+ * Fish strategy.<br> Checks if there are four base rows/columns which contain the possibility for a number in exactly
+ * four column/row indices. If that is the case, the four columns/rows covering the four possibilities, get all of their
  * occurrences of the current number except for the base row/column indices removed.
  */
-public class Jellyfish implements SolvingStrategy {
+class Jellyfish implements SolvingStrategy {
 
     private Sudoku sudoku;
     private int length;
     private LinkedList<PerformedOperation> performedOperations;
 
-    public Jellyfish(Sudoku sudoku) {
+    Jellyfish(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
         this.performedOperations = new LinkedList<>();
@@ -113,7 +113,7 @@ public class Jellyfish implements SolvingStrategy {
         for (int baseColumn1 = 0; baseColumn1 < length; baseColumn1++) {
             for (int baseColumn2 = baseColumn1 + 1; baseColumn2 < length; baseColumn2++) {
                 for (int baseColumn3 = baseColumn2 + 1; baseColumn3 < length; baseColumn3++) {
-                    for(int baseColumn4 = baseColumn3 + 1; baseColumn4 < length; baseColumn4++) {
+                    for (int baseColumn4 = baseColumn3 + 1; baseColumn4 < length; baseColumn4++) {
                         // iterate all possible numbers
                         for (int k = 1; k <= length; k++) {
 

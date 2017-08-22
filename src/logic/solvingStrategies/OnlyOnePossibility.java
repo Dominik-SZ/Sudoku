@@ -13,13 +13,13 @@ import java.util.LinkedList;
  * This is an interpreting method meaning that it does not manipulate the possibilities of the fields but finds new
  * values to set.
  */
-public class OnlyOnePossibilityOnField implements SolvingStrategy {
+class OnlyOnePossibility implements SolvingStrategy {
 	private Sudoku sudoku;
 	private SudokuSolver solver;
 	private int length;
 	private LinkedList<PerformedOperation> performedOperations;
 
-	public OnlyOnePossibilityOnField (Sudoku sudoku, SudokuSolver solver) {
+	OnlyOnePossibility(Sudoku sudoku, SudokuSolver solver) {
 		this.sudoku = sudoku;
 		this.solver = solver;
 		this.length = sudoku.getLength();
@@ -30,7 +30,7 @@ public class OnlyOnePossibilityOnField implements SolvingStrategy {
 	public boolean apply() throws PIVException {
 
 		if(!sudoku.isPossibilityInteger()) {
-			throw new PIVException();
+			throw new PIVException("Possibility integrity required for OnlyOnePossibility-strategy");
 		}
 		boolean didSomething = false;
 		for (int i = 0; i < length; i++) {

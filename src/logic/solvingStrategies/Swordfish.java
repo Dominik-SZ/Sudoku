@@ -8,17 +8,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * Fish strategy. Checks if there are three base rows/columns which contain the possibility for a number in exactly
+ * Fish strategy.<br> Checks if there are three base rows/columns which contain the possibility for a number in exactly
  * three column/row indices. If that is the case, the three columns/rows covering the three possibilities, get all of
  * their occurrences of the current number except for the base row/column indices removed.
  */
-public class Swordfish implements SolvingStrategy {
+class Swordfish implements SolvingStrategy {
 
     private Sudoku sudoku;
     private int length;
     private LinkedList<PerformedOperation> performedOperations;
 
-    public Swordfish(Sudoku sudoku) {
+    Swordfish(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
         this.performedOperations = new LinkedList<>();

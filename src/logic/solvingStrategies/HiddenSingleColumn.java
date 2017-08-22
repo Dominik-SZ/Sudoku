@@ -14,13 +14,13 @@ import java.util.LinkedList;
  * This is an interpreting method meaning that it does not manipulate the possibilities but interprets them to find
  * new values.
  */
-public class HiddenSingleColumn implements SolvingStrategy{
+class HiddenSingleColumn implements SolvingStrategy{
 	private Sudoku sudoku;
 	private SudokuSolver solver;
 	private int length;
 	private LinkedList<PerformedOperation> performedOperations;
 
-	public HiddenSingleColumn(Sudoku sudoku, SudokuSolver solver) {
+	HiddenSingleColumn(Sudoku sudoku, SudokuSolver solver) {
 		this.sudoku = sudoku;
 		this.solver = solver;
 		this.length = sudoku.getLength();

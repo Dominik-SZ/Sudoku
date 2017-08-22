@@ -12,14 +12,14 @@ import java.util.LinkedList;
  * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
  * This is an interpreting method meaning that it actually looks for new values to insert.
  */
-public class HiddenSingleRow implements SolvingStrategy {
+class HiddenSingleRow implements SolvingStrategy {
 
 	private Sudoku sudoku;
 	private SudokuSolver solver;
 	private int length;
 	private LinkedList<PerformedOperation> performedOperations;
 
-	public HiddenSingleRow(Sudoku sudoku, SudokuSolver solver) {
+	HiddenSingleRow(Sudoku sudoku, SudokuSolver solver) {
 		this.sudoku = sudoku;
 		this.solver = solver;
 		this.length = sudoku.getLength();
