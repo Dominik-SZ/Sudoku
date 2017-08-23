@@ -13,6 +13,8 @@ import java.util.LinkedList;
  * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
  * This is an interpreting method meaning that it does not manipulate the possibilities but interprets them to find
  * new values.
+ *
+ * @see <a href="http://hodoku.sourceforge.net/de/tech_singles.php">http://hodoku.sourceforge.net/de/tech_singles.php</a>
  */
 class HiddenSingleColumn implements SolvingStrategy{
 	private Sudoku sudoku;

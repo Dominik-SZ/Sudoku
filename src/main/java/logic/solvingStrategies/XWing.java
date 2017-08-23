@@ -12,6 +12,8 @@ import java.util.LinkedList;
  * Checks if there are two base rows/columns which contain the possibility for a number in exactly two column/row
  * indices. If that is the case, the two columns/rows covering the two possibilities, get all of their occurrences of
  * the current number except for the base row/column indices removed.
+ *
+ * @see <a href="http://hodoku.sourceforge.net/de/tech_fishb.php">http://hodoku.sourceforge.net/de/tech_fishb.php</a>
  */
 class XWing implements SolvingStrategy {
 

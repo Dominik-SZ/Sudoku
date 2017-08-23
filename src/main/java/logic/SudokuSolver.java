@@ -34,7 +34,7 @@ public class SudokuSolver {
     /**
      * The maximum amount of fill trials until the solver gives up the solving operation
      */
-    private final int FILL_TRIAL_CAP = 25;
+    private final int FILL_TRIAL_CAP = 50;
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -59,16 +59,23 @@ public class SudokuSolver {
     /**
      * Main generating method to fill an empty sudoku, making it definitely solvable. It also prints the solution and
      * the Sudoku to the system.out, as well as some additional info.
+     *
+     * @return The list of solving strategies used to fill the sudoku or null if the allowed amount of fill trials has
+     * been exceeded
      */
     List<SolvingStrategy> fill(int randomFills) {
         System.out.println("start filling");
         int fillTrials = 1;
         // try to fill the Sudoku completely until it succeeds
-        while (!fillTrial(randomFills) && fillTrials <= FILL_TRIAL_CAP) {
+        while (!fillTrial(randomFills)) {
+            if (fillTrials > FILL_TRIAL_CAP) {
+                System.out.println("Fill trial cap exceeded: " + fillTrials);
+                return null;
+            }
             fillTrials++; // count how many trials were necessary
         }
 
-        // saving the Solution array before erasing
+        // saving the solution values before erasing
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 int currentValue = sudoku.getCurrentValue(i, j);
@@ -80,7 +87,7 @@ public class SudokuSolver {
 
         // erase the permitted fields considering the difficulty
         erase();
-        System.out.println("successfully erased");
+        // System.out.println("successfully erased");
 
         // saving the newly generated state as start values in the Sudoku
         for (int i = 0; i < length; i++) {
@@ -102,8 +109,8 @@ public class SudokuSolver {
 
     /**
      * Tries to solve the Sudoku like a player and returns 0 if it was successful doing so, 1, if it was unsuccessful
-     * maybe because its solving algorithm is not strong enough and -1 if the Sudoku is not solvable, probably
-     * because there was an error inserting it.
+     * maybe because its solving algorithm is not strong enough and -1 if the Sudoku is not solvable, probably because
+     * there was an error inserting it.
      *
      * @return If solving the Sudoku succeeded
      */
@@ -154,13 +161,13 @@ public class SudokuSolver {
      */
     private boolean fillTrial(int randomFills) {
 
-        System.out.println("start fill trial");
+        // System.out.println("start fill trial");
         do {
             sudoku.clear();
             // fill randomFills fields randomly without direct conflicts
             randomFill(randomFills);
         } while (sudoku.isLocked());
-        System.out.println("randomFill successfully performed");
+        // System.out.println("randomFill successfully performed");
         // System.out.println(sudoku.toString());
 
         try {
@@ -179,11 +186,11 @@ public class SudokuSolver {
 
             // restart the fill method if it seems like there is no solution to find
             if (trySolvingAssumeCycles > cap) {
-                System.out.println("NEW TRY");
+                // System.out.println("NEW TRY");
                 backups.clear(); // clear the backups for the next trial
                 backups.push(new BackupPoint(-1, new LinkedList<>())); // Backup for the first tsFills
                 // clear the performed operations data of the solving strategies
-                for(SolvingStrategy strategy: strategies) {
+                for (SolvingStrategy strategy : strategies) {
                     strategy.getPerformedOperations().clear();
                 }
                 sudoku.clear();
@@ -317,7 +324,7 @@ public class SudokuSolver {
             throw new NoBackupsException();
         }
         BackupPoint latestBackup = backups.pop(); // undo the latest backup
-        Stack<Integer> tSFills = latestBackup.getTSFills();
+        Deque<Integer> tSFills = latestBackup.getTSFills();
 
         // Remove all values which have been made based on the assumption
         while (!tSFills.isEmpty()) {
@@ -359,7 +366,7 @@ public class SudokuSolver {
         // stack
         Stack<Integer> totalTSFills = new Stack<>();
         while (!backups.isEmpty()) {
-            Stack<Integer> currentTSFills = backups.pop().getTSFills();
+            Deque<Integer> currentTSFills = backups.pop().getTSFills();
             while (!currentTSFills.isEmpty()) {
                 totalTSFills.push(currentTSFills.pop());
             }

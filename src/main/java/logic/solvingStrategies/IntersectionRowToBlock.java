@@ -12,6 +12,8 @@ import java.util.NoSuchElementException;
  * Checks if all possibilities of a row for a specific number are in the same block. If they are, this number is removed
  * from the possibilities of the rest of this blocks fields.
  * This is a restrictive method meaning that it only removes possibilities and does not insert new values.
+ *
+ * @see <a href="http://hodoku.sourceforge.net/de/tech_intersections.php">http://hodoku.sourceforge.net/de/tech_intersections.php</a>
  */
 class IntersectionRowToBlock implements SolvingStrategy {
     private Sudoku sudoku;

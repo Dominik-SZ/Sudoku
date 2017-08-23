@@ -14,6 +14,7 @@ import java.util.LinkedList;
  * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
  * This is an interpreting method meaning that it actually looks for new values to insert.
  * TODO: batrick plox (", which it actually does").
+ * @see <a href="http://hodoku.sourceforge.net/de/tech_singles.php">http://hodoku.sourceforge.net/de/tech_singles.php</a>
  */
 class HiddenSingleBlock implements SolvingStrategy {
     private Sudoku sudoku;

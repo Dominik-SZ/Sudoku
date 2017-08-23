@@ -10,7 +10,9 @@ import java.util.LinkedList;
 /**
  * Fish strategy.<br> Checks if there are three base rows/columns which contain the possibility for a number in exactly
  * three column/row indices. If that is the case, the three columns/rows covering the three possibilities, get all of
- * their occurrences of the current number except for the base row/column indices removed.
+ * their occurrences of the current number except for the base row/
+ *
+ * @see <a href="http://hodoku.sourceforge.net/de/tech_fishb.php">http://hodoku.sourceforge.net/de/tech_fishb.php</a>
  */
 class Swordfish implements SolvingStrategy {
 

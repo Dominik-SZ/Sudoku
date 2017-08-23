@@ -46,7 +46,6 @@ public class SudokuMainTest {
     }
 
     @Test
-    @Ignore
     public void build9Sudokus() throws Exception {
         Sudoku sudoku = SudokuMain.buildSudoku(9, 1);
         assertTrue(sudoku.isFilled());
@@ -83,8 +82,8 @@ public class SudokuMainTest {
     @Test
     public void fillAnalysis() {
         // how many sudokus are generated and used to determine the average per random fill amount
-        final int TEST_AMOUNT = 2;
-        final int RANDOM_FILL_AMOUNT = 5;
+        final int TEST_AMOUNT = 1;
+        final int RANDOM_FILL_AMOUNT = 1;
         final int STRATEGY_AMOUNT = 11;
 
         double[] averageFieldsFilled = new double[RANDOM_FILL_AMOUNT];

@@ -11,6 +11,8 @@ import java.util.NoSuchElementException;
  * Checks all blocks if a possibility in one of them is only possible in the same row or column. If that is the case,
  * this possibility is removed in all other fields in this row or column outside the block. This is a restrictive
  * method.
+ *
+ * @see <a href="http://hodoku.sourceforge.net/de/tech_intersections.php">http://hodoku.sourceforge.net/de/tech_intersections.php</a>
  */
 class IntersectionBlockToRowAndColumn implements SolvingStrategy {
     private Sudoku sudoku;

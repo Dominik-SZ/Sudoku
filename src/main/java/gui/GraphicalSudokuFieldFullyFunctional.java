@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-class GraphicalSudokuFieldFullyFunctional extends GraphicalSudokuField{
+class GraphicalSudokuFieldFullyFunctional extends GraphicalSudokuField {
 
     private SudokuGUI parent;
     private Sudoku sudoku;
@@ -168,7 +168,7 @@ class GraphicalSudokuFieldFullyFunctional extends GraphicalSudokuField{
                         try {
                             JFrame frame = new JFrame();
                             frame.setUndecorated(true);
-                            BufferedImage bufferedImage = ImageIO.read(egg.getClass().getResourceAsStream("/icons/Grinsebacke882x882.jpg"));
+                            BufferedImage bufferedImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/Grinsebacke882x882.jpg"));
                             ImageIcon image = new ImageIcon(bufferedImage);
                             JLabel label = new JLabel(image);
                             frame.add(label);

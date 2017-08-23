@@ -11,6 +11,8 @@ import java.util.LinkedList;
  * Fish strategy.<br> Checks if there are four base rows/columns which contain the possibility for a number in exactly
  * four column/row indices. If that is the case, the four columns/rows covering the four possibilities, get all of their
  * occurrences of the current number except for the base row/column indices removed.
+ *
+ * @see <a href="http://hodoku.sourceforge.net/de/tech_fishb.php">http://hodoku.sourceforge.net/de/tech_fishb.php</a>
  */
 class Jellyfish implements SolvingStrategy {
 

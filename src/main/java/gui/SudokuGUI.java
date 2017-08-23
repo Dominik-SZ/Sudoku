@@ -215,10 +215,10 @@ public class SudokuGUI {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         try {
             LinkedList<Image> images = new LinkedList<>();
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon128x128.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon64x64.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon32x32.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon16x16.png")));
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon128x128.png")));
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon64x64.png")));
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon32x32.png")));
+            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon16x16.png")));
             mainFrame.setIconImages(images);
         } catch (IOException e) {
             e.printStackTrace();
@@ -261,8 +261,8 @@ public class SudokuGUI {
     }
 
     /**
-     * Builds a Swing GUI for a completely filled Sudoku in which the Sudoku can be solved by a player. All helping
-     * tools are enabled.
+     * Builds a Swing GUI for a completely filled Sudoku in which the Sudoku can be solved by a player with all helping
+     * tools enabled.
      *
      * @param sudoku The Sudoku which should be played on by this GUI
      */
@@ -307,10 +307,10 @@ public class SudokuGUI {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         try {
             LinkedList<Image> images = new LinkedList<>();
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon128x128.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon64x64.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon32x32.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/sudokuIcon16x16.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon128x128.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon64x64.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon32x32.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon16x16.png")));
             mainFrame.setIconImages(images);
         } catch (IOException e) {
             e.printStackTrace();
@@ -361,7 +361,7 @@ public class SudokuGUI {
 
         JMenuItem newSudokuItem = new JMenuItem("Neues Sudoku");
         try {
-            BufferedImage newSudokuImage = ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/newFileIcon.png"));
+            BufferedImage newSudokuImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/newFileIcon.png"));
             newSudokuItem.setIcon(new ImageIcon(newSudokuImage));
         } catch (IOException ignored) {
         }
@@ -381,7 +381,7 @@ public class SudokuGUI {
 
         JMenuItem saveItem = new JMenuItem("Speichern");
         try {
-            BufferedImage saveImage = ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/saveIcon.png"));
+            BufferedImage saveImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/saveIcon.png"));
             saveItem.setIcon(new ImageIcon(saveImage));
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -407,7 +407,7 @@ public class SudokuGUI {
 
         JMenuItem loadItem = new JMenuItem("Laden");
         try {
-            BufferedImage loadIcon = ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/loadIcon.png"));
+            BufferedImage loadIcon = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/loadIcon.png"));
             loadItem.setIcon(new ImageIcon(loadIcon));
         } catch (IOException ignored) {
         }
@@ -433,7 +433,7 @@ public class SudokuGUI {
 
         JMenuItem printItem = new JMenuItem("Drucken");
         try {
-            BufferedImage printImage = ImageIO.read(mainFrame.getClass().getResourceAsStream("/icons/printIcon.png"));
+            BufferedImage printImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/printIcon.png"));
             printItem.setIcon(new ImageIcon(printImage));
         } catch (IOException ignored) {
         }
@@ -1258,7 +1258,8 @@ public class SudokuGUI {
                 // play the success sound
                 try {
                     Clip clip = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getClassLoader().
+                            getResourceAsStream("sounds/success.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -1275,7 +1276,7 @@ public class SudokuGUI {
                 // play the success sound
                 try {
                     Clip clip = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(clip.getClass().getResourceAsStream("/util/success.wav"));
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(clip.getClass().getResourceAsStream("/sounds/success.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -1610,8 +1611,7 @@ public class SudokuGUI {
                     feedback.setText("Sudoku Eingabe erfolgreich.");
                     break;
                 case 1:
-                    feedback.setText("Sudoku konnte so nicht eindeutig gelöst werden. Wenn du denkst das sollte der " +
-                                             "Fall sein, beschwere dich bitte bei Dominik.");
+                    feedback.setText("Sudoku konnte so nicht eindeutig gelöst werden. Wenn du denkst das sollte der " + "Fall sein, beschwere dich bitte bei Dominik.");
                     return;
             }
 
