@@ -1,4 +1,4 @@
-package logic.solvingStrategies;
+package logic.solving;
 
 import logic.Sudoku;
 import org.junit.BeforeClass;
@@ -95,8 +95,6 @@ public class JellyfishTest {
         expected46.add(8);
         HashSet<Integer> found46 = sudoku.getPossibilities(4, 6);
         assertEquals(expected46, found46);
-
-
     }
 
 }

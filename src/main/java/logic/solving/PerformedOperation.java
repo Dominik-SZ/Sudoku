@@ -1,4 +1,4 @@
-package logic.solvingStrategies;
+package logic.solving;
 
 /**
  * This class can be used to save a performed action: Removing the value or possibility "value_possibility" from the

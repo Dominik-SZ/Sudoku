@@ -1,10 +1,12 @@
-package logic;
+package logic.solving;
 
 import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
 
+import logic.Sudoku;
 import logic.exceptions.NoBackupsException;
 import logic.exceptions.PIVException;
-import logic.solvingStrategies.*;
+import util.Coordinate;
 import util.MathUtilities;
 
 
@@ -21,7 +23,7 @@ public class SudokuSolver {
     /**
      * the backups to stepBack() to, if an assumption proofs to be wrong
      */
-    private Stack<BackupPoint> backups;
+    private Deque<BackupPoint> backups;
     /**
      * the distance in fields between two assumptions
      */
@@ -38,7 +40,7 @@ public class SudokuSolver {
 
     //------------------------------------------------------------------------------------------------------------------
 
-    SudokuSolver(Sudoku sudoku) {
+    public SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();
         // generate a stepWidth, which has no common divisor with the Sudoku length greater than 1
@@ -47,10 +49,10 @@ public class SudokuSolver {
             stepWidth++;
         }
 
-        backups = new Stack<>();
+        backups = new LinkedBlockingDeque<>();
         backups.push(new BackupPoint(-1, new LinkedList<>()));
 
-        strategies = SolvingStrategyFactory.createSolvingStrategyList(sudoku, this);
+        strategies = SolvingStrategyFactory.createSolvingStrategyList(sudoku, backups);
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -63,13 +65,13 @@ public class SudokuSolver {
      * @return The list of solving strategies used to fill the sudoku or null if the allowed amount of fill trials has
      * been exceeded
      */
-    List<SolvingStrategy> fill(int randomFills) {
+    public List<SolvingStrategy> fill(int randomFills) {
         System.out.println("start filling");
         int fillTrials = 1;
         // try to fill the Sudoku completely until it succeeds
         while (!fillTrial(randomFills)) {
             if (fillTrials > FILL_TRIAL_CAP) {
-                System.out.println("Fill trial cap exceeded: " + fillTrials);
+                System.out.println("COULD NOT FILL THE SUDOKU. Fill trial cap exceeded: " + fillTrials);
                 return null;
             }
             fillTrials++; // count how many trials were necessary
@@ -114,7 +116,7 @@ public class SudokuSolver {
      *
      * @return If solving the Sudoku succeeded
      */
-    int solve() throws PIVException {
+    public int solve() throws PIVException {
         boolean successful = true;
         while (successful && !isFinished()) {
             successful = trySolving();
@@ -324,12 +326,12 @@ public class SudokuSolver {
             throw new NoBackupsException();
         }
         BackupPoint latestBackup = backups.pop(); // undo the latest backup
-        Deque<Integer> tSFills = latestBackup.getTSFills();
+        List<Coordinate> tSFills = latestBackup.getTSFills();
 
         // Remove all values which have been made based on the assumption
         while (!tSFills.isEmpty()) {
-            int coord = tSFills.pop();
-            sudoku.setCurrentValue(0, coord / length, coord % length, true);
+            Coordinate coord = tSFills.remove(0);
+            sudoku.setCurrentValue(0, coord.i, coord.j, true);
         }
 
         int coord = latestBackup.getChangedCoord();
@@ -348,7 +350,7 @@ public class SudokuSolver {
 
         // test another possible assumption on this field
         else {
-            sudoku.setCurrentValue(latestBackup.popRandomPossibility(), i, j, true);
+            sudoku.setCurrentValue(latestBackup.getRandomPossibility(), i, j, true);
             // System.out.println("DEBUG: stepBack(): keep node Coord:
             // "+latestBackup.getChangedCoord() + " now with value:
             // "+getCurrentValue(latestBackup.getChangedCoord()));
@@ -364,11 +366,11 @@ public class SudokuSolver {
     private void erase() {
         // delete all trySolving entries of the backups and push them into one
         // stack
-        Stack<Integer> totalTSFills = new Stack<>();
+        Stack<Coordinate> totalTSFills = new Stack<>();
         while (!backups.isEmpty()) {
-            Deque<Integer> currentTSFills = backups.pop().getTSFills();
+            List<Coordinate> currentTSFills = backups.pop().getTSFills();
             while (!currentTSFills.isEmpty()) {
-                totalTSFills.push(currentTSFills.pop());
+                totalTSFills.push(currentTSFills.remove(0));
             }
         }
 
@@ -377,8 +379,8 @@ public class SudokuSolver {
         // difficulty 10 -> delete 100 % of the entries
         while (totalTSFills.size() > (int) ((0.5 - 0.0555555555555555 * (sudoku.getDifficulty() - 1)) * deletable)) {
             // get a random value of the stack
-            int actualCoord = totalTSFills.remove((int) (Math.random() * totalTSFills.size()));
-            sudoku.setCurrentValue(0, actualCoord / length, actualCoord % length, false);
+            Coordinate currentCoord = totalTSFills.remove((int) (Math.random() * totalTSFills.size()));
+            sudoku.setCurrentValue(0, currentCoord.i, currentCoord.j, false);
             entriesDeleted++;
         }
         sudoku.calculatePossibilities();
@@ -400,17 +402,7 @@ public class SudokuSolver {
         return true;
     }
 
-    //-----------------------------------------------------------------------------
-    // Getter and Setter
+    //------------------------------------------------------------------------------------------------------------------
+    // Getter and Setter (currently nothing)
 
-    /**
-     * Saves a trySolving entry in the current backup of this solver.
-     *
-     * @param iCoord The i coordinate of the inserted value
-     * @param jCoord The j coordinate of the inserted value
-     */
-    //TODO: nur den Stack übergeben, nicht den ganzen Solver
-    public void pushTrySolvingBackup(int iCoord, int jCoord) {
-        backups.peek().pushTSFills(iCoord * length + jCoord);
-    }
 }

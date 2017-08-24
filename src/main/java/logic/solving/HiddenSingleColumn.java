@@ -1,10 +1,10 @@
-package logic.solvingStrategies;
+package logic.solving;
 
 
 import logic.Sudoku;
-import logic.SudokuSolver;
 import util.Coordinate;
 
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -18,13 +18,13 @@ import java.util.LinkedList;
  */
 class HiddenSingleColumn implements SolvingStrategy{
 	private Sudoku sudoku;
-	private SudokuSolver solver;
+	private Deque<BackupPoint> backups;
 	private int length;
 	private LinkedList<PerformedOperation> performedOperations;
 
-	HiddenSingleColumn(Sudoku sudoku, SudokuSolver solver) {
+	HiddenSingleColumn(Sudoku sudoku, Deque<BackupPoint> backups) {
 		this.sudoku = sudoku;
-		this.solver = solver;
+		this.backups = backups;
 		this.length = sudoku.getLength();
 		performedOperations = new LinkedList<>();
 	}
@@ -57,7 +57,7 @@ class HiddenSingleColumn implements SolvingStrategy{
 				if (allowedFieldsForThisNumber.size() == 1) {
 					// set the found value
 					Coordinate coord = allowedFieldsForThisNumber.getFirst();
-					solver.pushTrySolvingBackup(coord.i, coord.j);
+					backups.peek().addTSFill(coord);
 					sudoku.setCurrentValue(k, coord.i, coord.j, true);
 					performedOperations.add(new PerformedOperation(k, coord.i, coord.j));
 					didSomething = true;

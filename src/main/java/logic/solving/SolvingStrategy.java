@@ -1,4 +1,4 @@
-package logic.solvingStrategies;
+package logic.solving;
 
 import logic.exceptions.PIVException;
 

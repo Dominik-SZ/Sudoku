@@ -1,9 +1,9 @@
-package logic;
+package logic.solving;
 
-import java.util.Deque;
+import util.Coordinate;
+
 import java.util.LinkedList;
-import java.util.Stack;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.List;
 
 class BackupPoint {
     /**
@@ -18,7 +18,7 @@ class BackupPoint {
     /**
      * trySolving fill coordinates which have been made based on this assumption
      */
-    private Deque<Integer> tSFills;
+    private List<Coordinate> tSFills;
 
     /**
      * Creates a new BackupPoint at the coordinate changedCoord and remaining possibilities to try on this field.
@@ -29,7 +29,7 @@ class BackupPoint {
     BackupPoint(int changedCoord, LinkedList<Integer> possibilities) {
         this.changedCoord = changedCoord;
         this.possibilities = possibilities;
-        this.tSFills = new LinkedBlockingDeque<>();
+        this.tSFills = new LinkedList<>();
     }
 
     int getChangedCoord() {
@@ -40,25 +40,26 @@ class BackupPoint {
         return possibilities;
     }
 
-    Deque<Integer> getTSFills() {
+    List<Coordinate> getTSFills() {
         return tSFills;
     }
 
-    // additional useful "getter and setter methods"
+    //------------------------------------------------------------------------------------------------------------------
+    // getter and setter
 
     /**
-     * Pushes the inserted coordinate to the tSFills stack.
+     * Adds the inserted coordinate to the tSFills list.
      *
-     * @param coord the one dimensional coordinate, which is supposed to be saved
+     * @param coord the coordinate, which is supposed to be saved
      */
-    void pushTSFills(int coord) {
-        this.tSFills.push(coord);
+    void addTSFill(Coordinate coord) {
+        this.tSFills.add(coord);
     }
 
     /**
      * Returns a random entry of the possibility list and removes it from the list
      */
-    int popRandomPossibility() {
+    int getRandomPossibility() {
         return possibilities.get((int) (Math.random() * possibilities.size()));
     }
 }

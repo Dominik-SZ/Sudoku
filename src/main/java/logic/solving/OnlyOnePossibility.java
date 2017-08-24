@@ -1,9 +1,10 @@
-package logic.solvingStrategies;
+package logic.solving;
 
 import logic.Sudoku;
-import logic.SudokuSolver;
 import logic.exceptions.PIVException;
+import util.Coordinate;
 
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -15,13 +16,13 @@ import java.util.LinkedList;
  */
 class OnlyOnePossibility implements SolvingStrategy {
 	private Sudoku sudoku;
-	private SudokuSolver solver;
+	private Deque<BackupPoint> backups;
 	private int length;
 	private LinkedList<PerformedOperation> performedOperations;
 
-	OnlyOnePossibility(Sudoku sudoku, SudokuSolver solver) {
+	OnlyOnePossibility(Sudoku sudoku, Deque<BackupPoint> backups) {
 		this.sudoku = sudoku;
-		this.solver = solver;
+		this.backups = backups;
 		this.length = sudoku.getLength();
 		this.performedOperations = new LinkedList<>();
 	}
@@ -39,7 +40,7 @@ class OnlyOnePossibility implements SolvingStrategy {
                     Iterator<Integer> iterator = sudoku.getPossibilities(i, j).iterator();
 					int onlyPossibility = iterator.next();
 
-					solver.pushTrySolvingBackup(i, j);
+					backups.peek().addTSFill(new Coordinate(i, j));
 					sudoku.setCurrentValue(onlyPossibility, i, j, true);
                     performedOperations.add(new PerformedOperation(onlyPossibility, i, j));
 					didSomething = true;

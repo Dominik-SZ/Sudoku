@@ -1,10 +1,11 @@
 package logic;
 
-import logic.solvingStrategies.SolvingStrategy;
+import logic.solving.SolvingStrategy;
+import logic.solving.SolvingStrategyFactory;
 import org.junit.Test;
-import org.junit.Ignore;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -81,28 +82,32 @@ public class SudokuMainTest {
 
     @Test
     public void fillAnalysis() {
+        // WARNING: This test takes a long time to perform! About 3 minutes on my (Dominik) computer. You can adjust
+        // the time by reducing the TEST_AMOUNT or the RANDOM_FILL_AMOUNT. Needed time is O(TEST_AMOUNT *
+        // RANDOM_FILL_AMOUNT).
+
         // how many sudokus are generated and used to determine the average per random fill amount
-        final int TEST_AMOUNT = 1;
-        final int RANDOM_FILL_AMOUNT = 1;
-        final int STRATEGY_AMOUNT = 11;
+        final int TEST_AMOUNT = 20;
+        final int RANDOM_FILL_AMOUNT = 25;
 
         double[] averageFieldsFilled = new double[RANDOM_FILL_AMOUNT];
         long[] averageTimeNeeded = new long[RANDOM_FILL_AMOUNT];
         ArrayList[] averageOperationsAmount = new ArrayList[RANDOM_FILL_AMOUNT];
         Sudoku sudoku = new Sudoku(9, 10);
+        List<SolvingStrategy> usedStrategies = new LinkedList<>();
 
         for (int rf = 0; rf < RANDOM_FILL_AMOUNT; rf++) {
             double totalFills = 0;
             long startTime = System.nanoTime();
             // only save the amount information of the performed operations
-            ArrayList<Double> operationsAmount = new ArrayList<>(STRATEGY_AMOUNT);
-            for (int i = 0; i < STRATEGY_AMOUNT; i++) {
+            ArrayList<Double> operationsAmount = new ArrayList<>(SolvingStrategyFactory.STRATEGY_AMOUNT);
+            for (int i = 0; i < SolvingStrategyFactory.STRATEGY_AMOUNT; i++) {
                 operationsAmount.add(0.0);
             }
 
             // tests with fixed random fills
             for (int t = 1; t <= TEST_AMOUNT; t++) {
-                List<SolvingStrategy> usedStrategies = sudoku.fill(rf);
+                usedStrategies = sudoku.fill(rf);
                 totalFills += sudoku.count();
                 for (int i = 0; i < usedStrategies.size(); i++) {
                     operationsAmount.set(i, operationsAmount.get(i) + usedStrategies.get(i).getPerformedOperations()
@@ -124,25 +129,69 @@ public class SudokuMainTest {
 
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder(500);
-        String myFormat = "| %-15s | %-4d |%n";
 
-        builder.append("\t\t\t\taverage fields filled\taverage time needed\tIntersectionRowToBlock\t");
-        builder.append("IntersectionColumnToBlock\tIntersectionBlockToRowAndColumn\tX-Wing\tSwordfish\t");
-        builder.append("Jellyfish\tOnlyOnePossibility\tHiddenSingleRow\tHiddenSingleColumn\tHiddenSingleBlock");
+        // first line
+        String[] firstLine = new String[usedStrategies.size() + 3];
+        firstLine[0] = String.format("%17s", "");
+        firstLine[1] = "| average fields filled  ";
+        firstLine[2] = "| average time needed  ";
+        for(int i = 0; i < usedStrategies.size(); i++) {
+            firstLine[i + 3] = "| " + usedStrategies.get(i).getClass().toString().substring(30) + "  ";
+        }
+        for(String column: firstLine) {
+            builder.append(column);
+        }
+        int lineWidth = builder.toString().length();
         builder.append(lineSeparator);
+
+        // second line
+        StringBuilder secondLine = new StringBuilder(lineWidth);
+        for(int i = 0; i < lineWidth; i++) {
+            secondLine.append("-");
+        }
+        secondLine.append(lineSeparator);
+        builder.append(secondLine);
+
+        // further lines
+        int halfColumnLength;
+        String leftFormat;
+        String rightFormat;
+
         for (int rf = 0; rf < RANDOM_FILL_AMOUNT; rf++) {
+            // column 0
             builder.append("RandomFills: ");
             builder.append(rf);
-            builder.append("\t\t\t");
-            builder.append(averageFieldsFilled[rf]);
-            builder.append("\t\t\t\t\t\t");
-            builder.append(averageTimeNeeded[rf]);
-            builder.append(" ms\t\t");
-            for(Object oa:averageOperationsAmount[rf]) {
-                builder.append(oa);
-                builder.append("\t\t\t\t");
+            if(rf < 10) {
+                builder.append("   ");
+            } else {
+                builder.append("  ");
+            }
+
+            // column 1
+            halfColumnLength = firstLine[1].length() / 2;
+            leftFormat = "|%"+ (halfColumnLength + firstLine[1].length() % 2) +"s";
+            rightFormat = "%" + (halfColumnLength-1) + "s";
+            builder.append(String.format(leftFormat, averageFieldsFilled[rf]));
+            builder.append(String.format(rightFormat, ""));
+
+            // column 2
+            halfColumnLength = firstLine[2].length() / 2;
+            leftFormat = "|%"+ (halfColumnLength + firstLine[2].length() % 2) +"s";
+            rightFormat = "%" + (halfColumnLength-1) + "s";
+            builder.append(String.format(leftFormat, averageTimeNeeded[rf] + " ms"));
+            builder.append(String.format(rightFormat, ""));
+
+            // rest columns
+            ArrayList averageOperations = averageOperationsAmount[rf];
+            for(int i = 3; i < firstLine.length; i++) {
+                halfColumnLength = firstLine[i].length() / 2;
+                leftFormat = "|%"+ (halfColumnLength + firstLine[i].length() % 2) +"s";
+                rightFormat = "%" + (halfColumnLength-1) + "s";
+                builder.append(String.format(leftFormat, averageOperations.get(i-3)));
+                builder.append(String.format(rightFormat, ""));
             }
             builder.append(lineSeparator);
+
         }
         System.out.println(builder);
 

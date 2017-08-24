@@ -1,7 +1,8 @@
 package logic;
 
 import logic.exceptions.PIVException;
-import logic.solvingStrategies.SolvingStrategy;
+import logic.solving.SolvingStrategy;
+import logic.solving.SudokuSolver;
 import util.Coordinate;
 import util.GameStatus;
 import util.MathUtilities;
@@ -129,7 +130,7 @@ public class Sudoku {
      * @param zeros    Determines if zeros are displayed or shown as spaces
      * @param solution Determines if the solved or the normal field is chosen
      */
-    String toString(boolean zeros, boolean solution) {
+    public String toString(boolean zeros, boolean solution) {
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder(3 * length * length + 40);
 
@@ -279,7 +280,7 @@ public class Sudoku {
      * @param jCoord The j coordinate of the position to check
      * @return If the value is allowed to be inserted there
      */
-    boolean isAllowedQuick(int value, int iCoord, int jCoord) throws PIVException {
+    public boolean isAllowedQuick(int value, int iCoord, int jCoord) throws PIVException {
         if (!possibilityIntegrity) {
             throw new PIVException();
         }
@@ -331,7 +332,7 @@ public class Sudoku {
      * possibility integrity is assured. If you want to reset the sudoku completely, consider using clearCompletely()
      * instead.
      */
-    void clear() {
+    public void clear() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 board[i][j].setCurrentValue(0);
@@ -574,7 +575,7 @@ public class Sudoku {
     /**
      * checks if there is no allowed possibility remaining to fill one of the empty (current value = 0) fields.
      */
-    boolean isLocked() {
+    public boolean isLocked() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if (board[i][j].getCurrentValue() == 0 && board[i][j].getPossibilities().size() == 0) {
@@ -758,7 +759,7 @@ public class Sudoku {
      * @param iCoord The i coordinate at which to insert
      * @param jCoord The j coordinate at which to insert
      */
-    void setStartValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+    public void setStartValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
         if (value < 0 || length < value) {
             throw new IllegalArgumentException("Inserted start value out of bounds: " + value);
         }
@@ -797,7 +798,7 @@ public class Sudoku {
      * @param iCoord The i coordinate at which to insert
      * @param jCoord The j coordinate at which to insert
      */
-    void setSolutionValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
+    public void setSolutionValue(int value, int iCoord, int jCoord) throws IllegalArgumentException {
         if (value < 1 || length < value) {
             throw new IllegalArgumentException("Inserted solution value out of bounds: " + value);
         }

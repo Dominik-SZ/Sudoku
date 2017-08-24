@@ -4,3 +4,4 @@
 - showColorChooser Zurücksetzen Knopf Funktionalität hinzufügen
 - topPanel größer machen
 - Erstellalgorithmus effizienter und schwieriger machen
+- Bei Analysenausgabe (fillAnalysis) die Anzahl der benötigten fill trials anzeigen
