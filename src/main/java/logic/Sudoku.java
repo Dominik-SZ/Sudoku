@@ -48,8 +48,8 @@ public class Sudoku {
      * if this sudoku has been filled meaning it is ready to be played
      */
     private boolean filled;
-    // -------------------------------------------------------------------------
 
+    // -------------------------------------------------------------------------
     // Constructors
 
     /**
@@ -187,7 +187,7 @@ public class Sudoku {
      * @param fileName         The name of the destination file
      * @param solutionFileName The name of the solution file
      */
-    private void printToTextFile(String path, String fileName, String solutionFileName) {
+    public void printToTextFile(String path, String fileName, String solutionFileName) {
         PrintWriter out = null;
         path = path.replace('\\', '/');
         try {

@@ -40,6 +40,11 @@ public class SudokuSolver {
 
     //------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a new SudokuSolver for the inserted Sudoku. It can be used to fill() or solve() the Sudoku.
+     *
+     * @param sudoku    The Sudoku which shall be manipulated
+     */
     public SudokuSolver(Sudoku sudoku) {
         this.sudoku = sudoku;
         this.length = sudoku.getLength();

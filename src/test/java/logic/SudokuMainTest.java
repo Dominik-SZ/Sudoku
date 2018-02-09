@@ -2,6 +2,7 @@ package logic;
 
 import logic.solving.SolvingStrategy;
 import logic.solving.SolvingStrategyFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -81,12 +82,13 @@ public class SudokuMainTest {
     }
 
     @Test
+    @Ignore
     public void fillAnalysis() {
         // WARNING: This test takes a long time to perform! About 3 minutes on my (Dominik) computer. You can adjust
         // the time by reducing the TEST_AMOUNT or the RANDOM_FILL_AMOUNT. Needed time is O(TEST_AMOUNT *
         // RANDOM_FILL_AMOUNT).
 
-        // how many sudokus are generated and used to determine the average per random fill amount
+        // how many Sudokus are generated and used to determine the average per random fill amount
         final int TEST_AMOUNT = 20;
         final int RANDOM_FILL_AMOUNT = 25;
 
@@ -96,6 +98,7 @@ public class SudokuMainTest {
         Sudoku sudoku = new Sudoku(9, 10);
         List<SolvingStrategy> usedStrategies = new LinkedList<>();
 
+        // iterate the random fill amounts
         for (int rf = 0; rf < RANDOM_FILL_AMOUNT; rf++) {
             double totalFills = 0;
             long startTime = System.nanoTime();
@@ -127,6 +130,8 @@ public class SudokuMainTest {
 
         }
 
+        //--------------------------------------------------------------------------------------------------------------
+        // print the outcome
         String lineSeparator = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder(500);
 
@@ -136,7 +141,8 @@ public class SudokuMainTest {
         firstLine[1] = "| average fields filled  ";
         firstLine[2] = "| average time needed  ";
         for(int i = 0; i < usedStrategies.size(); i++) {
-            firstLine[i + 3] = "| " + usedStrategies.get(i).getClass().toString().substring(30) + "  ";
+            System.out.println(usedStrategies.get(i).getClass().toString().substring(20));
+            firstLine[i + 3] = "| " + usedStrategies.get(i).getClass().toString().substring(20) + "  ";
         }
         for(String column: firstLine) {
             builder.append(column);

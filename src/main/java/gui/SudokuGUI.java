@@ -215,10 +215,10 @@ public class SudokuGUI {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         try {
             LinkedList<Image> images = new LinkedList<>();
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon128x128.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon64x64.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon32x32.png")));
-            images.add(ImageIO.read(mainFrame.getClass().getResourceAsStream("/src/main/resources/icons/sudokuIcon16x16.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon128x128.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon64x64.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon32x32.png")));
+            images.add(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("icons/sudokuIcon16x16.png")));
             mainFrame.setIconImages(images);
         } catch (IOException e) {
             e.printStackTrace();

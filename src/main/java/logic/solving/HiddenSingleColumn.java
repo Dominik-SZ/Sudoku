@@ -10,9 +10,9 @@ import java.util.LinkedList;
 
 /**
  * Checks if a possibility for a column is impossible to be placed on all but one field. If such a value and field is
- * found, the value gets placed on this field and true is returned. If no field and value are found, false is returned.
- * This is an interpreting method meaning that it does not manipulate the possibilities but interprets them to find
- * new values.
+ * found, the value gets placed on this field and true is returned. If no field and value are found, false is
+ * returned.<br>
+ * This is an interpreting method meaning that it actually looks for new values to insert and does so.
  *
  * @see <a href="http://hodoku.sourceforge.net/de/tech_singles.php">http://hodoku.sourceforge.net/de/tech_singles.php</a>
  */

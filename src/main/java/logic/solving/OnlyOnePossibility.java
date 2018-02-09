@@ -10,9 +10,8 @@ import java.util.LinkedList;
 
 /**
  * Iterates all fields and their possibilities searches for fields with only one possibility remaining. If such a
- * field is found, the only remaining possibility is inserted as current value.
- * This is an interpreting method meaning that it does not manipulate the possibilities of the fields but finds new
- * values to set.
+ * field is found, the only remaining possibility is inserted as current value.<br>
+ * This is an interpreting method meaning that it actually looks for new values to insert and does so.
  */
 class OnlyOnePossibility implements SolvingStrategy {
 	private Sudoku sudoku;

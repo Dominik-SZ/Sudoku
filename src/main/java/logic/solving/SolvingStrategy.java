@@ -13,5 +13,4 @@ public interface SolvingStrategy {
 	int getDifficulty();
 	boolean isRestrictive();
 	LinkedList<PerformedOperation> getPerformedOperations();
-
 }
