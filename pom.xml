@@ -34,6 +34,23 @@
         </dependencies>
 		
 		<build>
+
+            <sourceDirectory>src</sourceDirectory>
+            <testSourceDirectory>test</testSourceDirectory>
+
+            <directory>out</directory>
+            <outputDirectory>out/classes</outputDirectory>
+            <testOutputDirectory>out/test-classes</testOutputDirectory>
+
+            <resources>
+                <resource>
+                    <directory>
+                        resources
+                    </directory>
+                </resource>
+            </resources>
+
+
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -43,11 +60,13 @@
 						<finalName>Sudoku</finalName>
 						<archive>
 							<manifest>
-								<mainClass>logic.SudokuMain</mainClass>
+								<mainClass>SudokuMain</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
 				</plugin>
 			</plugins>
 		</build>
+
+
     </project>
