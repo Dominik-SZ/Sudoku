@@ -2,7 +2,6 @@ package swingGUI;
 
 import model.GameStatus;
 import model.Sudoku;
-import controller.SudokuMain;
 import swingGUI.util.*;
 
 import javax.imageio.ImageIO;
@@ -375,7 +374,7 @@ public class SudokuGUI {
                 mainFrame.dispose();
                 String oldLength = length + "";
                 String oldDifficulty = sudoku.getDifficulty() + "";
-                SudokuMain.main(new String[]{oldLength, oldDifficulty});
+                SudokuSwingMain.main(new String[]{oldLength, oldDifficulty});
             }
         });
         fileMenu.add(newSudokuItem);

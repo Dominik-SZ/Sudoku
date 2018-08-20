@@ -1,11 +1,9 @@
-package controller;
+package swingGUI;
 
 
-import swingGUI.PromptDialog;
-import swingGUI.SudokuGUI;
 import model.Sudoku;
 
-public class SudokuMain {
+public class SudokuSwingMain {
 
     /**
      * Starts a prompt to the user which length and difficulty is desired. The standard values in those checkboxes

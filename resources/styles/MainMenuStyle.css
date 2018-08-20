@@ -1,0 +1,9 @@
+.button {
+    -fx-font: 20px "Serif";
+    -fx-padding: 10;
+    /*-fx-background-color: #CCFF99;*/
+}
+
+.root {
+    -fx-background-image: url("../pictures/leaf-background.jpg");
+}

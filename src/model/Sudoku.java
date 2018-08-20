@@ -32,11 +32,6 @@ public class Sudoku {
      * the difficulty of the Sudoku
      */
     private int difficulty;
-
-
-    private int[][] startValues;
-    private int[][] solutionValues;
-    private Stack<SudokuState> states;
     /**
      * the board of this Sudoku
      */
