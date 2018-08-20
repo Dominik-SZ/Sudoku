@@ -8,5 +8,7 @@ public class Sudoku {
     int blockLength;
     int difficulty;
     Deque states;
+    int[][] startBoard;
+    int[][] solvedBoard;
 
 }

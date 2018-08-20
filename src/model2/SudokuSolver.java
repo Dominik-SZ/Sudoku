@@ -1,15 +1,19 @@
-package model.solving.solver;
+package model2;
 
-import java.util.*;
-import java.util.concurrent.LinkedBlockingDeque;
-
+import model.MathUtilities;
+import model.Sudoku;
 import model.exceptions.NoBackupsException;
 import model.exceptions.PIVException;
-import model.Sudoku;
+import model.solving.solver.SolvingStrategyFactory;
 import model.solving.solver_util.BackupPoint;
 import model.solving.strategies.SolvingStrategy;
 import swingGUI.util.Coordinate;
-import model.MathUtilities;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+import java.util.concurrent.LinkedBlockingDeque;
 
 
 public class SudokuSolver {
@@ -18,7 +22,7 @@ public class SudokuSolver {
      */
     private Sudoku sudoku;
     /**
-     * the length additionally saved to save access
+     * the length additionally saved to save access time
      */
     private int length;
 

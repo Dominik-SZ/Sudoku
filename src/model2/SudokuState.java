@@ -1,4 +1,6 @@
-package model;
+package model2;
+
+import model.SudokuField;
 
 public class SudokuState {
 
