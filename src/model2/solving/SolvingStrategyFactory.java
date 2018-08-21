@@ -1,6 +1,6 @@
-package model2;
+package model2.solving;
 
-import model2.strategies.*;
+import model2.solving.strategies.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
