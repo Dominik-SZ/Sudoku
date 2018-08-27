@@ -231,7 +231,7 @@ public class Sudoku {
     }
 
     /**
-     * Tries to solve the Sudoku like a player using the solving strategies available and returns 0 if it was successful
+     * Tries to solve the Sudoku like a player using the solving model.solving.strategies available and returns 0 if it was successful
      * doing so, 1, if it was unsuccessful maybe because its solving algorithm is not strong enough and -1 if the Sudoku
      * is not solvable, probably because there was an error inserting it. -2 should never be returned and indicates an
      * error in the program.
@@ -547,7 +547,7 @@ public class Sudoku {
      * Calculates the current possibility for all empty fields of the board based of the currently inserted current
      * values of the board. Previously inserted possibilities are overwritten. Afterwards possibility integrity is
      * assured. Note that this method does not use any solving strategy to restrict the possibilities. Progress made in
-     * restricting the possibilities using restrictive solving strategies is lost afterwards.
+     * restricting the possibilities using restrictive solving model.solving.strategies is lost afterwards.
      */
     public void calculatePossibilities() {
         // iterate the whole board
@@ -599,7 +599,7 @@ public class Sudoku {
      * value with a new one (both != 0) while maintaining possibility integrity.<br>
      * <p>
      * By using this method with maintainPI = true, possibilities in the same row, column and block are updated in a way
-     * that progress in restricting those possibilities with restrictive solving strategies may become lost.
+     * that progress in restricting those possibilities with restrictive solving model.solving.strategies may become lost.
      *
      * @param value      The new current value to set
      * @param iCoord     The i coordinate at which to set the new current value
@@ -897,7 +897,7 @@ public class Sudoku {
     /**
      * Returns the possibilities of the Sudoku field at the chosen coordinates. These are the numbers which are not yet
      * inserted in the same row, column or block like the chosen coordinate or even less, if restrictive solving
-     * strategies have been executed on this Sudoku.
+     * model.solving.strategies have been executed on this Sudoku.
      *
      * @param iCoord The i coordinate of the chosen field
      * @param jCoord The j coordinate of the chosen field

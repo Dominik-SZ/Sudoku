@@ -17,13 +17,13 @@ public class SolvingStrategyFactory {
         // OnlyOnePossibility standard method
         strategies.add(new OnlyOnePossibility());
 
-        // hidden single strategies
+        // hidden single model.solving.strategies
         strategies.add(new HiddenSingleRow());
         strategies.add(new HiddenSingleColumn());
         strategies.add(new HiddenSingleBlock());
 
         //--------------------------------------------------------------------------------------------------------------
-        // only keep the strategies, which are simple enough
+        // only keep the model.solving.strategies, which are simple enough
         List<SolvingStrategy> toKeep = new LinkedList<>();
         for(SolvingStrategy strategy: strategies) {
             if(strategy.getDifficulty() <= difficulty) {
@@ -36,18 +36,18 @@ public class SolvingStrategyFactory {
     static List<SolvingStrategy> getRestrictiveStrategies(int difficulty) {
         List<SolvingStrategy> strategies = new ArrayList<>(RESTRICTIVE_STRATEGY_AMOUNT);
 
-        // intersection strategies
+        // intersection model.solving.strategies
         strategies.add(new IntersectionRowToBlock());
         strategies.add(new IntersectionColumnToBlock());
         strategies.add(new IntersectionBlockToRowAndColumn());
 
-        // fish strategies
+        // fish model.solving.strategies
         strategies.add(new XWing());
         strategies.add(new Swordfish());
         strategies.add(new Jellyfish());
 
         //--------------------------------------------------------------------------------------------------------------
-        // only keep the strategies, which are simple enough
+        // only keep the model.solving.strategies, which are simple enough
         List<SolvingStrategy> toKeep = new LinkedList<>();
         for(SolvingStrategy strategy: strategies) {
             if(strategy.getDifficulty() <= difficulty) {

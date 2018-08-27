@@ -31,7 +31,7 @@ public class SudokuSolver {
      */
     private int stepWidth;
     /**
-     * the strategies used to solve this Sudoku
+     * the model.solving.strategies used to solve this Sudoku
      */
     private List<SolvingStrategy> strategies;
 
@@ -69,7 +69,7 @@ public class SudokuSolver {
      * Main generating method to fill an empty sudoku, making it definitely solvable. It also prints the solution and
      * the Sudoku to the system.out, as well as some additional info.
      *
-     * @return The list of solving strategies used to fill the sudoku or null if the allowed amount of fill trials has
+     * @return The list of solving model.solving.strategies used to fill the sudoku or null if the allowed amount of fill trials has
      * been exceeded
      */
     public List<SolvingStrategy> fill(int randomFills) {
@@ -198,7 +198,7 @@ public class SudokuSolver {
                 // System.out.println("NEW TRY");
                 backups.clear(); // clear the backups for the next trial
                 backups.push(new BackupPoint(-1, new LinkedList<>())); // Backup for the first tsFills
-                // clear the performed operations data of the solving strategies
+                // clear the performed operations data of the solving model.solving.strategies
                 for (SolvingStrategy strategy : strategies) {
                     strategy.getPerformedOperations().clear();
                 }

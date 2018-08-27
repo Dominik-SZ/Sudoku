@@ -6,7 +6,7 @@ import model.solving.solver_util.PerformedOperation;
 import java.util.LinkedList;
 
 /**
- * Interface to define solving strategies used to try to solve a sudoku.
+ * Interface to define solving model.solving.strategies used to try to solve a sudoku.
  */
 public interface SolvingStrategy {
 

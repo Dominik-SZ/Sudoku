@@ -11,4 +11,8 @@ public class Sudoku {
     int[][] startBoard;
     int[][] solvedBoard;
 
+
+    public Sudoku(int[][] solvedBoard) {
+        this.solvedBoard = solvedBoard;
+    }
 }

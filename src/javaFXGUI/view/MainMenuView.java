@@ -10,8 +10,14 @@ import javafx.scene.layout.GridPane;
 
 public class MainMenuView {
 
-    private int DEFAULT_WIDTH = 350;
-    private int DEFAULT_HEIGHT = 500;
+    private static final int DEFAULT_WIDTH = 350;
+    private static final int DEFAULT_HEIGHT = 500;
+
+    private Button newGameButton;
+    private Button loadGameButton;
+    private Button ownSudokuButton;
+    private Button closeGameButton;
+
 
     private Scene scene;
 
@@ -21,22 +27,22 @@ public class MainMenuView {
         grid.getStyleClass().add("styles/MainMenuStyle.css");
         grid.setAlignment(Pos.CENTER);
 
-        Button newGameButton = new Button("Neues Spiel");
+        newGameButton = new Button("Neues Spiel");
         grid.add(newGameButton, 0, 0);
         GridPane.setHalignment(newGameButton, HPos.CENTER);
         newGameButton.setTooltip(new Tooltip("Starte ein neu generiertes Sudoku"));
 
-        Button loadGameButton = new Button("Spiel Laden");
+        loadGameButton = new Button("Spiel Laden");
         grid.add(loadGameButton, 0, 1);
         GridPane.setHalignment(loadGameButton, HPos.CENTER);
         loadGameButton.setTooltip(new Tooltip("Lade einen gespeicherten Sudoku Spielstand"));
 
-        Button ownSudokuButton = new Button("Eigenes Sudoku");
+        ownSudokuButton = new Button("Eigenes Sudoku");
         grid.add(ownSudokuButton, 0, 2);
         GridPane.setHalignment(ownSudokuButton, HPos.CENTER);
         ownSudokuButton.setTooltip(new Tooltip("Gebe ein eigenes Sudoku ein und bearbeite es hier"));
 
-        Button closeGameButton = new Button("Beenden");
+        closeGameButton = new Button("Beenden");
         grid.add(closeGameButton, 0, 3);
         GridPane.setHalignment(closeGameButton, HPos.CENTER);
         closeGameButton.setTooltip(new Tooltip("Beende das Programm"));
@@ -46,7 +52,10 @@ public class MainMenuView {
     }
 
     public void connectHandlers(MainMenuController controller) {
-
+        newGameButton.setOnAction(controller::handleNewGame);
+        loadGameButton.setOnAction(controller::handleLoad);
+        ownSudokuButton.setOnAction(controller::handleLoad);
+        closeGameButton.setOnAction(controller::handleClose);
     }
 
     public Scene getScene() {

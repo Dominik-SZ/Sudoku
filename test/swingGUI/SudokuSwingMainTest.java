@@ -1,3 +1,5 @@
+package swingGUI;
+
 import swingGUI.SudokuSwingMain;
 import model.Sudoku;
 import model.solving.strategies.SolvingStrategy;

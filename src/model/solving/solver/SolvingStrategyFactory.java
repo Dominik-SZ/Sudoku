@@ -13,7 +13,7 @@ public class SolvingStrategyFactory {
     public static final int STRATEGY_AMOUNT = 11;
 
     /**
-     * Initializes the strategies in the solvingStrategies list. Restrictive Methods are called first, Interpreting
+     * Initializes the model.solving.strategies in the solvingStrategies list. Restrictive Methods are called first, Interpreting
      * methods second. Inside of this partitioning the methods with better performance are used earlier then the
      * complicated ones.
      **/
@@ -23,12 +23,12 @@ public class SolvingStrategyFactory {
 
         // restrictive methods:
         //--------------------------------------------------------------------------------------------------------------
-        // intersection strategies
+        // intersection model.solving.strategies
         strategies.add(new IntersectionRowToBlock(sudoku));
         strategies.add(new IntersectionColumnToBlock(sudoku));
         strategies.add(new IntersectionBlockToRowAndColumn(sudoku));
 
-        // fish strategies
+        // fish model.solving.strategies
         strategies.add(new XWing(sudoku));
         strategies.add(new Swordfish(sudoku));
         strategies.add(new Jellyfish(sudoku));
@@ -38,13 +38,13 @@ public class SolvingStrategyFactory {
         // OnlyOnePossibility standard method
         strategies.add(new OnlyOnePossibility(sudoku, backups));
 
-        // hidden single strategies
+        // hidden single model.solving.strategies
         strategies.add(new HiddenSingleRow(sudoku, backups));
         strategies.add(new HiddenSingleColumn(sudoku, backups));
         strategies.add(new HiddenSingleBlock(sudoku, backups));
 
         //--------------------------------------------------------------------------------------------------------------
-        // only keep the strategies, which are simple enough
+        // only keep the model.solving.strategies, which are simple enough
         List<SolvingStrategy> toKeep = new LinkedList<>();
         for(SolvingStrategy strategy: strategies) {
             if(strategy.getDifficulty() <= difficulty) {
