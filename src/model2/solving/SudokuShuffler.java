@@ -20,7 +20,7 @@ public class SudokuShuffler {
      * @param times The amount of permutations that shall be performed on the board
      */
     public void shuffle(int[][] board, int times) {
-        InputChecker.isSquareNumber(board.length);
+        InputChecker.checkIfValidLength(board.length);
 
         if (length != board.length) {   // new length => new possible index pairs
             this.length = board.length;

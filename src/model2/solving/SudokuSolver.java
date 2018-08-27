@@ -1,6 +1,7 @@
 package model2.solving;
 
 import model2.Sudoku;
+import util.InputChecker;
 
 public class SudokuSolver {
 
@@ -16,15 +17,9 @@ public class SudokuSolver {
     }
 
     public Sudoku generateSudoku(int length, int difficulty) {
-        if (length < 1) {
-            throw new IllegalArgumentException("length must be at least 1.");
-        }
+        InputChecker.checkIfValidLength(length);
         this.length = length;
-        double bl = Math.sqrt(length);
-        if (bl % 1 != 0) {
-            throw new IllegalArgumentException("length must be a square number.");
-        }
-        this.blockLength = (int) bl;
+        this.blockLength = (int) Math.sqrt(length);
 
         // first solving call
         if (board == null) {

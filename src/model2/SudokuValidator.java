@@ -7,7 +7,7 @@ public class SudokuValidator {
     public boolean isValid(int[][] board) {
         int length = board.length;
         int blockLength = (int) Math.sqrt(length);
-        InputChecker.isSquareNumber(length);
+        InputChecker.checkIfValidLength(length);
 
         // check rows
         for (int i = 0; i < length; i++) {

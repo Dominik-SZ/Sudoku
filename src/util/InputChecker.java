@@ -7,10 +7,13 @@ public class InputChecker {
      *
      * @param length The number to check
      */
-    static public void isSquareNumber(int length) {
+    static public void checkIfValidLength(int length) {
         double root = Math.sqrt(length);
         if (!(root * root == length)) {
             throw new IllegalArgumentException("Input is no square number: " + length);
+        }
+        if (length < 1) {
+            throw new IllegalArgumentException("length must be at least 1");
         }
     }
 
@@ -21,7 +24,7 @@ public class InputChecker {
      * @param input  The entry to check
      * @param length The length of the Sudoku
      */
-    static public void isValidEntry(int input, int length, EntryType type) {
+    static public void checkIfValidEntry(int input, int length, EntryType type) {
         if (type == EntryType.ENTRY && (input < 0 || length < input)) {
             throw new IllegalArgumentException("Inserted entry out of bounds: " + input);
         }
