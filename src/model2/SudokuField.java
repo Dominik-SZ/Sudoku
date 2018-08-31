@@ -11,6 +11,10 @@ public class SudokuField {
     private int value;
     /** indices range from 0-9 (standard). Thereby used are 1-9 (standard) */
     private boolean[] possibilities;
+    /**
+     * the notes made by the user in this field
+     */
+    private boolean[] notes;
 
 
 

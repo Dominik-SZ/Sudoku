@@ -54,7 +54,7 @@ public class MainMenuView {
     public void connectHandlers(MainMenuController controller) {
         newGameButton.setOnAction(controller::handleNewGame);
         loadGameButton.setOnAction(controller::handleLoad);
-        ownSudokuButton.setOnAction(controller::handleLoad);
+        ownSudokuButton.setOnAction(controller::handleOwnSudoku);
         closeGameButton.setOnAction(controller::handleClose);
     }
 

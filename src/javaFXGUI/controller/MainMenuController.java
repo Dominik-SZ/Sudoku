@@ -1,7 +1,7 @@
 package javaFXGUI.controller;
 
-import javaFXGUI.view.MainMenuView;
 import javaFXGUI.view.GameView;
+import javaFXGUI.view.MainMenuView;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
@@ -33,6 +33,7 @@ public class MainMenuController {
     }
 
     public void handleClose(ActionEvent event) {
-
+        stage.close();
+        System.exit(0);
     }
 }
