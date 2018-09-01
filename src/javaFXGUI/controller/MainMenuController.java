@@ -2,6 +2,7 @@ package javaFXGUI.controller;
 
 import javaFXGUI.view.GameView;
 import javaFXGUI.view.MainMenuView;
+import javaFXGUI.view.OwnSudokuView;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
@@ -29,7 +30,12 @@ public class MainMenuController {
     }
 
     public void handleOwnSudoku(ActionEvent event) {
+        OwnSudokuView newView = new OwnSudokuView();
+        OwnSudokuController newController = new OwnSudokuController(stage, newView);
+        newView.connectHandlers(newController);
 
+        stage.setScene(newView.getScene());
+        stage.setTitle("Eigenes Sudoku");
     }
 
     public void handleClose(ActionEvent event) {

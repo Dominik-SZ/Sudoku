@@ -13,11 +13,19 @@ public class GameView {
 
     private static final int DEFAULT_WIDTH = 700;
     private static final int DEFAULT_HEIGHT = 600;
+
     private Scene scene;
+    private BorderPane root;
 
     public GameView() {
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
 
+        buildMenuBar();
+
+        scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    private void buildMenuBar() {
         MenuBar menuBar = new MenuBar();
 
         Menu menuFile = new Menu("Datei");
@@ -50,7 +58,6 @@ public class GameView {
 
 
         root.setTop(menuBar);
-        scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
     public void connectHandlers(GameViewController controller) {
