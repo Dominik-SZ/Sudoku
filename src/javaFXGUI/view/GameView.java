@@ -17,12 +17,18 @@ public class GameView {
     private Scene scene;
     private BorderPane root;
 
+    private MenuItem menuItemExit;
+
     public GameView() {
         root = new BorderPane();
 
         buildMenuBar();
 
         scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    private void buildCenter() {
+
     }
 
     private void buildMenuBar() {
@@ -42,7 +48,7 @@ public class GameView {
 
         SeparatorMenuItem separator = new SeparatorMenuItem();
 
-        MenuItem menuItemExit = new MenuItem("Beenden");
+        menuItemExit = new MenuItem("Beenden");
         menuItemExit.setAccelerator(KeyCombination.valueOf("Ctrl+Q"));
         menuFile.getItems().addAll(menuItemLoad, menuItemPrint, menuItemSave, separator,
                 menuItemExit);
@@ -61,7 +67,7 @@ public class GameView {
     }
 
     public void connectHandlers(GameViewController controller) {
-
+        menuItemExit.setOnAction(controller::handleExit);
     }
 
     public Scene getScene() {

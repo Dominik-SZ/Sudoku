@@ -17,6 +17,5 @@ public class OwnSudokuController {
 
     public void handleLengthSelection(ActionEvent event) {
         view.setLength(view.getLengthSelected());
-        view.buildCenter(null);
     }
 }
