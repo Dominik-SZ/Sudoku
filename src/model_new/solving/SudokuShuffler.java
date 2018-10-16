@@ -1,4 +1,4 @@
-package model2.solving;
+package model_new.solving;
 
 import util.InputChecker;
 import util.IntPair;

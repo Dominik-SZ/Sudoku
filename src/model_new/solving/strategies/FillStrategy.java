@@ -1,6 +1,6 @@
-package model2.solving.strategies;
+package model_new.solving.strategies;
 
-import model2.solving.Solveable;
+import model_new.solving.Solveable;
 
 abstract class FillStrategy {
 

@@ -1,6 +1,6 @@
-package model2.solving;
+package model_new.solving;
 
-import model2.Sudoku;
+import model_new.Sudoku;
 import util.InputChecker;
 
 public class SudokuSolver {

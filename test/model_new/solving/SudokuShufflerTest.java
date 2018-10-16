@@ -1,6 +1,6 @@
-package model2.solving;
+package model_new.solving;
 
-import model2.SudokuValidator;
+import model_new.SudokuValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
