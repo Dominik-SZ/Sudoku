@@ -7,7 +7,14 @@ public class Sudoku {
     int length;
     int blockLength;
     int difficulty;
-    Deque states;
+    /**
+     * the states of the states, the user went through with this Sudoku
+     */
+    Deque<SudokuField> states;
+    /**
+     * the states that have been undone and can be forwarded again
+     */
+    Deque<SudokuState> putAside;
     int[][] startBoard;
     int[][] solutionBoard;
 

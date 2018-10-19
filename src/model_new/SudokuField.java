@@ -6,28 +6,33 @@ import java.util.List;
 
 public class SudokuField {
 
-    /** the maximum value of this field */
-    private final int maxValue;
-    private int value;
-    /** indices range from 0-9 (standard). Thereby used are 1-9 (standard) */
-    private boolean[] possibilities;
     /**
-     * the notes made by the user in this field
+     * the maximum value of this field, which is equal to the length of the containing Sudoku
      */
-    private boolean[] notes;
+    private final int length;
+    private final int value;
+    /**
+     * The notes of the user on this field. Indices range from 0-9 (standard). Thereby used are 1-9 (standard)
+     */
+    private final boolean[] notes;
 
 
+    /**
+     * Creates a new SudokuField with initial value 0 and no notes inserted yet.
+     *
+     * @param length    The length of the based board (standard 9)
+     */
+    SudokuField(int length) {
+		this.length = length;
+        this.value = 0;
+        this.notes = new boolean[length + 1];
+    }
 
-	/**
-	 * Creates a new SudokuField with initial value 0 and no possibilities inserted yet.
-	 *
-	 * @param maxValue	The length of the based board (standard 9)
-	 */
-	SudokuField(int maxValue) {
-		this.maxValue = maxValue;
-		this.value = 0;
-        this.possibilities = new boolean[maxValue + 1];
-	}
+    SudokuField(int length, int value, boolean[] notes) {
+        this.length = length;
+        this.value = value;
+        this.notes = notes;
+    }
 
 
 	// -----------------------------------------------------------------------------------------------------------------
@@ -37,23 +42,14 @@ public class SudokuField {
         return value;
     }
 
-    List<Integer> getPossibilities() {
-        List<Integer> pos = new ArrayList<>(maxValue);
-        for (int i = 1; i < possibilities.length; i++) {
-            if (possibilities[i]) {
+    List<Integer> getNotes() {
+        List<Integer> pos = new ArrayList<>(length);
+        for (int i = 1; i < notes.length; i++) {
+            if (notes[i]) {
                 pos.add(i);
             }
         }
         return pos;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // Setter:
-    void setValue(int value) {
-        this.value = value;
-    }
-
-    void setPossibility(int possibility, boolean arg) {
-	    possibilities[possibility] = arg;
-    }
 }
