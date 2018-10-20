@@ -1,8 +1,14 @@
 package customNodes;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+
+import java.util.ArrayList;
 
 class SudokuField extends Region {
 
@@ -16,8 +22,11 @@ class SudokuField extends Region {
     private int j;
     private int length;
     private boolean allowNotes;
-
     private Region child;
+
+    private final BooleanProperty isValueField;
+    private final IntegerProperty value;
+    private final ArrayList<BooleanProperty> notes;
 
     SudokuField(int i, int j, int length, boolean allowNotes) {
         this.i = i;
@@ -26,13 +35,18 @@ class SudokuField extends Region {
         this.allowNotes = allowNotes;
         this.child = new ValueField(length);
         this.getChildren().add(child);
-        this.setMinSize(MIN_SIZE, MIN_SIZE);
-        this.setPrefSize(PREF_SIZE, PREF_SIZE);
 
-        this.widthProperty().addListener((observable, oldValue, newValue) -> adjustPrefSizeOfChild());
-        this.heightProperty().addListener((observable, oldValue, newValue) -> adjustPrefSizeOfChild());
+        this.isValueField = new SimpleBooleanProperty();
+        this.value = new SimpleIntegerProperty();
+        this.notes = new ArrayList<>(length + 1);
 
-        this.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+        setMinSize(MIN_SIZE, MIN_SIZE);
+        setPrefSize(PREF_SIZE, PREF_SIZE);
+
+        widthProperty().addListener((observable, oldValue, newValue) -> adjustPrefSizeOfChild());
+        heightProperty().addListener((observable, oldValue, newValue) -> adjustPrefSizeOfChild());
+
+        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             if (this.allowNotes && event.getButton().equals(MouseButton.SECONDARY)) {    // right click
                 toggleFieldType();
             }
@@ -41,20 +55,25 @@ class SudokuField extends Region {
 
 
     private void toggleFieldType() {
-        if (child.getClass().equals(ValueField.class)) {
+        if (isValueField.get()) {   // value -> notes
+            value.unbindBidirectional(((ValueField) child).valueProperty());
             child = new NoteField(length);
             adjustPrefSizeOfChild();
             getChildren().clear();
             getChildren().add(child);
-        } else {
-            child = new ValueField(length);
+            isValueField.set(false);
+        } else {                    // notes -> value
+            ValueField newChild = new ValueField(length);
+            value.bindBidirectional(newChild.valueProperty());
+            child = newChild;
             adjustPrefSizeOfChild();
             getChildren().clear();
             getChildren().add(child);
+            isValueField.set(true);
         }
     }
 
-    public void adjustPrefSizeOfChild() {
+    private void adjustPrefSizeOfChild() {
         child.setPrefSize(getPrefWidth(), getPrefHeight());
     }
 
@@ -66,6 +85,18 @@ class SudokuField extends Region {
 
     public int getJ() {
         return j;
+    }
+
+    public BooleanProperty isValueFieldProperty() {
+        return isValueField;
+    }
+
+    public IntegerProperty valueProperty() {
+        return value;
+    }
+
+    public ArrayList<BooleanProperty> notesProperty() {
+        return notes;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

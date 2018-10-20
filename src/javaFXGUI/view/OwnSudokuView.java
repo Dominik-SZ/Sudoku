@@ -62,6 +62,6 @@ public class OwnSudokuView {
     }
 
     public void setLength(int length) {
-        sudokuBoard.setLength(length);
+        sudokuBoard.changeLength(length);
     }
 }

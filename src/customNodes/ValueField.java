@@ -1,5 +1,7 @@
 package customNodes;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -13,17 +15,21 @@ class ValueField extends Region {
 
     private int length;
     private TextField field;
+    private final IntegerProperty value;
 
     ValueField(int length) {
         this(length, "");
     }
 
     /**
+     * Creates a new ValueField, that only accepts numbers from 1-length as input.
+     *
      * @param length         The length of the containing SudokuBoard
      * @param initialContent The initial text content of the field
      */
     ValueField(int length, String initialContent) {
         this.length = length;
+        this.value = new SimpleIntegerProperty();
         field = new TextField();
         field.setText(initialContent);
         field.setAlignment(Pos.CENTER);
@@ -32,12 +38,12 @@ class ValueField extends Region {
         field.setMaxSize(this.getMaxWidth(), this.getMaxHeight());
 
         ResizeHandler resizeHandler = new ResizeHandler();
-        this.widthProperty().addListener(resizeHandler);
-        this.heightProperty().addListener(resizeHandler);
+        widthProperty().addListener(resizeHandler);
+        heightProperty().addListener(resizeHandler);
 
         addEventFilter(KeyEvent.KEY_TYPED, new KeyHandler());
 
-        this.getChildren().add(field);
+        getChildren().add(field);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -64,8 +70,15 @@ class ValueField extends Region {
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Getter:
+    IntegerProperty valueProperty() {
+        return value;
+    }
+
     /**
-     * Makes sure only legit numbers (1 to length) are inserted into this field.
+     * Makes sure only legit numbers (1 to length) are inserted into this field. The value property is also set to
+     * the new value.
      */
     private class KeyHandler implements EventHandler<KeyEvent> {
 
@@ -77,13 +90,18 @@ class ValueField extends Region {
                 String rightOfCaret = field.getText().substring(field.getCaretPosition());
                 String newText = leftOfCaret + event.getCharacter() + rightOfCaret;
 
-                if (!newText.equals("") && Integer.parseInt(newText) > length) {
-                    field.clear();
+                if (!newText.equals("")) {
+                    if (Integer.parseInt(newText) > length) {
+                        field.clear();
+                        value.set(Integer.parseInt(event.getCharacter()));
+                    } else {
+                        value.set(Integer.parseInt(newText));
+                    }
                 }
 
-                // System.out.println("number detected");
+
             } else {
-                // System.out.println("non number detected");
+                // not a number inserted
                 event.consume();
             }
         }
