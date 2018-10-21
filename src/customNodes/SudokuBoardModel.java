@@ -64,7 +64,7 @@ class SudokuBoardModel {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // binding methods:
+    // Binding methods:
 
     void bindIsValueField(int i, int j, BooleanProperty isValueField) {
         this.isValueField.get(i).get(j).bindBidirectional(isValueField);
@@ -83,6 +83,46 @@ class SudokuBoardModel {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter:
-    // TODO extend as needed
+    public BooleanProperty isValueFieldProperty(int i, int j) {
+        return isValueField.get(i).get(j);
+    }
 
+    public IntegerProperty valueProperty(int i, int j) {
+        return values.get(i).get(j);
+    }
+
+    public ArrayList<BooleanProperty> notesProperty(int i, int j) {
+        return notes.get(i).get(j);
+    }
+
+    /**
+     * Get a two dimensional array of all isValue information of this board addressable by i and j coordinates. These
+     * booleans decide if their respective field is a value field or a note field. Only the respective information
+     * (value or notes) is relevant.
+     *
+     * @return The isValueField information of this board
+     */
+    public ArrayList<ArrayList<BooleanProperty>> getIsValueField() {
+        return isValueField;
+    }
+
+    /**
+     * Get a two dimensional array of all value information of this board addressable by i and j coordinates. Note
+     * that the value of a field is most likely irrelevant if the isValueField bit of this field is set to false.
+     *
+     * @return The isValueField information of this board
+     */
+    public ArrayList<ArrayList<IntegerProperty>> getValues() {
+        return values;
+    }
+
+    /**
+     * Get a two dimensional array of all notes information of this board addressable by i and j coordinates. Note
+     * that the notes of a field are most likely irrelevant if the isValueField bit of this field is set to true.
+     *
+     * @return The notes information of this board
+     */
+    public ArrayList<ArrayList<ArrayList<BooleanProperty>>> getNotes() {
+        return notes;
+    }
 }

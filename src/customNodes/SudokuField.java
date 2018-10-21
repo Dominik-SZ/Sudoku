@@ -36,9 +36,13 @@ class SudokuField extends Region {
         this.child = new ValueField(length);
         this.getChildren().add(child);
 
-        this.isValueField = new SimpleBooleanProperty();
+        this.isValueField = new SimpleBooleanProperty(true);
         this.value = new SimpleIntegerProperty();
+        value.bindBidirectional(((ValueField) child).valueProperty());
         this.notes = new ArrayList<>(length + 1);
+        for (int k = 0; k < length + 1; k++) {
+            notes.add(new SimpleBooleanProperty());
+        }
 
         setMinSize(MIN_SIZE, MIN_SIZE);
         setPrefSize(PREF_SIZE, PREF_SIZE);
@@ -55,15 +59,31 @@ class SudokuField extends Region {
 
 
     private void toggleFieldType() {
-        if (isValueField.get()) {   // value -> notes
+        // value -> notes
+        if (isValueField.get()) {
+            // unbind the old child:
             value.unbindBidirectional(((ValueField) child).valueProperty());
-            child = new NoteField(length);
+
+            NoteField newChild = new NoteField(length);
+            // bind the new child:
+            for (int i = 1; i < length + 1; i++) {
+                notes.get(i).bindBidirectional(newChild.noteProperty(i));
+            }
+            child = newChild;
             adjustPrefSizeOfChild();
             getChildren().clear();
             getChildren().add(child);
             isValueField.set(false);
-        } else {                    // notes -> value
+        }
+        // notes -> value
+        else {
+            // unbind the old child:
+            for (int i = 1; i < length + 1; i++) {
+                notes.get(i).unbindBidirectional(((NoteField) child).noteProperty(i));
+            }
+
             ValueField newChild = new ValueField(length);
+            // bind the new child:
             value.bindBidirectional(newChild.valueProperty());
             child = newChild;
             adjustPrefSizeOfChild();
@@ -87,15 +107,15 @@ class SudokuField extends Region {
         return j;
     }
 
-    public BooleanProperty isValueFieldProperty() {
+    BooleanProperty isValueFieldProperty() {
         return isValueField;
     }
 
-    public IntegerProperty valueProperty() {
+    IntegerProperty valueProperty() {
         return value;
     }
 
-    public ArrayList<BooleanProperty> notesProperty() {
+    ArrayList<BooleanProperty> notesProperty() {
         return notes;
     }
 

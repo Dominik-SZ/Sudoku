@@ -84,10 +84,10 @@ public class SudokuBoard extends Region {
                         viewModel.bindNotes(globalI, globalJ, field.notesProperty());
 
                         board[globalI][globalJ] = field;
-                        subBlock.add(field, i, j);
+                        subBlock.add(field, j, i);
                     }
                 }
-                root.add(subBlock, iBlock, jBlock);
+                root.add(subBlock, jBlock, iBlock);
             }
         }
         this.getChildren().add(root);
