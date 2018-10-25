@@ -64,24 +64,6 @@ class SudokuBoardModel {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Binding methods:
-
-    void bindIsValueField(int i, int j, BooleanProperty isValueField) {
-        this.isValueFields.get(i).get(j).bindBidirectional(isValueField);
-    }
-
-    void bindValue(int i, int j, IntegerProperty value) {
-        this.values.get(i).get(j).bindBidirectional(value);
-    }
-
-    void bindNotes(int i, int j, ArrayList<BooleanProperty> notes) {
-        ArrayList<BooleanProperty> fieldsNotes = this.notes.get(i).get(j);
-        for (int k = 0; k < notes.size(); k++) {
-            fieldsNotes.get(k).bindBidirectional(notes.get(k));
-        }
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
     // Getter:
 
     /**

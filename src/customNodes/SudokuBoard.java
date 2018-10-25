@@ -1,5 +1,6 @@
 package customNodes;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -7,6 +8,8 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Screen;
+
+import java.util.ArrayList;
 
 public class SudokuBoard extends Region {
 
@@ -79,9 +82,13 @@ public class SudokuBoard extends Region {
                         SudokuField field = new SudokuField(length, allowNotes);
 
                         // connect this field to the ViewModel
-                        viewModel.bindIsValueField(globalI, globalJ, field.isValueFieldProperty());
-                        viewModel.bindValue(globalI, globalJ, field.valueProperty());
-                        viewModel.bindNotes(globalI, globalJ, field.notesProperty());
+                        viewModel.isValueFieldProperty(globalI, globalJ).bindBidirectional(field.isValueFieldProperty());
+                        viewModel.valueProperty(globalI, globalJ).bindBidirectional(field.valueProperty());
+                        ArrayList<BooleanProperty> modelNotes = viewModel.notesProperty(globalI, globalJ);
+                        ArrayList<BooleanProperty> fieldNotes = field.notesProperty();
+                        for (int k = 0; k < length; k++) {
+                            modelNotes.get(k).bindBidirectional(fieldNotes.get(k));
+                        }
 
                         board[globalI][globalJ] = field;
                         subBlock.add(field, j, i);
