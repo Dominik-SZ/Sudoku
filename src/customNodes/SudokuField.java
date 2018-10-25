@@ -18,8 +18,8 @@ class SudokuField extends Region {
     static final int MIN_SIZE = 25;
     static final int PREF_SIZE = 50;
 
-    private int i;
-    private int j;
+    //private int i;
+    //private int j;
     private int length;
     private boolean allowNotes;
     private Region child;
@@ -28,9 +28,9 @@ class SudokuField extends Region {
     private final IntegerProperty value;
     private final ArrayList<BooleanProperty> notes;
 
-    SudokuField(int i, int j, int length, boolean allowNotes) {
-        this.i = i;
-        this.j = j;
+    SudokuField(int length, boolean allowNotes) {
+        //this.i = i;
+        //this.j = j;
         this.length = length;
         this.allowNotes = allowNotes;
         this.child = new ValueField(length);
@@ -99,6 +99,7 @@ class SudokuField extends Region {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter:
+    /*
     public int getI() {
         return i;
     }
@@ -106,6 +107,7 @@ class SudokuField extends Region {
     public int getJ() {
         return j;
     }
+    */
 
     BooleanProperty isValueFieldProperty() {
         return isValueField;

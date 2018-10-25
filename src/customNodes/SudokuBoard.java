@@ -76,7 +76,7 @@ public class SudokuBoard extends Region {
                     for (int j = 0; j < blockLength; j++) {
                         int globalI = iBlock * blockLength + i;
                         int globalJ = jBlock * blockLength + j;
-                        SudokuField field = new SudokuField(globalI, globalJ, length, allowNotes);
+                        SudokuField field = new SudokuField(length, allowNotes);
 
                         // connect this field to the ViewModel
                         viewModel.bindIsValueField(globalI, globalJ, field.isValueFieldProperty());

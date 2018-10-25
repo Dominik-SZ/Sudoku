@@ -46,35 +46,6 @@ class ValueField extends Region {
         getChildren().add(field);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // Getter:
-    public int getValue() {
-        return Integer.parseInt(field.getText());
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // Setter:
-    public void setText(String text) {
-        field.setText(text);
-    }
-
-    /**
-     * Adjusts the prefSize and the font of the field.
-     */
-    private class ResizeHandler implements ChangeListener {
-
-        @Override
-        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-            field.setPrefSize(getPrefWidth(), getPrefHeight());
-            field.setFont(new Font(getPrefHeight() * 0.5 - 5));
-        }
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // Getter:
-    IntegerProperty valueProperty() {
-        return value;
-    }
 
     /**
      * Makes sure only legit numbers (1 to length) are inserted into this field. The value property is also set to
@@ -107,4 +78,33 @@ class ValueField extends Region {
         }
 
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Getter:
+    public int getValue() {
+        return Integer.parseInt(field.getText());
+    }
+
+    IntegerProperty valueProperty() {
+        return value;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Setter:
+    public void setText(String text) {
+        field.setText(text);
+    }
+
+    /**
+     * Adjusts the prefSize and the font of the field.
+     */
+    private class ResizeHandler implements ChangeListener {
+
+        @Override
+        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            field.setPrefSize(getPrefWidth(), getPrefHeight());
+            field.setFont(new Font(getPrefHeight() * 0.5 - 5));
+        }
+    }
+
 }
