@@ -39,8 +39,8 @@ class SudokuField extends Region {
         this.isValueField = new SimpleBooleanProperty(true);
         this.value = new SimpleIntegerProperty();
         value.bindBidirectional(((ValueField) child).valueProperty());
-        this.notes = new ArrayList<>(length + 1);
-        for (int k = 0; k < length + 1; k++) {
+        this.notes = new ArrayList<>(length);
+        for (int k = 0; k < length; k++) {
             notes.add(new SimpleBooleanProperty());
         }
 
@@ -66,7 +66,7 @@ class SudokuField extends Region {
 
             NoteField newChild = new NoteField(length);
             // bind the new child:
-            for (int i = 1; i < length + 1; i++) {
+            for (int i = 0; i < length; i++) {
                 notes.get(i).bindBidirectional(newChild.noteProperty(i));
             }
             child = newChild;
@@ -78,7 +78,7 @@ class SudokuField extends Region {
         // notes -> value
         else {
             // unbind the old child:
-            for (int i = 1; i < length + 1; i++) {
+            for (int i = 0; i < length; i++) {
                 notes.get(i).unbindBidirectional(((NoteField) child).noteProperty(i));
             }
 
@@ -117,6 +117,11 @@ class SudokuField extends Region {
         return value;
     }
 
+    /**
+     * Gets the properties representing the notes of this field indexed from 0 to (length-1)
+     *
+     * @return
+     */
     ArrayList<BooleanProperty> notesProperty() {
         return notes;
     }

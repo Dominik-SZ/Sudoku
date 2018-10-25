@@ -68,9 +68,9 @@ public class SudokuBoardTest extends Application {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 ArrayList<BooleanProperty> fieldsNotes = viewModel.notesProperty(i, j);
-                for (int k = 1; k < length + 1; k++) {
+                for (int k = 0; k < length; k++) {
                     if (fieldsNotes.get(k).get()) {
-                        System.out.print(k + " ");
+                        System.out.print((k + 1) + " ");
                     }
                 }
                 System.out.print("| ");

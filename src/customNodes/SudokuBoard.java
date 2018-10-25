@@ -116,8 +116,18 @@ public class SudokuBoard extends Region {
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Getter:
     public SudokuBoardModel getViewModel() {
         return viewModel;
+    }
+
+    public int getLength() {
+        return this.length;
+    }
+
+    public boolean notesAllowed() {
+        return this.allowNotes;
     }
 
 }

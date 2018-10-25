@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 
+
 class ValueField extends Region {
 
     private int length;
@@ -36,6 +37,8 @@ class ValueField extends Region {
         field.setMinSize(this.getMinWidth(), this.getMinHeight());
         field.setPrefSize(this.getPrefWidth(), this.getPrefHeight());
         field.setMaxSize(this.getMaxWidth(), this.getMaxHeight());
+        //field.setBackground(new Background(new BackgroundFill(Color.SKYBLUE, new CornerRadii(5), new Insets(0))));
+        //field.setBorder(new Border(new BorderStroke(Color.SPRINGGREEN, new BorderStrokeStyle())));
 
         ResizeHandler resizeHandler = new ResizeHandler();
         widthProperty().addListener(resizeHandler);

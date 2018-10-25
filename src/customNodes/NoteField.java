@@ -28,8 +28,8 @@ class NoteField extends Region {
         this.length = length;
         this.blockLength = (int) Math.sqrt(length);
         this.subFields = new TextField[length];
-        this.notes = new ArrayList<>(length + 1);
-        for (int i = 0; i < length + 1; i++) {
+        this.notes = new ArrayList<>(length);
+        for (int i = 0; i < length; i++) {
             notes.add(new SimpleBooleanProperty());
         }
 
@@ -58,30 +58,18 @@ class NoteField extends Region {
     }
 
     /**
-     * Returns the BooleanProperty of the inserted value, meaning the inserted value is noted if this property contains
-     * true and the value is not noted if the property contains false.
+     * Returns the BooleanProperty of the inserted index, meaning the inserted index is noted if this property contains
+     * true and the index is not noted if the property contains false.
      *
-     * @param value The number whose note property should be returned (1-9 standard)
-     * @return The note property of the inserted value
+     * @param index The number whose note property should be returned (0-8 corresponding to numbers 1-9 standard)
+     * @return The note property of the inserted index
      */
-    BooleanProperty noteProperty(int value) {
-        if (value > length || value < 1) {
-            throw new IllegalArgumentException("Note Property demanded for illegal number: " + value + ". Must be " +
-                    "1 to length.");
+    BooleanProperty noteProperty(int index) {
+        if (index < 0 || length <= index) {
+            throw new IllegalArgumentException("Note Property demanded for illegal index: " + index + ". Must be " +
+                    "0 to (length-1).");
         }
-        return notes.get(value);
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // Getter:
-
-    /**
-     * For debugging
-     *
-     * @return
-     */
-    ArrayList<BooleanProperty> notesProperty() {
-        return notes;
+        return notes.get(index);
     }
 
     /**
@@ -99,7 +87,7 @@ class NoteField extends Region {
         private SubNoteField(int number) {
             this.number = number;
             this.selected = new SimpleBooleanProperty();
-            selected.bindBidirectional(notes.get(number));
+            selected.bindBidirectional(notes.get(number - 1));
             this.setMinSize(MIN_SIZE, MIN_SIZE);
             this.setAlignment(Pos.CENTER);
             this.setEditable(false);
@@ -126,5 +114,8 @@ class NoteField extends Region {
         }
 
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Getter:
 
 }
