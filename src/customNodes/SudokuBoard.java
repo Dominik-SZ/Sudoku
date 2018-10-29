@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class SudokuBoard extends Region {
 
-    private static final int SUB_BLOCK_GAP = 12;
-    private static final int FIELD_GAP = 5;
-    private static final int ROOT_PADDING = 7;
+    public static final int SUB_BLOCK_GAP = 12;
+    public static final int FIELD_GAP = 5;
+    public static final int ROOT_PADDING = 7;
 
 
     private int length;
@@ -37,7 +37,7 @@ public class SudokuBoard extends Region {
         this.allowNotes = allowNotes;
         this.viewModel = new SudokuBoardModel(length);
 
-        ChangeListener resizeHandler = new ResizeHandler();
+        ChangeListener resizeHandler = new ResizeListener();
         widthProperty().addListener(resizeHandler);
         heightProperty().addListener(resizeHandler);
 
@@ -104,10 +104,10 @@ public class SudokuBoard extends Region {
     /**
      * Used to listen to changes of the width and height property of the SudokuBoard.
      */
-    private class ResizeHandler implements ChangeListener {
+    private class ResizeListener implements ChangeListener<Number> {
 
         @Override
-        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
             double availableSpace = Math.min(getWidth(), getHeight());
             int spaceForGaps = (length - blockLength) * FIELD_GAP + (blockLength - 1) * SUB_BLOCK_GAP + 2 * ROOT_PADDING;
             int whyDoINeedThis = 20;

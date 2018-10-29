@@ -13,16 +13,19 @@ import java.util.ArrayList;
 
 public class SkyscraperSideBar extends Region {
 
-    private Layout layout;
     private int length;
+    private Pane bar;
+    private SudokuField[] fields;
+
     private final ArrayList<BooleanProperty> isValueFields;
     private final ArrayList<IntegerProperty> values;
     private final ArrayList<ArrayList<BooleanProperty>> notes;
 
     SkyscraperSideBar(Layout layout, int length, boolean allowNotes) {
-        this.layout = layout;
         this.length = length;
+        this.fields = new SudokuField[length];
 
+        // initialize the properties
         this.isValueFields = new ArrayList<>(length);
         for (int i = 0; i < length; i++) {
             isValueFields.add(new SimpleBooleanProperty());
@@ -40,7 +43,6 @@ public class SkyscraperSideBar extends Region {
             notes.add(fieldsNotes);
         }
 
-        Pane bar;
         if (layout == Layout.HORIZONTAL) {
             bar = new HBox();
             setMinHeight(SudokuField.MIN_SIZE);
@@ -50,23 +52,33 @@ public class SkyscraperSideBar extends Region {
             setMinWidth(SudokuField.MIN_SIZE);
             setMinHeight(length * SudokuField.MIN_SIZE);
         }
+        getChildren().add(bar);
 
         for (int i = 0; i < length; i++) {
             SudokuField field = new SudokuField(length, allowNotes);
-            field.isValueFieldProperty().bindBidirectional(isValueFields.get(i));
-            field.valueProperty().bindBidirectional(values.get(i));
+            fields[i] = field;
+            bar.getChildren().add(field);
+
+            isValueFields.get(i).bindBidirectional(field.isValueFieldProperty());
+            values.get(i).bindBidirectional(field.valueProperty());
             ArrayList<BooleanProperty> fieldsNotes = field.notesProperty();
             for (int k = 0; k < length; k++) {
-                fieldsNotes.get(k).bindBidirectional(notes.get(i).get(k));
+                notes.get(i).get(k).bindBidirectional(fieldsNotes.get(k));
             }
-            //field.setPadding();
-            bar.getChildren().add(field);
+
+
         }
 
-        getChildren().add(bar);
     }
 
     enum Layout {
         VERTICAL, HORIZONTAL
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Getter:
+    SudokuField getField(int i) {
+        return fields[i];
+    }
+
 }

@@ -16,10 +16,8 @@ class SudokuField extends Region {
      * The minimum width and length of a SudokuField
      */
     static final int MIN_SIZE = 25;
-    static final int PREF_SIZE = 50;
+    static final int PREF_SIZE = 40;
 
-    //private int i;
-    //private int j;
     private int length;
     private boolean allowNotes;
     private Region child;
@@ -29,8 +27,6 @@ class SudokuField extends Region {
     private final ArrayList<BooleanProperty> notes;
 
     SudokuField(int length, boolean allowNotes) {
-        //this.i = i;
-        //this.j = j;
         this.length = length;
         this.allowNotes = allowNotes;
         this.child = new ValueField(length);
@@ -53,6 +49,8 @@ class SudokuField extends Region {
         addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             if (this.allowNotes && event.getButton().equals(MouseButton.SECONDARY)) {    // right click
                 toggleFieldType();
+                System.out.println("field pref width: " + getPrefWidth());
+                System.out.println("field actual width: " + getWidth());
             }
         });
     }
@@ -99,15 +97,6 @@ class SudokuField extends Region {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Getter:
-    /*
-    public int getI() {
-        return i;
-    }
-
-    public int getJ() {
-        return j;
-    }
-    */
 
     BooleanProperty isValueFieldProperty() {
         return isValueField;
