@@ -1,8 +1,8 @@
 package javaFXGUI.view;
 
 import com.sun.javafx.collections.ImmutableObservableList;
-import customNodes.SudokuBoard;
 import javaFXGUI.controller.OwnSudokuController;
+import javaFXGUI.customNodes.SudokuBoard;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
