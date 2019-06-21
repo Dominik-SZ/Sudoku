@@ -7,14 +7,14 @@ Sudoku Generator ReadMe:
 Die wichtigsten Funktionen erklären sich von selbst oder durch Tooltips.
 Das sind die Texte, die erscheinen, wenn man über einem Knopf o.ä. mit dem Mauszeiger wartet.
 
-Was nicht auf Anhieb sichtbar ist (und damit der interessante Teil des ReadMe), ist die Tastatursteuerung:
+Was nicht auf Anhieb sichtbar ist (und damit der interessante Teil des ReadMe) ist die Tastatursteuerung:
 
-Zum Eingeben der Zahlen kann sowohl die standard Zahlenleiste als auch der Nummernblock verwendet
+Zum Eingeben der Zahlen kann sowohl die Standardzahlenleiste als auch der Nummernblock verwendet
 werden.
 Zwischen Feldern wechseln geht mit WASD, den Pfeiltasten und dem Nummbernblock, wenn gleichzeitig
 Shift/Umschalttaste (ganz links, zweite von unten) gedrückt ist. Diagonales Wechseln ist ebenfalls
 möglich. Auf dem Nummernblock sind 1,3,7 und 9 mit shift gedrückt dafür zuständig.
-Achtet grundsätzlich darauf ob euer Nummernblock eingeschalten ist (Num Lock schaltet ihn ein und aus).
+Achtet grundsätzlich darauf ob euer Nummernblock aktiviert ist (Num Lock schaltet ihn ein und aus).
 
 Es ist möglich die Schriftgröße der editierbaren Felder zu ändern um anzuzeigen, dass man sich nur
 Notizen darin macht. Die Prüfmethode "Suche nach Fehlern" z.B. überspringt solche Felder.
@@ -32,7 +32,7 @@ Die Einfärbung kann mit einem doppelten Rechtsklick rückgängig gemacht werden
 
 
 Falls die Tooltips zu klein sind zum lesen, schreibe ich hier auch noch einmal alle Funktionen auf
-(Das ist der langweilige, der Vollständigkeits halber enthaltene Teil des ReadMe):
+(Das ist der langweilige, der Vollständigkeit halber enthaltene Teil des ReadMe):
 
 Das Startfenster:
 Hier kann man entweder ein neues Sudoku erstellen lassen oder ein abgespeichertes laden.
@@ -62,6 +62,10 @@ auch hervorgehoben werden, indem der entsprechende Knopf an der rechten Seite da
 (z.B. der Knopf mit der "3er" Beschriftung für alle eingesetzten 3er). 
 Erneutes Drücken des selben Knopfes nimmt das Hervorheben zurück.
 
+Außerdem gibt es die Möglichkeit auszuwählen ob die Zahlen am rechten Rand, welche angeben wie oft
+welche Zahl bereits eingesetzt ist, runterzählen, was dann bedeutet, dass sie angeben
+wie oft die jeweilige Zahl noch eingesetzt werden muss anstatt wie oft sie schon eingefügt wurde. 
+Zwischen diesen Modi wechselt "Runterzählen".
 
 Am unteren Rand sind umfangreiche Hilfsmöglichkeiten, ausgelöst durch entsprechende Knöpfe, angebracht.
 
@@ -76,8 +80,8 @@ des Spielers werden entfernt.
 
 Mit dem "Lösung"-Knopf kann man sich ein Lösungsfenster anzeigen lassen, welches in etwa das 
 Nachblättern der Lösung in einem Rätselheft nachempfinden soll. Von Anfang an eingefügte
-Zahlen werden darin schwarz angezeigt, vom Spieler einzufügende blau; genau so wie im Standard Fenster.
-Begrenztes Benutzen dieser Funktion versteht sich von selbst.
+Zahlen werden darin schwarz angezeigt, vom Spieler einzufügende blau; genau so wie im Standardfenster.
+Begrenzte Benutzung dieser Funktion versteht sich von selbst.
 
 Mit dem "Neustart"-Knopf kann man das momentane Sudoku durch ein neues Sudoku der selben Länge und der selben
 Schwierigkeit ersetzen lassen. Das könnte sinnvoll sein, wenn einem die Verteilung der gegebenen Zahlen
@@ -97,14 +101,6 @@ Am linken Rand kann man die Darstellungsoptionen ändern.
 
 Es gibt eine Auswahlbox für die Schriftfarbe und eine für die Hintergrundfarbe, die jeweils
 selbsterklärend sein dürften.
-
-Außerdem gibt es die Möglichkeit auszuwählen ob die Zahlen am rechten Rand, welche angeben wie oft
-welche Zahl bereits eingesetzt ist, runterzählen zu lassen, was dann bedeutet, dass sie angeben
-wie oft die jeweilige Zahl eingesetzt werden muss. Dazwischen wechselt "Runterzählen".
-
-Die andere Auswahlmöglichkeit "Rechte Seite" entscheidet ob die Spielhilfen am rechten Spielfeldrand
-angezeigt werden oder nicht. Denjenigen, denen das zu viel "Schummeln" ist, können somit ohne diese
-Funktionen spielen.
 
 
 Copyright Dominik 2016. Wer das liest ist toll. Free Tibet.
