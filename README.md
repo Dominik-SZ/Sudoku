@@ -1,6 +1,6 @@
 # Sudoku
 
-![Screenshot](sudoku_screenshot.png)
+![Screenshot](src/main/resources/sudoku_screenshot.png)
 
 Sudoku Generator ReadMe:
 
