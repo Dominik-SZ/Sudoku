@@ -1,3 +1,3 @@
 # Sudoku
 
-![Preview](src/main/resources/Sudoku_Screenshot.png)
+![Preview](/src/main/resources/Sudoku_Screenshot.png)
