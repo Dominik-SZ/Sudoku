@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Basic Fish (Basis-Fische) - X-Wing, Swordfish, Jellyfish</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Basic Fish (Basis-Fische) - X-Wing (Kreuzflügler), Swordfish (Schwertfisch), Jellyfish (Qualle)">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,fish,basic fish,x-wing,swordfish,jellyfish,fisch,basis-fisch,Kreuzflügler,Schwertfisch,Qualle">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechBa a, #menu ul li ul li.mTechBa a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style><script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_fishb.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_fishb.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Basic Fish (Basis-Fische)</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#bf2">X-Wing (Kreuzflügler)</a></li>
+        <li><a href="#bf3">Swordfish (Schwertfisch)</a></li>
+<!--        <li class="ni"><ul>
+            <li><a href="#display_mode_1">Puzzle only javaFXGUI.view (standard)</a></li>
+            <li><a href="#display_mode_2">Summary javaFXGUI.view</a></li>
+        </ul></li> -->
+        <li><a href="#bf4">Jellyfish (Qualle)</a></li>
+        <li><a href="#bf5">Größere Basis-Fische</a></li>
+    </ul>
+    <hr>
+
+    <p>Eine allgemeine Beschreibung aller Fisch-Strategien inklusive Erklärungen aller
+    nötigen Fachausdrücke findet sich in <a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a>.
+    Bei allen Beispielen muss beachtet werden, dass es nicht nötig ist, dass jeder
+    Schnittpunkt zwischen einem Base-Set und einem Cover-Set die Fischziffer
+    enthält. Es ist jedoch nötig, dass jedes Base- und jedes Cover-Set mindestens
+    ein Mal die Fischziffer enthält.</p>
+    
+    <h1><a name="bf2"></a>X-Wing (Kreuzflügler)</h1>
+    <p>Man nehme zwei Zeilen (die Base-Sets). Wenn es gelingt zwei Spalten zu finden,
+    so dass alle Kandidaten einer bestimmten Ziffer (der Fischziffer) aus beiden Zeilen
+    in den Spalten (den Cover-Sets) enthalten sind, können alle Fischkandidaten, die
+    nicht in den Zeilen enthalten sind, aus den Spalten gelöscht werden. Das ganze Muster wird
+    X-Wing in den Zeilen genannt.</p>
+    <p>Vertauscht man in der obigen Erklärung die Ausdrücke Zeilen und Spalten, so erhält man
+    einen X-Wing in den Spalten.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=bf201&amp;tech=X-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/bf201.png" alt="Sudoku Lösungstechnik: Beispiel für X-Wing"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=bf202&amp;tech=X-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/bf202.png" alt="Sudoku Lösungstechnik: Beispiel für X-Wing"></a>    <p>Betrachten wir das linke Beispiel: Die Base-Sets sind die Zeilen 2 und 5 (sie enthalten
+    Kandidaten für die Ziffer 5 in r2c58 und r5c58). Spalten 5 und 8 sind die Cover-Sets: Alle Kandidaten
+    der Base-Sets sind in diesen Spalten enthalten. Was übrig bleibt, ist eine 5 in r4c5: Die Zelle
+    gehört zu einem Cover-Set, nicht aber zu einem Base-Set. Diese 5 kann gelöscht werden.</p>
+    <p>Die Logik dahinter funktioniert folgendermaßen: Zeilen 2 und 5 haben beide nur noch
+    zwei Kandidaten für Ziffer 5. Wird r2c5=5 gesetzt, können weder r2c8 noch r5c5 ebenfalls 5 sein.
+    Das macht r5c8 zur letzten Möglichkeit für Ziffer 5 in Zeile 5. Ist aber r2c8=5,
+    führt dieselbe Argumentation zu r5c5=5. Egal wie man das Muster betrachtet, entweder r2c5 oder
+    r5c5 muss 5 sein. r4c5 kommt damit für Ziffer 5 nicht in Frage.</p>
+    <p>Das rechte Beispiel zeigt einen X-Wing in den Spalten: Die Base-Sets sind Spalten 1 und 5,
+    die Cover-Sets sind Zeilen 2 und 5. Alle Kandidaten aus den Zeilen, die nicht in den Spalten
+    enthalten sind, können gelöscht werden.</p>
+    <hr>
+
+    <h1><a name="bf3"></a>Swordfish (Schwertfisch)</h1>
+    <p>Swordfishes funktionieren ganz gleich wie X-Wings, nur mit drei Base- und drei
+    Cover-Sets statt zwei.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=bf301&amp;tech=Swordfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/bf301.png" alt="Sudoku Lösungstechnik: Beispiel für Swordfish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=bf302&amp;tech=Swordfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/bf302.png" alt="Sudoku Lösungstechnik: Beispiel für Swordfish"></a>    <p>Links sind die Base-Sets Zeilen 1, 2 und 9. Die Cover-Sets sind Spalten 1, 5 und 8, die
+    Fischziffer ist 2. Kandidaten 2 in r7c1 und in r6c8 sind Coverkandidaten, die keine Basiskandidaten
+    sind, sie können gelöscht werden.</p>
+    <p>Auf der rechten Seite haben wir Base-Sets r247 kombiniert mit Cover-Sets c235. Kandidaten 4
+    werden von r3c235, r6c235, r8c235 und r9c23 gelöscht.</p>
+    <hr>
+
+    <h1><a name="bf4"></a>Jellyfish (Qualle)</h1>
+    <p>Jellyfishes benötigen vier Base- und vier Cover-Sets. Beide Beispiele sind
+    der <a href="http://forum.enjoysudoku.com/viewtopic.php?t=5776">Pure Jellyfish Collection</a>
+    des <a href="http://forum.enjoysudoku.com/">New Sudoku Player's Forum</a> entnommen.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=bf401&amp;tech=Jellyfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/bf401.png" alt="Sudoku Lösungstechnik: Beispiel für Jellyfish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=bf402&amp;tech=Jellyfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/bf402.png" alt="Sudoku Lösungstechnik: Beispiel für Jellyfish"></a>    <p>Links ein Jellyfish in r3467/c1259 für Ziffer 7, alle rot gekennzeichneten Kandidaten
+    werden gelöscht. Rechts kann der Jellyfish in r1367/c2589, ebenfalls für Ziffer 7, gefunden werden.</p>
+    <hr>
+
+    <h1><a name="bf5"></a>Größere Basis-Fische</h1>
+    <p>Größere Basis-Fische als Jellyfish existieren zwar, sie sind aber unnötig: Für jeden
+    größeren Fisch in den Zeilen gibt es einen komplementären kleineren in den Spalten und umgekehrt.</p>
+    <hr>
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Basic%20Fish%20%28Basis-Fische%29%20-%20X-Wing,%20Swordfish,%20Jellyfish-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

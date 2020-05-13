@@ -1,0 +1,28 @@
+Sudoku Anforderungen
+
+
+Pflichtanforderungen (Priorität 1) (am wichtigsten):
+- Kann in wenigen Sekunden ein garantiert lösbares Sudoku mit variablem Schwierigkeitsgrad erstellen.
+- GUI zum Bearbeiten eines erstellten Sudokus.
+- Es ist möglich Notizen in kleinerer Schriftgröße in die Felder der GUI einzutragen.
+- Ein erstelltes Sudoku kann gedruckt werden.
+- Die Lösung des Sudokus kann während der Bearbeitung in der GUI und bei Verwendung auf der Kommandozeile eingesehen werden.
+- Sudokus können (mitsamt Benutzereingaben) gespeichert und geladen werden.
+
+
+"Wäre nett" (Priorität 2) (mittelwichtig):
+- Der Zwischenstand eines Sudokus, welches in der GUI bearbeitet wird, kann gedruckt werden.
+- Externe Sudokus können eingelesen, vom Programm intern gelöst und in der GUI bearbeitet werden.
+- Die GUI bietet die Funktion alle vom Nutzer eingegebenen Aktionen (Wert/Notizen setzen/ändern/löschen) rückwärts der eingegebenen Reihenfolge zu entfernen bis das Sudoku wieder fehlerfrei ist.
+- Die GUI zeigt einem die Eintragungshäufigkeiten der verschiedenen Zahlen an (z.B. 3 Einser, 0 Zweier, 9 Dreier, ... 5 Neuner).
+- GUI kann einem grobe Tipps geben (z.B. "xy-Wing mit Anker im Quadrat links oben").
+- Gleiche Notizpaare können innerhalb der GUI mit jeweils gleicher Farbe hinterlegt werden (z.B. alle 5,8 Notizpaare grün)
+- Sudoku Felder können nach Belieben vom Nutzer gefärbt werden.
+
+
+"Spielereien" (Priorität 3) (eher unwichtig):
+- Externe Sudokus, die intern nicht gelöst werden konnten, können in der GUI trotzdem - mit verringerter Unterstützung - bearbeitet werden.
+- Variable Länge der Sudokus (müssen Quadratzahlen sein, Standard 9).
+- Tipps der GUI werden auf Wunsch graduell genauer.
+- Allgemeine Sudoku Spielregeln sind anzeigbar.
+- Aufzählung von Sudoku Lösungsstrategien und ihre Erklärungen sind anzeigbar.

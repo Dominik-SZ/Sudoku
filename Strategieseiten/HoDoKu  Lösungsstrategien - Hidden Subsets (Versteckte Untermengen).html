@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Hidden Subsets (Versteckte Untermengen)</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Hidden Subsets (Versteckte Untermengen) - Hidden Pair, Hidden Triple, Hidden Quadruple">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,hidden subset,hidden pair,hidden triple,hidden quadruple,versteckte untermenge,verstecktes paar,versteckte dreiergruppe,versteckte vierergruppe">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechHi a, #menu ul li ul li.mTechHi a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style>
+<script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_hidden.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_hidden.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Hidden Subsets (Versteckte Untermengen)</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#h2">Hidden Pair (Verstecktes Paar)</a></li>
+        <li><a href="#h3">Hidden Triple (Versteckte Dreiergruppe)</a></li>
+<!--        <li class="ni"><ul>
+            <li><a href="#display_mode_1">Puzzle only javaFXGUI.view (standard)</a></li>
+            <li><a href="#display_mode_2">Summary javaFXGUI.view</a></li>
+        </ul></li> -->
+        <li><a href="#h4">Hidden Quadruple (Versteckte Vierergruppe)</a></li>
+        <li><a href="#h234">Wie man sie findet</a></li>
+    </ul>
+    <hr>
+
+    <h1><a name="h2"></a>Hidden Pair (Verstecktes Paar)</h1>
+    <p>Alle Hidden Subsets arbeiten genau gleich, das Einzige, was sich ändert, ist
+    die Zahl der betroffenen Zellen und Kandidaten. Nehmen wir zuerst Hidden Pair:
+    Wenn man zwei Zellen in einem Haus finden kann, so dass zwei der Kandidaten
+    in diesen Zellen nirgendwo sonst innerhalb des Hauses vorkommen können, müssen
+    diese beiden Ziffern in diesen beiden Zellen gesetzt werden. Alle anderen Kandidaten
+    können aus diesen Zellen gelöscht werden.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=h201&amp;tech=Hidden+Pair"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/h201.png" alt="Sudoku Lösungstechnik: Beispiel für Hidden+Pair"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=h202&amp;tech=Hidden+Pair"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/h202.png" alt="Sudoku Lösungstechnik: Beispiel für Hidden+Pair"></a>    <p>Nehmen wir Spalte 9 im linken Beispiel: Kandidaten 1 und 9 kommen innerhalb dieser
+    Spalte nur noch in Zellen r5c9 und r7c9 (abgekürzt: Zellen r57c9) vor (es gibt sie noch in
+    anderen Zellen in Zeile 5, Zeile 7, Block 6 und Block 9, aber das ist hier nicht wichtig).
+    Eine dieser beiden Zellen muss 1 sein und die andere 9. Wir wissen noch nicht, welche
+    Zelle welchen Wert erhält, aber was wir wissen ist, dass r5c9 unmöglich 6 sein kann.</p>
+    <p>Hidden Pairs können unter einer Menge anderer Kandidaten begraben sein, wie das rechte
+    Beispiel zeigt: r1c12 ist ein Hidden Pair für Kandidaten 4 und 7 (in diesem Fall sind
+    sie für Zeile 1 und Block 1 versteckt), aber diese Zellen enthalten zusammen noch
+    10 andere Kandidaten, die alle gelöscht werden können.</p>
+    <hr>
+
+    <h1><a name="h3"></a>Hidden Triple (Versteckte Dreiergruppe)</h1>
+    <p>Hidden Triples arbeiten gleich wie Hidden Pairs, nur mit drei Zellen und
+    drei Kandidaten.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=h301&amp;tech=Hidden+Triple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/h301.png" alt="Sudoku Lösungstechnik: Beispiel für Hidden+Triple"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=h302&amp;tech=Hidden+Triple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/h302.png" alt="Sudoku Lösungstechnik: Beispiel für Hidden+Triple"></a>    <p>Das linke Beispiel zeigt ein Hidden Triple in Block 7: Kandidaten 2, 4 und 5
+    kommen in diesem Block nur noch in Zellen r8c2, r9c2 und r9c3 vor. 1 kann von r9c2
+    und 6 von r9c3 gelöscht werden, was das Puzzle löst (nur noch Singles nötig).</p>
+    <p>Das rechte Beispiel ist insofern ein Sonderfall, als dass das Hidden Triple
+    die allererste Lösungsstrategie ist, die angewendet werden kann (in der Angabe des
+    Sudokus sind keine Singles enthalten). Das Triple ist in Spalte 6 (r468c6) mit den
+    Kandidaten 2, 5 und 6. Nach dem Triple sind nur noch Singles nötig.</p>
+    <hr>
+
+    <h1><a name="h4"></a>Hidden Quadruple (Versteckte Vierergruppe)</h1>
+    <p>Hidden Quadruples (4 Kandidaten in 4 Zellen) sind eher selten. Ohne Verwendung
+    von Markierungen können sie nur sehr schwer gefunden werden.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=h401&amp;tech=Hidden+Quadruple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/h401.png" alt="Sudoku Lösungstechnik: Beispiel für Hidden+Quadruple"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=h402&amp;tech=Hidden+Quadruple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/h402.png" alt="Sudoku Lösungstechnik: Beispiel für Hidden+Quadruple"></a>    <p>Das linke Beispiel enhält den Spielzug wieder in einem Block (Zellen r7c56 und
+    r8c56, alle in Block 8) und verwendet die Kandidaten 2, 4, 5 und 8. Das rechte
+    Beispiel hat den Zug in Spalte 9 (r1238c9) mit den Kandidaten 2, 4, 5 und 9.</p>
+    <hr>
+
+    <h1><a name="h234"></a>Wie man sie findet</h1>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=h203&amp;tech=Hidden+Pair"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/h203.png" alt="Sudoku Lösungstechnik: Beispiel für Hidden+Pair"></a>    <p>Hidden Pairs können leicht mit Markierungen gefunden werden. Nehmen wir das
+    Beispiel: Nach einigen Singles wurden Markierungen für Kandidaten 4 und 8
+    eingetragen. Das Hidden Pair r3c46 wird unmittelbar sichtbar. Kein anderer
+    Kandidat kann mehr in diesen beiden Zellen gesetzt werden.</p>
+    <p>Um größere Hidden Subsets zu finden, benötigt man ein gutes Kurzzeitgedächtnis.
+    Viele Spieler suchen lieber große Naked Subsets statt große Hidden Subsets,
+    wenn erst einmal alle Markierungen eingetragen wurden, aber das ist natürlich
+    Ansichtssache.</p>
+    <hr class="clear">
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Hidden%20Subsets%20%28Versteckte%20Untermengen%29-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

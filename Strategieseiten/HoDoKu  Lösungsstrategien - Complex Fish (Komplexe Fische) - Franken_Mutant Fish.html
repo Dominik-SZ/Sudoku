@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Complex Fish (Komplexe Fische) - Franken/Mutant Fish</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Complex Fish (Komplexe Fische) - Franken X-Wing, Mutant X-Wing, Franken Swordfish, Mutant Swordfish">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,complex fish,franken fish,mutant fish,finned franken fish,finned mutant fish,cannibalistic fish,endo fin,siamese fish">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechCF a, #menu ul li ul li.mTechCF a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style><script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_fishc.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_fishc.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Complex Fish (Komplexe Fische)</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#ff">(Finned) Franken Fish</a></li>
+        <li><a href="#mf">(Finned) Mutant Fish</a></li>
+<!--        <li class="ni"><ul>
+            <li><a href="#display_mode_1">Puzzle only javaFXGUI.view (standard)</a></li>
+            <li><a href="#display_mode_2">Summary javaFXGUI.view</a></li>
+        </ul></li> -->
+        <li><a href="#sf">Siamese Fish (Siamesische Fische)</a></li>
+    </ul>
+    <hr>
+
+    <p>Bitte beachten Sie: Die Strategien und Beispiele auf dieser Seite sind für fortgeschrittene
+    Spieler gedacht. Für die meisten Sudokus werden sie nicht benötigt.</p>
+
+    <h1><a name="ff"></a>(Finned) Franken Fish</h1>
+    <p>Wenn mindestens ein Base- oder Cover-Set ein Block ist, bezeichnet man den resultierenden
+    Fisch als Franken Fish. Die Regeln für Fische bleiben natürlich unverändert.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=ff401&amp;tech=Franken+Jellyfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/ff401.png" alt="Sudoku Lösungstechnik: Beispiel für Franken+Jellyfish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fff301&amp;tech=Finned+Franken+Swordfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/fff301.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+Franken+Swordfish"></a>    <p>Das linke Bild zeigt einen Franken Jellyfish: r125b7/c1257 führt zu den folgenden
+    Eliminierungen: r3c257,r4c12,r6c257&lt;&gt;8. Auf den ersten Blick sieht der Fisch wie
+    ein normaler Jellyfish in den Zeilen aus. Der einzige Unterschied ist, dass das vierte
+    Base-Set keine Zeile ist, sondern ein Block: Das macht diesen Fisch zum Franken Fish.</p>
+    <p>Das rechte Beispiel zeigt dasselbe Sudoku wie das linke und auch im selben Zustand,
+    lediglich der Fisch ist ein anderer: c34b6/r346. Wir haben drei Base-/Cover-Sets, daher
+    Swordfish. Die Base-Sets enthalten einen Block, daher Franken Swordfish. Und ein Basiskandidat
+    ist "übrig": r5c7. Dieser Kandidat ist eine Fin, also Finned Franken Swordfish. Eliminiert wird
+    aus r3c8.</p>
+    <p>Viele komplexe Fische produzieren Muster, die auch unter anderen Namen beschrieben worden sind.
+    Viele dieser alternativen Muster sind leichter zu finden. Die zusätzlichen Möglichkeiten,
+    die sich durch die Verwendung von Blöcken in Base- und Cover-Sets ergeben, führen zu Fischen mit
+    Endo-Fins und Kannibalismus. Die sich ergebenden Variationen sind schier endlos, hier sind
+    zwei stellvertretende Beispiele für diese Typen von Fischen:</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fff201&amp;tech=Finned+Franken+X-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/fff201.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+Franken+X-Wing"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fff302&amp;tech=Cannibalistic+Finned+Franken+Swordfish+with+Endo+Fins"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/fff302.png" alt="Sudoku Lösungstechnik: Beispiel für Cannibalistic+Finned+Franken+Swordfish+with+Endo+Fins"></a>    <p>Das linke Beispiel zeigt einen Finned Franken X-Wing: Base-Sets sind Zeile 6 und Block 1,
+    Cover-Sets sind Spalten 3 und 5. 2 in r2c1 wird von keinem Cover-Set abgedeckt und ist daher
+    eine Fin. Die einzige mögliche Eliminierung des flossenlosen Fisches ist in r2c5. Diese Zelle
+    sieht zufälligerweise auch die Fin und wird daher tatsächlich eine Eliminierung. Dieses Muster
+    ist besser bekannt als <a href="http://hodoku.sourceforge.net/de/tech_sdp.php#er">Empty Rectangle</a>.</p>
+    <p>Das rechte Beispiel zeigt einen komplizierteren Fischtypen: Base-Sets sind Zeilen 1 und 5 und
+    Block 3, Cover-Sets sind Spalten 6 und 8 und Block 2. Drei Base-/Cover-Sets bedeutet Swordfish,
+    die Blöcke bedeuten Franken Swordfish. Mögliche Eliminierungen sind in r2c4, r24c6 und r4c8.
+    Sieht man genauer hin, merkt man, dass die Basiskandidaten r1c89 nicht nur im Base-Set Zeile 1,
+    sondern auch im Base-Set Block 3 enthalten sind: Sie müssen wie Fins behandelt werden
+    ("Endo-Fins"). Da keine der möglichen Eliminierungen beide Fins sieht, bleibt nichts zu tun übrig.
+    Glücklicherweise ist jedoch Basekandidat r1c6 in zwei Cover-Sets enthalten: Spalte 6 und Block 2,
+    die Zelle ist daher eine mögliche kannibalistische Eliminierung. Sie sieht auch alle Fins
+    und wird daher die einzige echte Eliminierung für diesen Fisch (ein Cannibalistic Finned Franken Swordfish).</p>
+    <hr>
+
+    <h1><a name="mf"></a>(Finned) Mutant Fish</h1>
+    <p>Werden alle Typen von Häusern in den Base- und Cover-Sets der Fische zugelassen, werden die
+    Ergebnisse noch etwas komplizierter. Auch hier sind die kleineren Exemplare oft unter anderen Namen
+    bekannt.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fmf201&amp;tech=Finned+Mutant+X-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/fmf201.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+Mutant+X-Wing"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fmf401&amp;tech=Finned+Mutant+Jellyfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/fmf401.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+Mutant+Jellyfish"></a>    <p>Linke Seite: Base-Sets sind Zeile 6 und Spalte 2, Cover-Sets sind Spalte 6 und Block 4.
+    Je zwei Häuser bedeutet X-Wing, Zeilen und Spalten vermischt im Base-Set bedeutet
+    Mutant X-Wing. Base-Zelle r7c2 ist nicht abgedeckt, also Finned Mutant X-Wing.
+    Eliminiert wird r7c6. Dieses besondere Muster ist auch als <a href="http://hodoku.sourceforge.net/de/tech_sdp.php#t2sk">2-String-Kite</a>
+    oder als <a href="http://hodoku.sourceforge.net/de/tech_sdp.php#tf">Turbot Fish</a> bekannt (ein Turbot-Fish ist übrigens eine
+    Chain und kein Fish...).</p>
+    <p>Das rechte Beispiel zeigt einen Finned Mutant Jellyfish: r16c47/c1b358, Fins in r1c6 und r7c7,
+    gelöscht wird r7c6.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fmf601&amp;tech=Finned+Mutant+Whale"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/fmf601.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+Mutant+Whale"></a>    <p>Das Beispiel links sieht nicht viel komplizierter aus als der Jellyfish von oben, es ist
+    es aber. Gezeigt wird der kleinste verfügbare Fisch in diesem Gitter, ein Finned Mutant Whale:
+    4 r35c89b49 r69c347b3 fr4c1 efr9c8 =&gt; r9c1&lt;&gt;4. Es macht zwar Spaß, solche Monster zu
+    betrachten, es ist aber sehr unwahrscheinlich, dass ein Mensch einen solchen Fisch findet.
+    Es ist auch nicht nötig: Die selbe Eliminierung kann auch mit einer
+    <a href="http://hodoku.sourceforge.net/de/tech_chains.php#gnl">Grouped Nice Loop</a> oder einer
+    <a href="http://hodoku.sourceforge.net/de/tech_last.php#fc">Forcing Chain</a> erreicht werden.</p>
+    <hr class="clear">
+
+    <h1><a name="sf"></a>Siamese Fish (Siamesische Fische)</h1>
+    <p>Gibt es in einem Gitter gleichzeitig zwei Fische desselben Typs, die dieselben Zellen belegen,
+    aber zu unterschiedlichen Eliminierungen führen, können diese Fische zu Siamesischen
+    Fischen zusammengefasst werden. Damit das möglich ist, müssen die einzelnen Fische über
+    Flossen verfügen und sich nur in einem Cover-Set unterscheiden. Die einfachste Form eines
+    Siamese Sashimi X-Wing ist besser bekannt als <a href="http://hodoku.sourceforge.net/de/tech_sdp.php#sk">Skyscraper</a>.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sfbf301&amp;tech=Siamese+Sashimi+Swordfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/sfbf301.png" alt="Sudoku Lösungstechnik: Beispiel für Siamese+Sashimi+Swordfish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sfbf401&amp;tech=Siamese+Sashimi+Jellyfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/sfbf401.png" alt="Sudoku Lösungstechnik: Beispiel für Siamese+Sashimi+Jellyfish"></a>    <p>Das linke Beispiel stammt aus dem Player's Forum, es ist ein Siamesischer Sashimi Swordfish für Ziffer 1:
+    Der erste Fisch ist in r358 c259, Fin in r8c6, der 1 von r7c5 löscht, der zweite ist in
+    r358 c269, Fin in r5c5, und löscht 1 von r4c6.</p>
+    <p>Das zweite Beispiel ist ein Siamese Sashimi Jellyfish für 8 (jeder Fisch hat zwei Flossen):
+    Der erste Fisch ist in r4678 c1689, Fins in r4c2 und r6c2, gelöscht wird 8 von r5c1
+    (der zweite eliminierte Kandidat sieht zwar beide Fins, ist aber kein Coverkandidat und kann daher
+    vom ersten Fisch allein nicht gelöscht werden). Der zweite Fisch ist in r4678 c2689, Fins in r7c1
+    und r8c1, gelöscht wird 8 von r9c2.</p>
+    <p>HoDoKu unterstützt Siamesische Fische, aber nur, wenn die Option "Duals/Siamese zulassen"
+    eingeschaltet ist.</p>
+    <hr class="clear">
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Complex%20Fish%20%28Komplexe%20Fische%29%20-%20Franken_Mutant%20Fish-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

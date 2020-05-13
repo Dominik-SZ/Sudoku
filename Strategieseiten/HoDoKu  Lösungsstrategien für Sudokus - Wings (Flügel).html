@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien für Sudokus - Wings (Flügel)</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Wings (Flügel) - XY-Wing, XYZ-Wing, W-Wing">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,xy-wing,xyz-wing,w-wing,flügel,xy-flügel,xyz-flügel,w-flügel">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechWi a, #menu ul li ul li.mTechWi a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style>
+<script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_wings.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_wings.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Wings (Flügel)</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#xy">XY-Wing (XY-Flügel)</a></li>
+        <li><a href="#xyz">XYZ-Wing (XYZ-Flügel)</a></li>
+<!--        <li class="ni"><ul>
+            <li><a href="#display_mode_1">Puzzle only javaFXGUI.view (standard)</a></li>
+            <li><a href="#display_mode_2">Summary javaFXGUI.view</a></li>
+        </ul></li> -->
+        <li><a href="#w">W-Wing (W-Flügel)</a></li>
+    </ul>
+    <hr>
+
+    <h1><a name="xy"></a>XY-Wing (XY-Flügel)</h1>
+    <p>Ein XY-Wing ist in Wirklichkeit eine kurze <a href="http://hodoku.sourceforge.net/de/tech_chains.php#xyc">XY-Chain</a>,
+    die als Muster beschrieben wird und dadurch leichter gefunden werden kann. Man startet mit
+    einer zweiwertigen Zelle (eine Zelle, die nur zwei Kandidaten enthält). Diese Zelle ist das Pivot
+    (der Angelpunkt). Die möglichen Kandidaten im Pivot werden X und Y genannt. Nun versucht man,
+    zwei andere Zellen zu finden, die das Pivot sehen können, die Pincer (Zangen). Eine
+    dieser Zellen muss die Kandidaten X und Z enthalten (Z ist ein beliebiger Kandidat, der von
+    X und Y verschieden ist) und die andere muss Y und Z enthalten. Z kann jetzt aus jeder Zelle
+    eliminiert werden, die beide Pincer sieht.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=xy01&amp;tech=XY-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/xy01.png" alt="Sudoku Lösungstechnik: Beispiel für XY-Wing"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=xy02&amp;tech=XY-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/xy02.png" alt="Sudoku Lösungstechnik: Beispiel für XY-Wing"></a>    <p>Linkes Beispiel: Zelle r1c3 (das Pivot) enthält Kandidaten 5 (X) und 7 (Y). Zelle r1c6
+    ist in der gleichen Zeile wie das Pivot und enthält Kandidaten 5 (X) und 2 (Z). Zelle
+    r2c1 liegt im gleichen Block wie das Pivot und enthält Kandidaten 7 (Y) und 2 (Z).
+    Zelle r2c6 sieht beide Pincer (r1c6 und r2c1). Sie kann nie 2 (Z) werden.</p>
+    <p>Die Logik ist einfach: Ist r1c3 5, muss r1c6 2 sein. Ist r1c3 7, muss r2c1 2 sein. In beiden
+    Fällen kann r2c6 nicht 2 sein. Die äquivalente <a href="http://hodoku.sourceforge.net/de/tech_chains.php#xyc">XY-Chain</a>: 2- r2c1 -7- r1c3 -5- r1c6 -2 =&gt; r2c6&lt;&gt;2</p>
+    <p>Rechtes Beispiel: X=1, Y=6, Z=9; Pivot in r4c1, Pincers in r4c4 und r5c2. Fünf Kandidaten können
+    gelöscht werden.</p>
+    <hr>
+
+    <h1><a name="xyz"></a>XYZ-Wing (XYZ-Flügel)</h1>
+    <p>Ein XYZ-Wing ist eine erweiterte Version des <a href="#xy">XY-Wings</a>:
+    Hier enthält das Pivot nicht nur die Kandidaten X und Y, sondern auch Z. Dadurch
+    kann Z natürlich nur aus Zellen gelöscht werden, die nicht nur die Pincer,
+    sondern auch das Pivot sehen.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=xyz01&amp;tech=XYZ-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/xyz01.png" alt="Sudoku Lösungstechnik: Beispiel für XYZ-Wing"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=xyz02&amp;tech=XYZ-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/xyz02.png" alt="Sudoku Lösungstechnik: Beispiel für XYZ-Wing"></a>    <p>Linkes Beispiel: Pivot r7c2, Pincers r2c2 und r7c1. Wenn r7c2=4, r2c2=7 =&gt; r9c2&lt;&gt;7; wenn
+    r7c2=5, r7c1=7 =&gt; r9c2&lt;&gt;7; wenn r7c2=7 =&gt; r9c2&lt;&gt;7.</p>
+    <p>Rechtes Beispiel: 4/7/6 in r23c4,r3c7 =&gt; r3c56&lt;&gt;6</p>
+    <p>Erweiterte Flügel mit noch mehr Kandidaten sind zwar beschrieben worden, sie sind
+    allerdings schwer zu finden und werden von HoDoKu nicht unterstützt.</p>
+    <hr>
+
+    <h1><a name="w"></a>W-Wing (W-Flügel)</h1>
+    <p>W-Wings sind leicht zu finden und oft sehr effektiv. Sie bestehen aus zwei zweiwertigen
+    Zellen mit denselben Kandidaten, die durch einen <a href="http://hodoku.sourceforge.net/de/tech_chains.php#strong_link">strong link</a>
+    für einen der beiden Kandidaten miteinander verbunden sind. Der andere Kandidat kann aus allen
+    Zellen gelöscht werden, die beide zweiwertigen Zellen sehen können. Da ein W-Wing intern
+    eine Chain ist, ist ein als Text niedergeschriebener Beweis wie unten zu sehen kompliziert.
+    Das Muster selbst ist allerdings leicht zu finden (<a href="http://hodoku.sourceforge.net/de/docs_play.php#filters">Filter</a>
+    können dabei eine große Hilfe sein).</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=w01&amp;tech=W-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/w01.png" alt="Sudoku Lösungstechnik: Beispiel für W-Wing"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=w02&amp;tech=W-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/w02.png" alt="Sudoku Lösungstechnik: Beispiel für W-Wing"></a>    <p>Linkes Beispiel: Die zweiwertigen Zellen sind r4c4 und r8c9 (Kandidaten 5 und 9). Der
+    <a href="http://hodoku.sourceforge.net/de/tech_chains.php#strong_link">strong link</a> existiert für Kandidat 9 in Spalte 8
+    (Spalte 8 hat nur zwei Möglichkeiten für Kandidat 9, was bedeutet, dass, wenn eine dieser
+    Möglichkeiten nicht gesetzt ist, die andere gesetzt werden muss - strong link).
+    Ein Ende des strong links sieht r4c4, das andere sieht r8c9. Kandidat 5 kann von allen
+    Zellen gelöscht werden, die r4c4 und r8c9 sehen (im Beispiel ist das r4c9).</p>
+    <p>Beweis: Wir konzentrieren uns auf den strong link in Spalte 8: Einer der beiden
+    Kandidaten 9 in r48c8 muss gesetzt sein. Ist r4c8=9, muss r4c4 5 sein. Ist r8c8=9,
+    muss r8c9 5 sein. Eine der beiden Zellen r4c4 und r8c9 muss also in jedem Fall
+    5 sein, jede Zelle, die diese beiden Zellen sieht, kann nicht 5 sein.</p>
+    <p>Ein W-Wing ist natürlich eigentlich auch eine Chain. Das obige Beispiel als
+    <a href="http://hodoku.sourceforge.net/de/tech_chains.php#nl2">Discontinuous Nice Loop</a>:
+    r4c9 -5- r4c4 -9- r4c8 =9= r8c8 -9- r8c9 -5- r4c9.</p>
+    <p>Rechtes Beispiel: W-Wing: 4/1 in r1c9,r8c7 verbunden durch 1 in r18c3 =&gt; r123c7,r89c9&lt;&gt;4</p>
+    <hr>
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20f%C3%BCr%20Sudokus%20-%20Wings%20%28Fl%C3%BCgel%29-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

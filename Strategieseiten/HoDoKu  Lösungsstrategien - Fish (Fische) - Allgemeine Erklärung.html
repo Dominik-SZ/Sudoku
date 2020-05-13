@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Fish (Fische) - Allgemeine Erklärung</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Fish (Fische) - Allgemeine Erklärung">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,fish,terminology,fin,endo fin,exo fin,sashimi,cannibalistic fish,base set,cover set,fisch,Flossen,Innenflossen,Kannibalismus">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Fish%20%28Fische%29%20-%20Allgemeine%20Erkl%C3%A4rung-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Fish%20%28Fische%29%20-%20Allgemeine%20Erkl%C3%A4rung-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechFi a, #menu ul li ul li.mTechFi a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style>
+<script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Fish%20%28Fische%29%20-%20Allgemeine%20Erkl%C3%A4rung-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_fishg.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Fish%20%28Fische%29%20-%20Allgemeine%20Erkl%C3%A4rung-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_fishg.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Fish%20%28Fische%29%20-%20Allgemeine%20Erkl%C3%A4rung-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Fish%20%28Fische%29%20-%20Allgemeine%20Erkl%C3%A4rung-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Fish (Fische) - Allgemeine Erklärung</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#fi">Einführung</a></li>
+        <li class="ni"><ul>
+            <li><a href="#princ">Prinzip</a></li>
+            <li><a href="#how">Funktionsweise</a></li>
+        </ul></li>
+        <li><a href="#fs">Formen und Größen</a></li>
+        <li><a href="#ff">Fins (Flossen) und Sashiminess</a></li>
+        <li class="ni"><ul>
+            <li><a href="#exofin">(Exo) Fins (Flossen)</a></li>
+            <li><a href="#sashimi">Sashiminess</a></li>
+        </ul></li>
+        <li><a href="#fc">Endo Fins (Innenflossen) und Cannibalism (Kannibalismus)</a></li>
+        <li class="ni"><ul>
+            <li><a href="#endofin">Endo Fins (Innenflossen)</a></li>
+            <li><a href="#cannibal">Cannibalism (Kannibalismus)</a></li>
+        </ul></li>
+    </ul>
+    <hr>
+
+    <h1><a name="fi"></a>Einführung</h1>
+    <p>"Fish" bezeichnet eine ganze Gruppe von Strategien, die alle dasselbe Prinzip
+    verwenden, die aber (wie echte Fische auch) eine Unzahl an Unterarten hervorgebracht haben.
+    Fische gehen von einfachen X-Wings (Erklärungen können in jedem Tutorial gefunden werden)
+    bis zu kannibalistischen Finned Mutant Leviathans. Die größeren Exemplare können nur mit
+    viel Mühe manuell gefunden werden und werden daher normalerweise eher von Computerprogrammen
+    verwendet, aber die einfacheren Typen sind leicht zu erkennen und können ein Sudoku
+    ziemlich schnell weiterbringen.</p>
+    <p>Dieser Abschnitt gibt einen Überblick über alle Arten von Fischen. Leser, die nur an
+    einfachen Varianten interessiert sind und die Erklärungen hier zu mühsam finden, sollten
+    sofort zu den Beschreibungen der <a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fishes</a> wechseln.</p>
+    <p>Fische sind Single Digit Patterns (Einzelziffer-Muster). "Einzelziffer" bedeutet, dass
+    für die Suche prinzipiell nur Kandidaten für dieselbe Ziffer herangezogen werden. "Muster"
+    bedeutet, dass die Position der Kandidaten im Gitter wichtig ist. Der Ausdruck "Muster"
+    wird zur Unterscheidung von <a href="http://hodoku.sourceforge.net/de/tech_chains.php">Ketten</a> (engl.: chains)
+    verwendet.</p>
+
+    <h2><a name="princ"></a>Prinzip</h2>
+    <p>Das Prinzip eines Fisches ist sehr einfach: Man suche eine bestimmte Anzahl von
+    Häusern, die sich nicht überschneiden. Diese Häuser werden als <b>Base-Sets</b>
+    (Basismengen) bezeichnet (Set wird hier synonym für Haus verwendet), die in
+    diesen Häusern enthaltenen Kandidaten sind die <b>Basiskandidaten</b>. Nicht
+    überschneiden bedeutet hier, dass kein Basiskandidat in mehr als einem Haus enthalten sein
+    darf, die Häuser selbst dürfen sich schon überlappen. Nun suche man eine gleiche Anzahl
+    an sich nicht überschneidenden Häusern, die alle Basiskandidaten <b>abdecken</b>
+    (engl.: <b>cover</b>). Diese neuen Häuser sind die <b>Cover-Sets</b>, sie enthalten
+    die <b>Coverkandidaten</b>. Wenn eine solche Kombination existiert, können alle
+    Coverkandidaten gelöscht werden, die nicht gleichzeitig Basiskandidaten sind.</p>
+
+    <h2><a name="how"></a>Funktionsweise</h2>
+    <p>Fische nützen die Tatsache aus, dass eine Ziffer in einem Haus nur einmal vorkommen kann.
+    Da wir nur gleiche Kandidaten betrachten (die "Fischziffer"), muss jedes Base-Set
+    genau eine Zelle mit der Fischziffer enthalten. Dasselbe gilt natürlich für die
+    Cover-Sets. Weil aber jetzt alle Basiskandidaten Teil eines Cover-Sets sind, sind
+    Platzierungen nur mehr sehr eingeschränkt möglich. Wenn man N Base-Sets und N
+    Cover-Sets verwendet, müssen genau N Zellen die Fischziffer enthalten. Die Sudoku-Regel
+    stellt sicher, dass in jedem Cover-Set genau ein Basiskandidat platziert werden muss.
+    Wie üblich wissen wir nicht welcher, aber wir wissen, es ist genau einer, daher kann keiner
+    der Coverkandidaten, die nicht Basiskandidaten sind, gesetzt werden. Sie werden
+    alle gelöscht.</p>
+    <hr>
+
+    <h1><a name="fs"></a>Formen und Größen</h1>
+    <p>Die Anzahl an Base-/Cover-Sets bestimmt die <b>Größe</b> des Fisches. Die folgenden
+    Namen werden normalerweise verwendet um die Größe zu beschreiben:</p>
+    <ul>
+        <li>Größe 2: X-Wing (Kreuzflügler; ein X-Wing ist ein Fisch und kein Wing!)</li>
+        <li>Größe 3: Swordfish (Schwertfisch)</li>
+        <li>Größe 4: Jellyfish (Qualle)</li>
+        <li>Größe 5: Squirmbag</li>
+        <li>Größe 6: Whale (Wal)</li>
+        <li>Größe 7: Leviathan (Leviathan)</li>
+    </ul>
+    <p>Beispiele können im Kapitel über <a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a> gefunden werden.</p>
+    <p>Die Kombinationen von Haustypen (Zeilen, Spalten oder Blöcke), die für die Base- und
+    Cover-Sets verwendet werden, bestimmen den Typ des Fisches (Typen werden als
+    [Base-Sets]/[Cover-Sets] angegeben):</p>
+    <ul>
+        <li>[Zeilen]/[Spalten] oder [Spalten]/[Zeilen]: Basic Fish ("Basic" wird normalerweise weggelassen)</li>
+        <li>[Zeilen und Blöcke]/[Spalten und Blöcke] oder [Spalten und Blöcke]/[Zeilen und Blöcke]: Franken Fish
+        (normalerweise enthält nur eines der beiden Sets Blöcke)</li>
+        <li>Beliebige Kombinationen von Zeilen/Spalten/Blöcken in einem oder beiden Sets: Mutant Fish</li>
+    </ul>
+    <p>Wenn Fische aufgeschrieben werden, werden normalerweise die Base- und Cover-Sets angegeben,
+    diese bestimmen dann den Fischtyp. Beispiele:</p>
+    <ul>
+        <li>4 c39 r46: Fisch für Ziffer 4, Base-Sets sind Spalten 3 und 9, Cover-Sets sind Zeilen 4 und 6 -&gt;
+        (Basic) X-Wing</li>
+        <li>4 c39b8 r469: Fisch für Ziffer 4, Base-Sets sind Spalten 3 und 9 und Block 8, Cover-Sets sind
+        Zeilen 4, 6 und 9 -&gt; Franken Swordfish</li>
+        <li>4 r159c9 c45b36: Fisch für Ziffer 4, Base-Sets Zeilen 1, 5, 9 und Spalte 9, Cover-Sets
+        Spalten 4, 5 und Blöcke 3, 6 -&gt; Mutant Jellyfish</li>
+    </ul>
+    <p>Beispiel für Franken und Mutant Fische können im Kapitel <a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a>
+    gefunden werden.</p>
+    <hr>
+
+    <h1><a name="ff"></a>Fins (Flossen) und Sashiminess</h1>
+    <h2><a name="exofin"></a>(Exo) Fins ([Außen-] Flossen)</h2>
+    <p>Der Trick beim Fischen besteht darin, Cover-Sets zu finden, die wirklich alle
+    Basiskandidaten enthalten. Leider passiert es häufig, dass Basiskandidaten übrig
+    bleiben. Das zerstört die Voraussetzung für den Fisch ("in jedem Cover-Set muss genau ein
+    Basiskandidat gesetzt sein"), weil ja jeder der übrig gebliebenen Basiskandidaten
+    gesetzt sein könnte. Diese Extra-Kandidaten werden <b>Fins</b> (Flossen), oder genauer
+    <b>Exo Fins</b> (Außenflossen), zur Unterscheidung von <b><a href="#endofin">Endo Fins</a></b> (Innenflossen),
+    genannt, aus dem Fisch wird ein Finned Fish (Fisch mit Flossen).</p>
+    <p>Die gute Nachricht ist, dass es unter bestimmten Umständen immer noch möglich ist,
+    Kandidaten zu löschen. Die Logik funktioniert folgendermaßen: Entweder alle Fins sind
+    nicht gesetzt, dann haben wir einen Fisch, der alle Coverkandidaten, die nicht
+    Basiskandidaten sind, eliminiert (die <b>möglichen Eliminierungen</b>), oder eine der
+    Fins ist gesetzt und eliminiert alle Kandidaten, die die Fin-Zelle sehen können.
+    Wenn wir die beiden Möglichkeiten kombinieren, erhalten wir die folgende Regel:
+    In einem Finned Fish können alle möglichen Eliminierungen gelöscht werden, die
+    alle Fins sehen.</p>
+    <p>Beispiele für Finned Fish können im Kapitel <a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimim Fish</a> gefunden werden.</p>
+
+    <h2><a name="sashimi"></a>Sashiminess</h2>
+    <p>In Fischbeschreibungen im Internet kann man viele zusätzliche Einschränkungen
+    bezüglich der Platzierung der Basiskandidaten finden (so und so viele Basiskandidaten
+    mindestens in diesem oder jenem Base-Set). Diese Einschränkungen sind alle nicht
+    nötig. Jeder Fisch, der gleich viele Base- und Cover-Sets besitzt, sodass alle
+    Basiskandidaten in den Cover-Sets enthalten sind, funktioniert. Der Grund für diese
+    Einschränkungen liegt in einer Diskussion, die immer noch nicht abgeschlossen ist:
+    Die Frage der Degenerierung. Bestimmte Muster erfüllen zwar die Regeln für einen
+    Fisch, aber sie enthalten einen kleinere Fisch, der zuerst verwendet werden könnte,
+    oder sie könnten durch einfachere Strategien (normalerweise Singles und
+    Locked Candidates) ersetzt werden. Manche Sudoku-Spieler bezeichnen solche
+    Fische als "degeneriert" und betrachten sie nicht als gültig.</p>
+    <p>In mancherlei Hinsicht ist diese Diskussion rein akademisch. Ob der Fisch nun
+    degeneriert ist oder nicht, die Eliminierungen, die durch ihn ausgelöst werden,
+    sind immer gültig. Es gibt jedoch einen Spezialfall, wo der Unterschied wichtig ist,
+    um die verschiedenen Fischnamen verstehen zu können: Hat ein degenerierter Fisch Flossen,
+    dann können die einfacheren Spielzüge nicht ausgeführt werden, weil sie von den
+    Flossen verhindert werden. Man erhält einen Finned Fish, der eigentlich gar kein
+    Fisch wäre, hätte er nicht Flossen. Ein solcher Fisch wird oft als <b>Sashimi</b>
+    bezeichnet.</p>
+    <p>Es wird immer noch darum gestritten, ob der Ausdruck Sashimi den Ausdruck Finned
+    ersetzen sollte (häufigere Variante) oder ob er ein zusätzliches Attribut des
+    Fischnamens sein sollte, der die Sashiminess (Sashimikeit - was für ein Wort!) des Fisches beschreibt.
+    Je nachdem, für welche Seite man sich entscheidet, heißt es dann entweder Sashimi X-Wing
+    oder Finned Sashimi X-Wing (man kann natürlich die Diskussion auch ignorieren und
+    einfach bei Finned X-Wing bleiben - HoDoKu tut genau das für alle nicht Basis-Fische).</p>
+    <hr>
+
+    <h1><a name="fc"></a>Endo Fins (Innenflossen) und Cannibalism (Kannibalismus)</h1>
+    <p>Eine wichtige Einschränkung für Fische war, dass sich weder Base-Sets noch Cover-Sets
+    überschneiden dürfen (und Überschneiden bedeutete: kein Basiskandidat durfte in mehr als einem
+    Base-Set vorkommen und kein Coverkandidat in mehr als einem Cover-Set). Wenn man diese
+    Einschränkung lockert, erhält man zwei fortgeschrittene Strategien: Endo Fins und Kannibalismus.</p>
+
+    <h2><a name="endofin"></a>Endo Fins (Innenflossen)</h2>
+    <p>Wenn ein Basiskandidat in mehr als einem Base-Set vorhanden ist, dann geht sich
+    der ganze Fisch nicht mehr aus. Wenn dieser Kandidat gesetzt würde, wären auf einmal
+    nur noch (N-1) Fischziffern für N Cover-Sets übrig: Ein Cover-Set hätte dann keinen
+    Basiskandidaten gesetzt und der Fisch würde ungültig. Allerdings hatten wir schon einmal
+    Basiskandidaten, die den Fisch zerstören, wenn sie gesetzt werden: Die Fins (Flossen).</p>
+    <p>Das oben Gesagte bedeutet, dass man Basiskandidaten, die in mehr als einem Base-Set vorkommen,
+    zulassen kann, solange man sie als Fins behandelt. Um sie von den normalen Fins zu unterscheiden,
+    werden sie <b>Endo-Fins</b> genannt.</p>
+    <p>Endo-Fins vergößern die Anzahl der möglichen Fischkombinationen beträchtlich (und damit auch
+    die Anzahl der Eliminierungen, die durch Fische möglich sind), aber sie vergößern auch beträchtlich
+    die Anzahl an möglichen Kombinationen für Base-Sets. Kombiniert man das mit der Tatsache,
+    dass Endo-Fins nur in Franken und Mutant Fischen vorkommen können, sieht man, dass die schiere
+    Anzahl an zu durchsuchenden möglichen Kombinationen für Finned Franken/Mutant Fish mit Endo-Fins
+    eine manuelle Suche sehr schwer macht.</p>
+
+    <h2><a name="cannibal"></a>Cannibalism (Kannibalismus)</h2>
+    <p>Betrachten wir nun, was passiert, wenn ein Basiskandidat in zwei Cover-Sets enthalten ist.
+    Würde dieser Kandidat platziert, benötigte man immer noch N Basiskandidaten um die Sudoku-Regel
+    für die Base-Sets zu erfüllen. Leider würden damit aber auch N Kandidaten in den Cover-Sets
+    platziert. Da nun einer dieser Kandidaten für zwei Cover-Sets gültig ist, erhielte man ein
+    Cover-Set mit zwei Zellen, die die Fischziffer enthalten, und das ist natürlich nicht möglich.</p>
+    <p>Fazit: Wenn der Fisch gültig sein soll, dann muss ein Basiskandidat, der in zwei Cover-Sets
+    enthalten ist, ungültig sein, er kann eliminiert werden. Da er aber Teil des Base-Sets ist, ißt
+    sich der Fisch quasi selbst. Ein solcher Fisch wird daher als Cannibalistic Fish bezeichnet.</p>
+    <p>Die Logik bleibt auch gültig, wenn der kannibalistische Fisch Flossen hat. Wie in jedem Finned Fish
+    darf der Basiskandidat allerdings nur eliminiert werden, wenn er alle Fins sieht.</p>
+    <hr>
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Fish%20%28Fische%29%20-%20Allgemeine%20Erkl%C3%A4rung-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

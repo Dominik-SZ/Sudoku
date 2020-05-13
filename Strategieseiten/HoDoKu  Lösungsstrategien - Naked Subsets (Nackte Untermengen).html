@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Naked Subsets (Nackte Untermengen)</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Naked Subsets (Nackte Untermengen) - Naked Pair, Naked Triple, Naked Quadruple, Locked Pair, Locked Triple">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,naked set,naked subset,locked set,locked subset,naked pair,locked pair,naked triple,locked triple,naked quadruple,nackte untermenge,nacktes paar,nackte dreiergruppe,nackte vierergruppe">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechNa a, #menu ul li ul li.mTechNa a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style>
+<script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_naked.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_naked.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Naked Subsets (Nackte Untermengen)</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#n2">Naked Pair/Locked Pair (Nacktes Paar/Gesperrtes Paar)</a></li>
+        <li class="ni"><ul>
+            <li><a href="#n2n2">Naked Pair (Nacktes Paar)</a></li>
+            <li><a href="#n2l2">Locked Pair (Gesperrtes Paar)</a></li>
+        </ul></li>
+        <li><a href="#n3">Naked Triple/Locked Triple (Nackte Dreiergruppe/Gesperrte Dreiergruppe)</a></li>
+        <li class="ni"><ul>
+            <li><a href="#n3n3">Naked Triple (Nackte Dreiergruppe)</a></li>
+            <li><a href="#n3l3">Locked Triple (Gesperrte Dreiergruppe)</a></li>
+        </ul></li>
+        <li><a href="#n4">Naked Quadruple (nackte Vierergruppe)</a></li>
+        <li><a href="#n234">Wie man sie findet</a></li>
+    </ul>
+    <hr>
+
+    <h1><a name="n2"></a>Naked Pair/Locked Pair (Nacktes Paar/Gesperrtes Paar)</h1>
+    <p>Naked Subsets funktionieren ähnlich wie <a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a>,
+    es geht allerdings nicht um Kandidaten, die nur noch in bestimmten Zellen vorkommen
+    (wie bei Hidden Subsets), sondern um Zellen, die nur noch eine bestimmte Anzahl
+    an Kandidaten enthalten.</p>
+
+    <h2><a name="n2n2"></a>Naked Pair (Nacktes Paar)</h2>
+    <p>Wenn man zwei Zellen im selben Haus finden kann, die beide nur noch die
+    selben zwei Kandidaten übrig haben, kann man diese Kandidaten aus allen anderen
+    Zellen des Hauses löschen.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=n201&amp;tech=Naked+Pair"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/n201.png" alt="Sudoku Lösungstechnik: Beispiel für Naked+Pair"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=n202&amp;tech=Naked+Pair"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/n202.png" alt="Sudoku Lösungstechnik: Beispiel für Naked+Pair"></a>    <p>Linkes Beispiel: Zellen r8c3 und r8c4 sind beide im selben Haus (Zeile 8) und
+    haben beide nur noch Kandidaten 3 und 9 übrig. Es folgt sofort, dass eine dieser
+    Zellen 3 und die andere 9 sein muss (welche welche ist, ist noch unbekannt).
+    Wir können aber sicher sagen, dass r8c2 nicht 3 sein kann. Das Sudoku benötigt ab
+    da nur noch Singles.</p>
+    <p>Das rechte Beispiel zeigt ein Naked Pair in einem Block: r4c5, r5c6 bilden ein
+    Naked Pair in Block 5 und eliminieren damit Kandidaten 8 und 9 aus allen anderen
+    Zellen dieses Blocks.</p>
+    
+    <h2><a name="n2l2"></a>Locked Pair (Gesperrtes Paar)</h2>
+    <p>Sind die beiden Zellen, die das Naked Pair bilden, nicht nur auf ein Haus,
+    sondern auf zwei Häuser beschränkt (eine Zeile und ein Block oder eine Spalte
+    und ein Block), werden sie manchmal als Locked Pair bezeichnet. Die Kandidaten
+    können in beiden Häusern gelöscht werden.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=l201&amp;tech=Locked+Pair"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/l201.png" alt="Sudoku Lösungstechnik: Beispiel für Locked+Pair"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=l202&amp;tech=Locked+Pair"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/l202.png" alt="Sudoku Lösungstechnik: Beispiel für Locked+Pair"></a>    <p>Im linken Beispiel bilden r3c79 ein Locked Pair in Zeile 3 und Block 3, 2 kann
+    aus r3c3 (Zeile 3) und aus r1c9 (Block 3) gelöscht werden. Das rechte Beispiel
+    zeigt ein Locked Pair in Zeile 8 und Block 8, 18 Kandidaten können
+    gelöscht werden.</p>
+    <hr>
+
+    <h1><a name="n3"></a>Naked Triple/Locked Triple (Nackte Dreiergruppe/Gesperrte Dreiergruppe)</h1>
+    <h2><a name="n3n3"></a>Naked Triple (Nackte Dreiergruppe)</h2>
+    <p>Kann man in einem Haus drei Zellen finden, die nur noch die selben Kandidaten übrig
+    haben, kann man diese Kandidaten aus allen anderen Zellen dieses Hauses entfernen.
+    Wichtig ist dabei, dass nicht alle Zellen alle Kandidaten enthalten müssen, aber
+    in allen drei Zellen zusammen dürfen insgesamt nicht mehr als drei verschiedene
+    Kandidaten sein.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=n301&amp;tech=Naked+Triple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/n301.png" alt="Sudoku Lösungstechnik: Beispiel für Naked+Triple"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=n302&amp;tech=Naked+Triple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/n302.png" alt="Sudoku Lösungstechnik: Beispiel für Naked+Triple"></a>    <p>Linkes Beispiel: Zellen r2c2, r4c2 und r5c2 sind alle im selben Haus (Spalte 2) und
+    haben zusammen nur noch die Kandidaten 3, 6 und 9 übrig. Es folgt sofort, dass eine
+    dieser Zellen 3, eine andere 6 und die letzte 9 sein muss (welche es konkret sind, ist
+    noch unbekannt). Wir können aber sicher sein, dass r1c2 nicht 6 sein kann.
+    Das Sudoku benötigt ab da nur noch Singles.</p>
+    <p>Das rechte Beispiel zeigt ein Naked Triple in einem Block: r3c45, r1c5 bilden
+    ein Naked Triple in Block 2 und entfernen damit Kandidaten 1, 2 und 6 aus allen
+    anderen Zellen in diesem Block.</p>
+    
+    <h2><a name="n3l3"></a>Locked Triple (Gesperrte Dreiergruppe)</h2>
+    <p>Wenn die drei Zellen, die das Naked Triple bilden, nicht nur auf ein Haus,
+    sondern auf zwei Häuser beschränkt sind (eine Zeile und ein Block oder eine Spalte
+    und ein Block), werden sie manchmal als Locked Triple bezeichnet. Kandidaten
+    können aus beiden Häusern gelöscht werden.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=l301&amp;tech=Locked+Triple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/l301.png" alt="Sudoku Lösungstechnik: Beispiel für Locked+Triple"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=l302&amp;tech=Locked+Triple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/l302.png" alt="Sudoku Lösungstechnik: Beispiel für Locked+Triple"></a>    <p>Im linken Beispiel bilden r789c5 ein Locked Triple in Spalte 5 und Block 8, 9
+    kann aus r8c4 (Block 8) und aus r2c5 (Spalte 5) gelöscht werden. Das rechte Beispiel
+    zeigt ein Locked Triple für 5, 6 und 7 in Zeile 5 und Block 6, das 18 Kandidaten
+    eliminiert.</p>
+    <hr>
+
+    <h1><a name="n4"></a>Naked Quadruple (Nackte Vierergruppe)</h1>
+    <p>Naked Quadruples funktionieren gleich wie Naked Triples und Naked Pairs,
+    nur werden jetzt vier Kandidaten in vier Zellen benötigt. Da eine Schnittmenge
+    zwischen einer Zeile und einem Block oder zwischen einer Spalte und einem Block
+    maximal drei Zellen haben kann, kann es kein Locked Quadruple geben.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=n401&amp;tech=Naked+Quadruple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/n401.png" alt="Sudoku Lösungstechnik: Beispiel für Naked+Quadruple"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=n402&amp;tech=Naked+Quadruple"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/n402.png" alt="Sudoku Lösungstechnik: Beispiel für Naked+Quadruple"></a>    <p>Das linke Beispiel zeigt ein Naked Quadruple in Zeile 8: Kandidaten 3, 4, 8 und 9
+    in Zellen r8c1346, gelöscht werden 3 und 8 von r8c7 und 9 von r8c8. Das rechte
+    Beispiel hat das Naked Quadruple in Block 7: Kandidaten 4, 6, 7 und 9 in Zellen r8c2,
+    r789c3.</p>
+    <hr>
+
+    <h1><a name="n234"></a>Wie man sie findet</h1>
+    <p>Am besten lassen sich Naked Subsets finden, wenn alle Markierungen eingetragen wurden.
+    Ist das geschehen, kann man sie leicht erkennen, und sie sind auch normalerweise
+    sehr effizient.</p>
+    <hr>
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Naked%20Subsets%20%28Nackte%20Untermengen%29-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

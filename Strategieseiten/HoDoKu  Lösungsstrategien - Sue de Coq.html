@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Sue de Coq</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Sue de Coq">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,sue de coq,disjoint subset,subset counting">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechMi a, #menu ul li ul li.mTechMi a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style>
+<script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_misc.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_misc.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Sonstiges</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#sdc">Sue de Coq</a></li>
+        <li class="ni"><ul>
+            <li><a href="#sdc1">Standardform</a></li>
+            <li><a href="#sdc2">Erweiterungen</a></li>
+        </ul></li>
+    </ul>
+    <hr>
+
+    <h1><a name="sdc"></a>Sue de Coq</h1>
+    <p>Sue de Coq ist eine Variante der <a href="http://www.sudopedia.org/wiki/Subset_Counting">Subset Counting</a>-Strategie
+    und wurde von einem Forum-User mit dem Benutzernamen "Sue de Coq" unter dem etwas
+    sperrigen Namen <a href="http://forum.enjoysudoku.com/viewtopic.php?t=2033">"Two-Sector Disjoint Subsets"</a>
+    (Nichtüberlappende Untermengen in zwei Sektoren) eingeführt. Andere Benutzer begannen bald, die
+    Strategie  mit dem Benutzernamen des Erfinders "Sue de Coq" (SDC) zu bezeichnen,
+    und dieser Name ist bis heute hängen geblieben. Die Strategie in ihrer Standardform
+    ist relativ einfach, aber sie wurde im Lauf der Zeit mehrfach erweitert. Die erweiterten
+    Varianten können unter <a href="#sdc2">Erweiterungen</a> gefunden werden.</p>
+
+    <h2><a name="sdc1"></a>Standardform</h2>
+    <p>Die Standardform ist relativ einfach: Man benötigt Zellen an der Überschneidung einer
+    Zeile und eines Blocks, und zwar entweder zwei Zellen mit vier Kandidaten oder
+    drei Zellen mit fünf Kandidaten. Nun sucht man eine zweiwertige Zelle in der
+    Zeile außerhalb der Überschneidung, deren Kandidaten ganz aus den Kandidaten
+    der Überschneidung genommen sein müssen. Eine zweite zweiwertige Zelle muss im Block
+    gefunden werden (auch hier müssen die Kandidaten aus der Überschneidung stammen,
+    sie dürfen auch nicht mit den Kandidaten der Zeilen-Zelle übereinstimmen).</p>
+    <p>Diese Konstellation ist ein Sue de Coq: man kann alle Kandidaten der Zeilen-Zelle
+    aus den restlichen Zellen der Zeile löschen, alle Block-Zellen-Kandidaten aus den
+    restlichen Zellen des Blocks und alle Überschneidungs-Zellen-Kandidaten, die noch
+    nicht an der Reihe waren, aus den restlichen Zellen von Zeile und Block. In Summe ergibt das
+    oft ziemlich beeindruckende Spielzüge.</p>
+    <p>In der obigen Definition kann man alle Vorkommen von "Zeile" natürlich auch durch "Spalte" ersetzen.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sdc01&amp;tech=Sue+de+Coq+%28basic+variant%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/sdc01.png" alt="Sudoku Lösungstechnik: Beispiel für Sue+de+Coq+%28basic+variant%29"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sdc02&amp;tech=Sue+de+Coq+%28basic+variant%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/sdc02.png" alt="Sudoku Lösungstechnik: Beispiel für Sue+de+Coq+%28basic+variant%29"></a>    <p>Linkes Beispiel: Die Überschneidungs-Zellen sind r7c13, sie enthalten die Kandidaten
+    {3459}. Die Zeilen-Zelle ist r7c7 (Kandidaten {45}), die Block-Zelle ist
+    r8c3 (Kandidaten {39}). 4 und 5 können aus dem Rest der Zeile und 3 und 9 können
+    aus dem Rest des Blocks gelöscht werden.</p>
+    <p>Betrachtet man die Überschneidung allein, sieht man, dass die Zellen zwei Kandidaten
+    zu viel haben (4 Kandidaten für nur 2 Zellen). Da aber die Zeilen-Zelle r7c7
+    einen dieser Kandidaten enthalten muss, sind es in Wirklichkeit nur noch
+    drei Kandidaten für zwei Zellen (3, 9 und 4 oder 5). Die Block-Zelle r8c3
+    entfernt noch eine Möglichkeit: Die Überschneidungs-Zellen können jetzt
+    3 oder 9 und 4 oder 5 sein (2 Kandidaten in zwei Zellen).</p>
+    <p>Das SDC produziert mehr oder weniger zwei Locked Sets (Gesperrte Mengen):
+    Kandidaten 3 und 9 sind in (r7c13, r8c3) eingesperrt. Da alle diese Zellen
+    in Block 6 sind, können 3 und 9 in keiner anderen Zelle des Blocks gesetzt werden.
+    Kandidaten 4 und 5 sind in (r7c13, r7c7) eingesperrt. Da alle diese Zellen in der
+    selben Zeile sind, können 4 und 5 nirgendwo sonst in dieser Zeile vorkommen.</p>
+    <p>Das rechte Beispiel zeigt eine Überschneidung mit drei Zellen und fünf
+    Kandidaten: Zellen r789c9 enthalten Kandidaten {24567}. Die Spalten-Zelle r2c9
+    enthält Kandidaten {56}, die Block-Zelle r9c7 enthält Kandidaten {27}. Die Logik
+    ist gleich wie oben, aber das Resultat ist drei Kandidaten in drei Zellen: Die
+    Überschneidungszellen können sein {2 oder 7, 4 und 5 oder 6}. Das bedeutet, dass
+    Kandidat 4 in der Überschneidung eingesperrt ist und daher sowohl aus der Spalte als
+    auch aus dem Block eliminiert werden kann.</p>
+
+    <h2><a name="sdc2"></a>Erweiterungen</h2>
+    <p>Sue de Coq kann auf zwei Arten erweitert werden:</p>
+    <ol>
+        <li>Die Überschneidungs-Zellen können zusätzliche Kandidaten enthalten. Für jeden
+        zusätzlichen Kandidaten muss eine zusätzliche Zelle in Zeile/Spalte oder Block
+        gefunden werden.</li>
+        <li>Die Zeilen-Zellen (Spalten-Zellen) und Block-Zellen können Kandidaten haben, die
+        nicht in den Überschneidungs-Zellen vorkommen. Für jeden solchen Kandidaten muss
+        eine weitere Zelle gefunden werden.</li>
+    </ol>
+    <p>Wichtig ist auch zu beachten, dass nicht alle Zellen an der Überschneidung Block/Zeile (Block/Spalte)
+    wirklich Überschneidungs-Zellen sein müssen. Eine eventuelle dritte Zelle kann auch zu den
+    Zeilen- (Spalten-) oder Block-Zellen gehören. Außerdem kann ein Zusatzkandidat, der nicht
+    aus den Überschneidungs-Zellen stammt, in Zeilen- und Block-Zellen gleichzeitig vorkommen.</p>
+    <p>Eine etwas formalere (und exaktere) Definition aus dem originalen Two-Sector Disjoint
+    Subset Forumsbeitrag:</p>
+    <p>Wir betrachten eine Menge an nicht gefüllten Zellen C, die in der Überschneidung von Block B
+    und Zeile (oder Spalte) R liegt. Angenommen |C|&gt;=2. V sei die Menge der in C vorkommenden Kandidaten.
+    Angenommen |V|&gt;=|C|+2. Das Muster erfordert, dass |V|-|C|+n Zellen in B und R gefunden werden,
+    mit mindesten einer Zelle in beiden Häusern, mit mindestens |V|-|C| Kandidaten aus V und mit n der
+    Anzahl Kandidaten, die nicht aus V stammen. Die neuen Zellen seien CB und CR und ihre Kandidaten
+    VB und VR. Kein Kandidat aus V darf in VB und VR gleichzeitig auftreten. Dann muss
+    C die Kandidaten V\(VB U VR) (möglicherweise leer), |VB|-|CB| Elemente aus VB und
+    |VR|-|CR| Elemente aus VR enthalten. Das Konstrukt erlaubt uns, die Kandidaten VB U (V\VR) aus
+    B\(C U CB) und die Kandidaten VR U (V\VB) aus R\(C U CR) zu eliminieren.</p>
+    <p>Einige Beispiele:</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sdc04&amp;tech=Sue+de+Coq+%28extended+variant%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/sdc04.png" alt="Sudoku Lösungstechnik: Beispiel für Sue+de+Coq+%28extended+variant%29"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sdc03&amp;tech=Sue+de+Coq+%28extended+variant%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/sdc03.png" alt="Sudoku Lösungstechnik: Beispiel für Sue+de+Coq+%28extended+variant%29"></a>    <p>Linke Seite: Überschneidungs-Zellen r46c8 mit Kandidaten {3578}, Spalten-Zelle r8c8 {35}
+    und Block-Zellen r4c7,r5c9 {789}. Das ist praktisch der Standardfall, außer dass die
+    Block-Zellen Kandidaten 9 enthalten, der nicht aus den Überschneidungs-Zellen stammt.
+    Aus diesem Grund sind auch zwei Block-Zellen nötig.</p>
+    <p>Rechte Seite: Überschneidungs-Zellen r456c1 - {123479}. 6 Kandidaten in drei Zellen ist
+    einer zu viel. Eine der beiden anderen Zellen-Mengen muss aus zwei Zellen mit drei Kandidaten
+    bestehen. Im Beispiel sind es die Spalten-Zellen: r89c1 mit {234}. Die Block-Zellen haben einen
+    zusätzlichen Kandidaten 5, der nicht aus den Überschneidungs-Zellen stammt.</p>
+
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sdc05&amp;tech=Sue+de+Coq+%28extended+variant%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/sdc05.png" alt="Sudoku Lösungstechnik: Beispiel für Sue+de+Coq+%28extended+variant%29"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sdc06&amp;tech=Sue+de+Coq+%28extended+variant%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/sdc06.png" alt="Sudoku Lösungstechnik: Beispiel für Sue+de+Coq+%28extended+variant%29"></a>    <p>Das linke Beispiel stammt aus dem Player's Forum: Es ist eine normale "4 Kandidaten in
+    zwei Zellen"-Variante, aber beide zusätzlichen Mengen (Spalten-Zellen und Block-Zellen)
+    enthalten den selben zusätzlichen Kandidaten (Kandidat 1).</p>
+    <p>Das rechte Beispiel ist 5 Kandidaten in zwei Zellen und demonstriert eine Kombination
+    aus allen Erweiterungen:</p>
+    <ol>
+        <li>Obwohl die Überschneidung von Spalte 4 mit Block 2 drei ungelöste Zellen enthält,
+        sind nur zwei von ihnen Überschneidungszellen: r23c4 - {13689}. Zelle r1c4 gehört zu den
+        Block-Zellen.</li>
+        <li>Spalten-Zelle r5c2 hat zwei Kandidaten {39}, zur Gänze aus den Überschneidungs-Zellen:
+        Das ist normal.</li>
+        <li>Jetzt sind aber immer noch zwei Kandidaten zu viel, es werden also zwei Block-Zellen
+        benötigt. Leider kann eine passende Menge an Zellen für die Kandidaten {168} nur gefunden
+        werden, wenn man Kandidat 7 zusätzlich dazu nimmt. Es gibt daher drei Block-Zellen: r1c46,r2c6
+        mit Kandidaten {1678}.</li>
+    </ol>
+    <p>Das resultierende Sue de Coq eliminiert 13 Kandidaten.</p>
+    <hr>
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Sue%20de%20Coq-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

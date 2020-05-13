@@ -1,0 +1,35 @@
+JRE Download Anleitung:
+
+Bevor ihr mein Sudoku Programm starten könnt, müsst ihr die Java Runtime Environment installiert
+haben. Das könnt ihr indem ihr auf dieser Seite https://www.java.com/de/download/manual.jsp
+die Version für euer jeweiliges Betriebssystem aussucht.
+
+Windows 32 Bit nimmt Windows Offline
+Windows 64 Bit nimmt Windows Offline (64-Bit)
+
+Die Online Version macht den Download von der Art des Browsers abhängig, welche (wie z.B. bei mir)
+von der Art des Betriebssystems durchaus abweichen kann (eher nicht nehmen).
+
+Für andere Betriebssysteme kennen sich die Besitzer vermutlich besser aus als ich.
+
+Nach dem Download müsst ihr die Installationsdatei ausführen und seid bereit das Sudoku Programm
+zu benutzen. Es müsste dann ein Kaffeetassensymbol bekommen haben und per Doppelklick ausführbar sein.
+Wenn alles geklappt hat, seid ihr ab hier fertig.
+
+
+
+
+
+
+Wie finde ich bei Windows meinen Systemtyp (32 Bit oder 64 Bit) heraus?
+
+Bei Windows Betriebssystemen ab Window 8 (also auch Windows 10) findet man die Art seines Betriebssystems
+heraus, indem man unten links das Windows Symbol rechtsklickt und System auswählt. In dem sich nun 
+öffnenden Fenster findet man unter System, Systemtyp die Angabe über die Bitanzahl des Betriebssystems.
+
+Bei Windows 7 öffnet man mit einem Klick auf das Windows Symbol unten links das Startmenü und gibt in
+die Suchleiste "System" ein. Unter den Ergebnissen klickt man nun auf "System". Es öffnet sich nun
+ein Fenster mit vielen Informationen, darunter unter "Systemtyp" die gewünschte.
+
+Hier ist noch einmal eine detaillierte Anleitung um Herauszufinden was für ein Windows bei einem läuft:
+https://support.microsoft.com/de-de/kb/827218

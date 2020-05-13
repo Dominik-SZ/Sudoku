@@ -1,0 +1,45 @@
+body { 
+    margin:0; border:0; padding:0;
+    font-family:verdana, lucida, arial, sans-serif;
+    font-size:9pt;
+    line-height:160%;
+    background-color:white;
+    color:black;   
+}
+div#wrapper {
+    width:100%;
+    background-image:none;
+    background-color:white;
+}
+div#header {
+    display:none;
+}
+div#menu {
+    display:none;
+}
+
+div#content {
+    margin:0;
+    padding:0;
+}
+
+#content h1 {
+    font-size:13pt;
+    font-weight:normal;
+    margin:0;
+    padding:0;
+    padding-bottom: 0.5em;
+}
+
+#content h2 {
+    font-size:11pt;
+}
+
+#content img.scr_l {
+    /*height: 48%;
+    width: 48%;*/
+    overflow: visible;
+    float:none;
+    display:inline-block;
+    page-break-inside: avoid;
+}

@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Single Digit Patterns (Einzelziffer-Muster)</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Single Digit Patterns (Einzelziffer-Muster) - Skyscraper, 2-String-Kite, Turbot Fish, Empty Rectangle">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,single digit pattern,skyscraper,2-string kite,dual,turbot fish,empty rectangle,einzelziffer-muster,wolkenkratzer,papierdrache,leeres rechteck,steinbutt">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechSD a, #menu ul li ul li.mTechSD a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style>
+<script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_sdp.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_sdp.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Single Digit Patterns (Einzelziffer-Muster)</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#sk">Skyscraper (Wolkenkratzer)</a></li>
+        <li><a href="#t2sk">2-String Kite (Papierdrache)</a></li>
+        <li class="ni"><ul>
+            <li><a href="#t2sk1">Standardmuster</a></li>
+            <li><a href="#t2sk2">Dual 2-String Kite (Doppelter Papierdrache)</a></li>
+        </ul></li>
+        <li><a href="#tf">Turbot Fish (Steinbutt)</a></li>
+        <li><a href="#er">Empty Rectangle (Leeres Rechteck)</a></li>
+        <li class="ni"><ul>
+            <li><a href="#er1">Standardmuster</a></li>
+            <li><a href="#er2">ERs mit nur zwei Kandidaten</a></li>
+            <li><a href="#er3">Dual Empty Rectangle (Doppeltes Leeres Rechteck)</a></li>
+        </ul></li>
+    </ul>
+    <hr>
+
+    <h1><a name="sk"></a>Skyscraper (Wolkenkratzer)</h1>
+    <p>Ein Skyscraper ist ein einfaches Muster, das ziemlich häufig in Sudokus zu finden ist und
+    das auch leicht gefunden werden kann. Es ist eigentlich nichts neues: Ein Skyscraper ist eine
+    Sonderform eines <a href="#tf">Turbot Fish</a> und kann als Kombination zweier
+    <a href="http://hodoku.sourceforge.net/de/tech_fishfs.php#fbf2">Sashimi X-Wings</a> aufgefasst werden.</p>
+    <p>Die Beschreibung des Musters klingt komplizierter als es eigentlich ist:
+    Man konzentriert sich auf eine Ziffer. Nun versucht man zwei Zeilen (Spalten) zu finden,
+    die nur noch je zwei Kandidaten für die Ziffer haben. Sind zwei dieser Kandidaten
+    in derselben Spalte (Zeile), muss einer der beiden anderen wahr sein. Alle Kandidaten,
+    die diese beiden Zellen sehen, können gelöscht werden.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sk01&amp;tech=Skyscraper"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/sk01.png" alt="Sudoku Lösungstechnik: Beispiel für Skyscraper"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sk02&amp;tech=Skyscraper"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/sk02.png" alt="Sudoku Lösungstechnik: Beispiel für Skyscraper"></a>    <p>Linkes Beispiel: In Spalte 6 kann Ziffer 1 nur noch in Zeile 1 oder Zeile 5 platziert werden.
+    In Spalte 9 geht Ziffer 1 nur noch in Zeile 3 oder Zeile 5. r5c6 und r5c9 sind in derselben
+    Zeile (das "Fundament" des Wolkenkratzers). Nun kann man sich folgendes überlegen:
+    Wenn r1c6 nicht gesetzt ist, muss r5c6 gesetzt werden (nur zwei mögliche Positionen, eine
+    davon muss gesetzt sein: <a href="http://hodoku.sourceforge.net/de/tech_chains.php#strong_link">strong link</a>).
+    Wenn aber r5c6 gesetzt ist, kann r5c9 nicht gesetzt sein, da beide Zellen in der selben Zeile sind
+    (<a href="http://hodoku.sourceforge.net/de/tech_chains.php#weak_link">weak link</a>). Und wenn schließlich r5c9 nicht gesetzt ist,
+    muss r3c9 gesetzt sein (<a href="http://hodoku.sourceforge.net/de/tech_chains.php#strong_link">strong link</a>). Wir haben eben bewiesen,
+    dass r3c9 gesetzt sein muss, wenn r1c6 nicht gesetzt ist. Die gleiche Argumentation greift, wenn
+    man mit "r3c9 nicht gesetzt" beginnt: r1c6 muss dann gesetzt sein. Da nun eine der beiden Zellen
+    r1c6 und r3c9 gesetzt sein muss, können alle Kandidaten gelöscht werden, die beide Zellen
+    sehen (im Beispiel: r1c78 und r3c45).</p>
+    <p>Glücklicherweise ist es nicht nötig, diese Übung in Logik jedes Mal durchzuführen, wenn
+    man einen Skyscraper finden will. Es genügt natürlich, das Muster zu finden.</p>
+    <p>Die Stellen, an denen die Kandidaten des Skyscrapers liegen können, unterliegen einer
+    Einschränkung: Die beiden oberen Zellen müssen im selben Band sein, sonst kann nichts
+    eliminiert werden.</p>
+    <p>Das rechte Beispiel zeigt einen Skyscraper, der um 90 Grad im Uhrzeigersinn gedreht worden ist:
+    Skyscraper für 4 in r2c5,r8c4 (verbunden durch r28c1) =&gt; r1c4&lt;&gt;4</p>
+    <p>Wenn wir noch einmal das linke Beispiel anschauen, können wir leicht die beiden Sashimi X-Wings
+    finden, aus denen der Skyscraper besteht: Der erste ist c59/r35, Fin in r1c6, gelöscht wird
+    1 von r3c45. Der zweite ist c59/r15, Fin in r3c9, gelöscht wird 1 von r1c78.</p>
+    <hr>
+
+    <h1><a name="t2sk"></a>2-String Kite (Papierdrache)</h1>
+    <h2><a name="t2sk1"></a>Standardmuster</h2>
+    <p>Ein 2-String Kite ist eine besondere Form eines <a href="#tf">Turbot Fish</a>, die in vielen
+    Sudokus gefunden werden kann. Beschreibung: Wir konzentrieren uns wieder auf eine Ziffer.
+    Wenn wir eine Zeile und eine Spalte finden können, die nur noch zwei Kandidaten der Ziffer enthalten
+    (die Schnüre des Drachens), so dass ein Kandidat der Zeile und ein Kandidat der Spalte sich im selben
+    Block befinden, dann kann der Kandidat, der die beiden anderen Enden der Schnüre sieht, gelöscht werden.</p>
+    <p>2-String Kites arbeiten ähnlich wie Skyscrapers: Eines der beiden Enden der Schnüre muss wahr sein.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=2sk01&amp;tech=2-String+Kite"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/2sk01.png" alt="Sudoku Lösungstechnik: Beispiel für 2-String+Kite"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=2sk02&amp;tech=2-String+Kite"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/2sk02.png" alt="Sudoku Lösungstechnik: Beispiel für 2-String+Kite"></a>    <p>Linkes Beispiel: Die Ziffer ist 5. Die erste Schnur ist in Spalte 7 (Kandidaten r29c7), die andere ist in
+    Zeile 8 (Kandidaten r8c49). Die Enden r9c7 und r8c9 sind beide in Block 9. Wenn r2c7 nicht gesetzt ist,
+    muss r9c7 gesetzt sein, r8c9 darf nicht und r8c4 muss gesetzt sein. Wenn r8c4 nicht gesetzt ist,
+    muss gleichermaßen r2c7 gesetzt sein. Egal wie, Zelle r2c4, die sowohl r2c7 als auch r8c4 sieht,
+    kann jedenfalls nicht 5 sein.</p>
+    <p>Rechtes Beispiel: Kandidat 9, Schnüre r6c16 und r47c2, verbunden in Block 4: r7c6 kann nicht 9 sein.</p>
+
+    <h2><a name="t2sk2"></a>Dual 2-String Kite (Doppelter Papierdrache)</h2>
+    <p>Manchmal können die beiden im Block verbundenen Kandidaten an vier verschiedenen Schnüren festgebunden
+    werden, wodurch de facto zwei 2-String Kites entstehen, die gemeinsam zwei Kandidaten eliminieren.
+    Diese beiden 2-String Kites können als ein einzelner Zug gesehen werden und werden dann Dual
+    2-String Kite genannt. HoDoKu unterstützt duale Formen nur optional (jede duale Form
+    kann immer durch ihre zwei Grundformen nachgebildet werden).</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=d2sk01&amp;tech=Dual+2-String+Kite"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/d2sk01.png" alt="Sudoku Lösungstechnik: Beispiel für Dual+2-String+Kite"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=d2sk02&amp;tech=Dual+2-String+Kite"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/d2sk02.png" alt="Sudoku Lösungstechnik: Beispiel für Dual+2-String+Kite"></a>    <p>Linkes Beispiel: Die gemeinsamen Kandidaten sind r1c3 und r3c1 in Block 1. Die beiden Drachen, die mit
+    ihnen gebildet werden können, sind: r1c38/r36c1 (r6c8&lt;&gt;1) und r3c19/r14c3 (r4c9&lt;&gt;1).</p>
+    <p>Rechtes Beispiel: Gemeinsame Kandidaten r7c2 und r9c1 in Block 7. Drachen: r29c1/r7c28 (r2c8&lt;&gt;4) und
+    r17c2/r9c19 (r1c9&lt;&gt;4).</p>
+    <hr>
+
+    <h1><a name="tf"></a>Turbot Fish (Steinbutt)</h1>
+    <p>Ein Turbot Fish ist eigentlich eine Chain (Kette) und kein Fisch. Für eine detaillierte
+    Beschreibung der verschiedenen Techniken und Ausdrücke für Chains siehe
+    <a href="http://hodoku.sourceforge.net/de/tech_chains.php#in">Chains: Einführung</a>.</p>
+    <p>Ein Turbot Fish ist eine <a href="http://hodoku.sourceforge.net/de/tech_chains.php#x">X-Chain</a>, die genau vier Glieder lang ist.
+    Verschiedene Muster können mit so einer Kette gebildet werden. Eines davon ähnelt einem Fisch,
+    was der Strategie ihren Namen gab (rechtes Beispiel: Wenn man zwei Linien vom roten Kandidaten zum
+    jeweils nächsten grünen und blauen Kandidaten zieht, kann man den Fisch erkennen).</p>
+    <p>Turbot Fishes sind etwas aus der Mode gekommen. Einer der Gründe liegt darin, dass die meisten
+    grundlegenden Turbot-Muster als eigene Muster mit eigenen Namen beschrieben worden sind:
+    Skyscraper, 2-String Kite und Empty Rectangle (letzteres nur mit nur zwei Kandidaten im
+    leeren Rechteck selbst).</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=tf01&amp;tech=Turbot+Fish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/tf01.png" alt="Sudoku Lösungstechnik: Beispiel für Turbot+Fish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=tf02&amp;tech=Turbot+Fish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/tf02.png" alt="Sudoku Lösungstechnik: Beispiel für Turbot+Fish"></a>    <p>Die Beispiele zeigen zwei der Möglichkeiten als Turbot Fish: Links ein Empty Rectangle, rechts
+    ein 2-String Kite.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=tf03&amp;tech=Turbot+Fish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/tf03.png" alt="Sudoku Lösungstechnik: Beispiel für Turbot+Fish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=tf04&amp;tech=Turbot+Fish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/tf04.png" alt="Sudoku Lösungstechnik: Beispiel für Turbot+Fish"></a>    <p>Die Beispiele: Links ein Skyscraper, rechts noch einmal ein Empty Rectangle (genauer: ein Dual Empty Rectangle).</p>
+    <hr>
+
+    <h1><a name="er"></a>Empty Rectangle (Leeres Rechteck)</h1>
+    <h2><a name="er1"></a>Standardmuster</h2>
+    <p>Empty Rectangles können auf verschiedene Art und Weise in sehr fortgeschrittenen
+    Strategien verwendet werden. Das hier beschriebene Muster ist eine grundlegende Variante.</p>
+    <p>Zunächst definieren wir das Empty Rectangle (ER) selbst: Wenn ein Kandidat innerhalb eines
+    Blocks nur noch in einer Zeile und einer Spalte vorkommt, formen die verbleibenden Zellen
+    ein ER. Betrachten wir die Beispiele: Unten links ist Kandidat 9 in Block 5 auf Zeile 4 und
+    Spalte 6 beschränkt. Das ER ist r5c45 und r6c45. Unten rechts ist Kandidat 1 in Block 5 auf
+    Zeile 4 und Spalte 5 beschränkt. Das ER ist r5c46 und r6c46.</p>
+    <p>Wurde ein ER gefunden, kann es auf mögliche Eliminierungen geprüft werden: Man benötigt ein
+    Conjugate Pair (eine Zeile oder Spalte, die nur noch zwei Kandidaten enthält), wobei einer dieser
+    zwei Kandidaten in der Zeile (Spalte), die das ER bildet, liegt. Wenn die Spalte (Zeile) des ER einen
+    Kandidaten enthält, der das andere Ende des Conjugate Pair sieht, kann er gelöscht werden.</p>
+    <p>Ein ER-Muster wie oben beschrieben kann immer auch als <a href="http://hodoku.sourceforge.net/de/tech_fishc.php#mf">Finned Mutant X-Wing</a>
+    oder als <a href="http://hodoku.sourceforge.net/de/tech_chains.php#gnl">Grouped Nice Loop</a> gesehen werden.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=er01&amp;tech=Empty+Rectangle"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/er01.png" alt="Sudoku Lösungstechnik: Beispiel für Empty+Rectangle"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=er02&amp;tech=Empty+Rectangle"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/er02.png" alt="Sudoku Lösungstechnik: Beispiel für Empty+Rectangle"></a>    <p>Linkes Beispiel: Zeile 4 und Spalte 6 bilden ein ER in Block 5. Zellen r48c2 sind ein Conjugate
+    Pair. Eine Seite des Conjugate Pairs ist in der ER-Zeile (r4c2), das andere Ende sieht einen
+    Kandidaten in der ER-Spalte (r8c6). 9 kann aus r8c6 gelöscht werden.</p>
+    <p>Um zu sehen, warum das funktioniert, startet man am besten mit Kandidat 9 in r8c2. Wenn r8c2 9 ist,
+    kann r8c6 nicht 9 sein (selbe Zeile). Wenn r8c2 nicht 9 ist, muss r4c2 9 sein (Conjugate Pair/Strong Link).
+    Das bedeutet, dass weder r4c5 noch r4c6 9 sein kann. Dies wiederum lässt r6c6 als letzten Kandidaten in Block 5,
+    er muss gesetzt werden und r8c6 kann wieder nicht gesetzt sein. Da beide Möglichkeiten in r8c2
+    zum selben Ergebnis führen (r8c6&lt;&gt;9), kann 9 von r8c6 gelöscht werden.</p>
+    <p>Der äquivalente Finned Mutant X-Wing: 9 c2b5 r4c6 fr8c2 =&gt; r8c6&lt;&gt;9.</p>
+    <p>Die äquivalente Grouped Nice Loop: r8c6 -9- r8c2 =9= r4c2 -9- r4c56 =9= r6c6 -9- r8c6 =&gt; r8c6&lt;&gt;9.</p>
+    <p>Im rechten Beispiel formen Zeile 4 und Spalte 5 das ER, r7c59 ist das Conjugate Pair und r4c9
+    kann eliminiert werden.</p>
+
+    <h2><a name="er2"></a>ERs mit nur zwei Kandidaten</h2>
+    <p>Wenn im Block, der das ER enthält, nur noch zwei Kandidaten übrig sind, ist das Empty
+    Rectangle nicht eindeutig bestimmt. Die Eliminierungen sind natürlich trotzdem gültig. Der
+    Spielzug kann als <a href="#tf">Turbot Fish</a> oder als <a href="http://hodoku.sourceforge.net/de/tech_chains.php#x">X-Chain</a>
+    ausgeführt werden. Einige Sudoku-Spieler denken, dass ERs mit nur zwei Kandidaten nicht gültig sind,
+    HoDoKu unterstützt sie daher nur optional.</p>
+    <p><b>Bitte beachten:</b> Da Turbot Fisch in der Standard-Reihenfolge des Solvers vor ER kommt,
+    werden ERs mit zwei Kandidaten immer als Turbot Fische gefunden, auch wenn die Option
+    eingeschaltet ist. Um die unten gezeigten ERs als ERs zu finden, muss Turbot Fish hinter ER
+    geschoben werden.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=er201&amp;tech=Empty+Rectangle+%28only+two+candidates+in+the+ER%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/er201.png" alt="Sudoku Lösungstechnik: Beispiel für Empty+Rectangle+%28only+two+candidates+in+the+ER%29"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=er202&amp;tech=Empty+Rectangle+%28only+two+candidates+in+the+ER%29"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/er202.png" alt="Sudoku Lösungstechnik: Beispiel für Empty+Rectangle+%28only+two+candidates+in+the+ER%29"></a>    <p>Linkes Beispiel: Empty Rectangle: 6 in b8 (r69c1) =&gt; r6c4&lt;&gt;6</p>
+    <p>Rechtes Beispiel: Empty Rectangle: 5 in b3 (r8c49) =&gt; r2c4&lt;&gt;5</p>
+
+    <h2><a name="er3"></a>Dual Empty Rectangle (Doppeltes Leeres Rechteck)</h2>
+    <p>Manchmal formen der eliminierte Kandidat und das Ende des Conjugate Pairs ein eigenes
+    Conjugate Pair. Wenn das der Fall ist, können beide Strong Links abwechselnd die Rolle des
+    "Conjugate Pairs" übernehmen, was zu zwei verschiedenen Eliminierungen führt.
+    Das Resultat wird Dual Empty Rectangle genannt.</p>
+    <p>Dual Empty Rectangles werden in HoDoKu optional unterstützt.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=der01&amp;tech=Dual+Empty+Rectangle"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/der01.png" alt="Sudoku Lösungstechnik: Beispiel für Dual+Empty+Rectangle"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=der02&amp;tech=Dual+Empty+Rectangle"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/der02.png" alt="Sudoku Lösungstechnik: Beispiel für Dual+Empty+Rectangle"></a>    <p>Im linken Beispiel wird das ER von Zeile 2 und Spalte 3 gebildet. r6c35 ist das
+    Conjugate Pair, das 2 von r2c5 eliminiert. Da jedoch r26c5 ebenfalls ein Conjugate
+    Pair ist, wird auch 2 aus r6c3 gelöscht.</p>
+    <p>Rechtes Beispiel: Dual Empty Rectangle: 9 in b5 (r67c8/r7c48) =&gt; r6c8,r7c4&lt;&gt;9</p>
+    <hr>
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Single%20Digit%20Patterns%20%28Einzelziffer-Muster%29-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>

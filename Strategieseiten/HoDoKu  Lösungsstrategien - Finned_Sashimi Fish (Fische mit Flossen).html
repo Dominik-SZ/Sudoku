@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+    <title>HoDoKu: Lösungsstrategien - Finned/Sashimi Fish (Fische mit Flossen)</title>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="description" content="Lösungsstrategien für Sudoku - Finned/Sashimi Fish (Fische mit Flossen) - Finned X-Wing, Sashimi X-Wing, Finned Swordfish, Sashimi Swordfish">
+    <meta name="keywords" content="sudoku,java,hodoku,deutsch,finned fish, sashimi fish,fin,finned x-wing,finned swordfish,finned jellyfish,sashimi x-wing,sashimi swordfish,sashimim jellyfish,fische mit flossen,kreuzflügler,schwertfisch,qualle">
+    <meta name="author" content="Bernhard Hobiger">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/hodoku.css" type="text/css" media="all">
+    <link rel="stylesheet" href="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/print.css" type="text/css" media="print">
+<style type="text/css" media="all">
+<!--
+#menu ul li ul li.mTechFS a, #menu ul li ul li.mTechFS a:hover {
+    font-style: italic;
+    background-color:#fceabe;
+}
+-->
+</style><script type="text/javascript" async="" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33728899-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="menu">
+    <ul>
+        <li class="mHome"><a href="http://hodoku.sourceforge.net/de/index.php">Startseite</a></li>
+        <li class="mTech"><a href="http://hodoku.sourceforge.net/de/techniques.php">Lösungsstrategien</a></li>
+        <li><ul class="sub1">
+                <li class="mTechIntro"><a href="http://hodoku.sourceforge.net/de/tech_intro.php">Einleitung</a></li>
+                <li class="mTechSi"><a href="http://hodoku.sourceforge.net/de/tech_singles.php">Singles</a></li>
+                <li class="mTechIn"><a href="http://hodoku.sourceforge.net/de/tech_intersections.php">Intersections</a></li>
+                <li class="mTechHi"><a href="http://hodoku.sourceforge.net/de/tech_hidden.php">Hidden Subsets</a></li>
+                <li class="mTechNa"><a href="http://hodoku.sourceforge.net/de/tech_naked.php">Naked Subsets</a></li>
+                <li class="mTechFi"><a href="http://hodoku.sourceforge.net/de/tech_fishg.php">Fish (allgemein)</a></li>
+                <li class="mTechBa"><a href="http://hodoku.sourceforge.net/de/tech_fishb.php">Basic Fish</a></li>
+                <li class="mTechFS"><a href="http://hodoku.sourceforge.net/de/tech_fishfs.php">Finned/Sashimi Fish</a></li>
+                <li class="mTechCF"><a href="http://hodoku.sourceforge.net/de/tech_fishc.php">Complex Fish</a></li>
+                <li class="mTechSD"><a href="http://hodoku.sourceforge.net/de/tech_sdp.php">Single Digit Patterns</a></li>
+                <li class="mTechUn"><a href="http://hodoku.sourceforge.net/de/tech_ur.php">Uniqueness</a></li>
+                <li class="mTechWi"><a href="http://hodoku.sourceforge.net/de/tech_wings.php">Wings</a></li>
+                <li class="mTechMi"><a href="http://hodoku.sourceforge.net/de/tech_misc.php">Sonstiges</a></li>
+                <li class="mTechCo"><a href="http://hodoku.sourceforge.net/de/tech_col.php">Coloring</a></li>
+                <li class="mTechCh"><a href="http://hodoku.sourceforge.net/de/tech_chains.php">Chains/Loops</a></li>
+                <li class="mTechAl"><a href="http://hodoku.sourceforge.net/de/tech_als.php">ALS</a></li>
+                <li class="mTechLa"><a href="http://hodoku.sourceforge.net/de/tech_last.php">Letzter Ausweg</a></li>
+    </ul></li>
+            <li class="mDocs"><a href="http://hodoku.sourceforge.net/de/docs.php">Benutzerhandbuch</a></li>
+            <li class="mDown"><a href="http://sourceforge.net/projects/hodoku/files/">Download</a></li>
+        <li class="mChange"><a href="http://hodoku.sourceforge.net/de/changelog.php">Versionsgeschichte</a></li>
+        <li class="mForum"><a href="http://sourceforge.net/p/hodoku/discussion/907403/">Hilfe</a></li>
+        <li class="mSummary"><a href="http://sourceforge.net/projects/hodoku/">Zusammenfassung</a></li>
+        <li class="mBug"><a href="http://sourceforge.net/p/hodoku/bugs-and-feature-requests/">Fehler melden</a></li>
+        <li class="mLibs"><a href="http://hodoku.sourceforge.net/de/libs.php">Bibliotheken</a></li>
+        <li class="mLinks"><a href="http://hodoku.sourceforge.net/de/links.php">Links</a></li>
+</ul>
+
+<div class="logos">
+<a href="http://hodoku.sourceforge.net/en/tech_fishfs.php"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/en.gif" alt="Switch to englich version"></a><a href="http://hodoku.sourceforge.net/en/tech_fishfs.php">English Version</a></div>
+
+<div class="logos">
+    <a href="http://sourceforge.net/projects/hodoku"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/sflogo.png" alt="SourceForge.net Logo" width="125" height="37"></a>
+    <a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/gplv3-88x31.png" alt="GPLv3 logo"></a>
+</div>
+</div>
+<div id="content">
+    <h1>Finned/Sashimi Fish (Fische mit Flossen)</h1>
+    <h2>Inhaltsverzeichnis</h2>
+    <ul class="toc">
+        <li><a href="#fbf2">Finned/Sashimi X-Wing (Kreuzflügler mit Flossen)</a></li>
+        <li><a href="#fbf3">Finned/Sashimi Swordfish (Schwertfisch mit Flossen)</a></li>
+<!--        <li class="ni"><ul>
+            <li><a href="#display_mode_1">Puzzle only javaFXGUI.view (standard)</a></li>
+            <li><a href="#display_mode_2">Summary javaFXGUI.view</a></li>
+        </ul></li> -->
+        <li><a href="#fbf4">Finned/Sashimi Jellyfish (Qualle mit Flossen)</a></li>
+        <li><a href="#fbf567">Größere Fische mit Flossen</a></li>
+    </ul>
+    <hr>
+
+    <p>Eine detaillierte Beschreibung von Finned/Sashimi Fischen kann im Abschnitt
+    <a href="http://hodoku.sourceforge.net/de/tech_fishg.php#ff">Fisch allgemein</a> gefunden werden.</p>
+    <h1><a name="fbf2"></a>Finned/Sashimi X-Wing (Kreuzflügler mit Flossen)</h1>
+    <p>Ein Finned X-Wing ist ein normaler X-Wing, bei dem ein oder mehrere Basiskandidaten
+    nicht von den Cover-Sets abgedeckt werden. Wie in <a href="http://hodoku.sourceforge.net/de/tech_fishg.php#ff">Fish (allgemein)</a>
+    ausgeführt können nur Coverkandidaten gelöscht werden, die alle Fins sehen (und die
+    natürlich keine Basiskandidaten sind).</p>
+    <p>Ein Finned Fish wird Sashimi, wenn der restliche Fisch unvollständig (oder degeneriert) ist,
+    wenn alle Flossen nicht gesetzt sind.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fbf201&amp;tech=Finned+X-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/fbf201.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+X-Wing"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sbf201&amp;tech=%28Finned%29+Sashimi+X-Wing"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/sbf201.png" alt="Sudoku Lösungstechnik: Beispiel für %28Finned%29+Sashimi+X-Wing"></a>    <p>Im linken Beispiel haben wir einen X-Wing in r24/c35. Unglücklicherweise ist in r2c1 noch
+    ein Basiskandidat übrig, der in keinem der Cover-Sets (c35) enthalten ist. Dieser Kandidat ist die
+    Fin (Flosse). Wenn die Fin falsch wäre, hätten wir einen regulären X-Wing, der Kandidat 9 aus den
+    Zellen r35c3 und r5c5 löschen könnte (die möglichen Eliminierungen). Ist die Fin aber gesetzt,
+    löscht sie 9 aus den Zellen r1c1, r2c35 und r3c3. Da eine der beiden Möglichkeiten zutreffen
+    muss (die Fin ist entweder gesetzt oder nicht gesetzt, und wenn sie nicht gesetzt ist, haben wir
+    den X-Wing), kann die Schnittmenge der löschbaren Kandidaten beider Fälle gelöscht werden
+    (anders ausgedrückt: alle möglichen Eliminierungen, die alle Fins sehen). Im Beispiel ist
+    nur eine Zelle in beiden Mengen enthalten: r3c3.</p>
+    <p>Im rechten Beispiel sieht man einen (Finned) Sashimi X-Wing in c36/r37 mit zwei Fins in r89c3.
+    Wenn keine Fin gesetzt ist, bleibt wie oben gesagt der X-Wing über. Sieht man genauer hin, entdeckt
+    man, dass der restliche X-Wing durch ein Single in r3c3 (gefolgt von einem anderen in r7c6)
+    ersetzt werden könnte: Der X-Wing ist degeneriert und wird daher als Sashimi bezeichnet.
+    Die Logik ist gleich wie bei einem normalen Finned X-Wing: r7c1 ist der einzige Coverkandidat,
+    der beide Fins sieht, er kann daher gelöscht werden.</p>
+    <hr>
+
+    <h1><a name="fbf3"></a>Finned/Sashimi Swordfish (Schwertfisch mit Flossen)</h1>
+    <p>Finned/Sashimi Swordfish funktioniert gleich wie Finned/Sashimi X-Wing nur mit drei
+    Base-/Cover-Sets statt zwei.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fbf301&amp;tech=Finned+Swordfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/fbf301.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+Swordfish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sbf301&amp;tech=%28Finned%29+Sashimi+Swordfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/sbf301.png" alt="Sudoku Lösungstechnik: Beispiel für %28Finned%29+Sashimi+Swordfish"></a>    <p>Das linke Beispiel ist ein Swordfish c159/r357, die "übrig gebliebene" Base-Zelle r1c9
+    ist die Fin. Die möglichen Eliminierungen für den Swordfish ohne Fin sind r3c7, r5c3 und
+    r7c6. Von diesen sieht nur r3c7 die Fin (gleicher Block) und kann gelöscht werden.</p>
+    <p>Der rechte Swordfish ist ein Swordfisch in den Zeilen: r269/c258, fin in r6c4. Die beiden
+    einzigen Cover-Zellen, die die Fin sehen, sind r45c5, daher zwei Eliminierungen. Ohne die
+    Fin in r6c4 hätten wir ein Single in r6c2, daher Sashimi.</p>
+    <hr>
+
+    <h1><a name="fbf4"></a>Finned/Sashimi Jellyfish (Qualle mit Flossen)</h1>
+    <p>Fügt man ein weiteres Base-/Cover-Set hinzu, erhält man einen Finned/Sashimi Jellyfish.</p>
+    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=fbf401&amp;tech=Finned+Jellyfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/fbf401.png" alt="Sudoku Lösungstechnik: Beispiel für Finned+Jellyfish"></a>    <a href="http://hodoku.sourceforge.net/de/show_example.php?file=sbf401&amp;tech=%28Finned%29+Sashimi+Jellyfish"><img class="scr_l" src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/sbf401.png" alt="Sudoku Lösungstechnik: Beispiel für %28Finned%29+Sashimi+Jellyfish"></a>    <p>Linkes Beispiel: Finned Jellyfish r2479/c1348, Fin in r4c9. Cover-Zellen r56c8 sehen die Fin.
+    Wenn die Fin nicht gesetzt ist, degeneriert der Fisch in einen Swordfish (r479/c134), der 9 aus
+    r26c3 löscht. Dieser Finned Jellyfish kann daher auch Sashimi genannt werden.</p>
+    <p>Rechtes Beispiel: Jellyfish r1469/c1289, Fin in r9c3, Eliminierungen r7c12, r8c12. Ohne Fin
+    erhalten wir ein Single in r9c9, also Sashimi.</p>
+    <hr>
+
+    <h1><a name="fbf567"></a>Größere Fische mit Flossen</h1>
+    <p>Für größere Finned/Sashimi Fische existieren immer komplementäre kleinere Fische.
+    Eine Suche nach größeren Fischen ist daher nicht notwendig.</p>
+    <hr>
+
+<div id="impressum">
+    <p>Copyright © 2008-12 by Bernhard Hobiger<br>
+    Alles Material auf dieser Site unterliegt der <a href="http://www.gnu.org/licenses/fdl-1.3.html">GNU FDLv1.3</a>.</p>
+</div><!-- impressum -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/hodoku/" : "http://apps.sourceforge.net/piwik/hodoku/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="HoDoKu%20%20L%C3%B6sungsstrategien%20-%20Finned_Sashimi%20Fish%20%28Fische%20mit%20Flossen%29-Dateien/piwik.html" type="text/javascript"></script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/hodoku/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+<!-- End Piwik Tag -->
+</div><!-- content -->
+</div><!-- wrapper -->
+
+
+</body></html>
