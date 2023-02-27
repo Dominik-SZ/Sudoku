@@ -103,4 +103,4 @@ Es gibt eine Auswahlbox für die Schriftfarbe und eine für die Hintergrundfarbe
 selbsterklärend sein dürften.
 
 
-Copyright Dominik 2016. Wer das liest ist toll. Free Tibet.
+Dominik 2016
